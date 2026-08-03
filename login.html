@@ -75,6 +75,59 @@ color:red;
 <p id="message"></p>
 
 </div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
+import {
+  getAuth,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDQPGrwNBGS1EOdOg6t3uyuby0IDQwO9Uw",
+  authDomain: "exam-hub-db0eb.firebaseapp.com",
+  projectId: "exam-hub-db0eb",
+  storageBucket: "exam-hub-db0eb.firebasestorage.app",
+  messagingSenderId: "836139140800",
+  appId: "1:836139140800:web:5ca25bf8b0dfef2bc18f25",
+  measurementId: "G-THSJJ818QG"
+};
+
+
+  const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const loginBtn = document.getElementById("loginBtn");
+const message = document.getElementById("message");
+
+loginBtn.addEventListener("click", async () => {
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  message.innerHTML = "";
+
+  if (email === "" || password === "") {
+    message.innerHTML = "Please enter email and password.";
+    return;
+  }
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+
+    message.style.color = "green";
+    message.innerHTML = "Login Successful!";
+
+    // We'll create dashboard.html later
+    // window.location.href = "dashboard.html";
+
+  } catch (error) {
+    message.style.color = "red";
+    message.innerHTML = "Invalid Email or Password";
+  }
+
+});
+  
+</script>
 </body>
 </html>
