@@ -82,7 +82,11 @@ import {
   getAuth,
   createUserWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {
+  getFirestore,
+  doc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDQPGrwNBGS1EOdOg6t3uyuby0IDQwO9Uw",
@@ -97,6 +101,58 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
+const registerBtn = document.getElementById("registerBtn");
+
+registerBtn.addEventListener("click", async () => {
+
+const name = document.getElementById("name").value.trim();
+const email = document.getElementById("email").value.trim();
+const mobile = document.getElementById("mobile").value.trim();
+const password = document.getElementById("password").value;
+const confirmPassword = document.getElementById("confirmPassword").value;
+
+const message = document.getElementById("message");
+
+message.innerHTML = "";
+
+if(password !== confirmPassword){
+message.innerHTML="Passwords do not match.";
+return;
+}
+
+const strongPassword =
+/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&]).{8,}$/;
+
+if(!strongPassword.test(password)){
+message.innerHTML="Password must contain uppercase, lowercase, number, special character and be at least 8 characters.";
+return;
+}
+
+try{
+
+const userCredential =
+await createUserWithEmailAndPassword(auth,email,password);
+
+await setDoc(doc(db,"students",userCredential.user.uid),{
+
+name,
+email,
+mobile
+
+});
+
+message.style.color="green";
+message.innerHTML="Registration Successful!";
+
+}catch(error){
+
+message.style.color="red";
+message.innerHTML=error.message;
+
+}
+
+});
 
 console.log("Firebase Connected Successfully");
 </script>
