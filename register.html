@@ -75,5 +75,27 @@ background:#084298;
 
 </div>
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDQPGrwNBGS1EOdOg6t3uyuby0IDQwO9Uw",
+  authDomain: "exam-hub-db0eb.firebaseapp.com",
+  projectId: "exam-hub-db0eb",
+  storageBucket: "exam-hub-db0eb.firebasestorage.app",
+  messagingSenderId: "836139140800",
+  appId: "1:836139140800:web:5ca25bf8b0dfef2bc18f25",
+  measurementId: "G-THSJJ818QG"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+console.log("Firebase Connected Successfully");
+</script>
+  
 </body>
 </html>
