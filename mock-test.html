@@ -96,6 +96,33 @@ examSelect.appendChild(option);
 
 loadExams();
 
+examSelect.addEventListener("change", loadSubjects);
+
+async function loadSubjects() {
+const subjectSelect = document.getElementById("subjectSelect");
+
+subjectSelect.innerHTML = '<option>Select Subject</option>';
+
+const snapshot = await getDocs(collection(db, "questions"));
+
+const subjects = new Set();
+
+snapshot.forEach(doc => {
+    const data = doc.data();
+
+    if (data.exam === examSelect.value) {
+        subjects.add(data.subject);
+    }
+});
+
+subjects.forEach(subject => {
+    const option = document.createElement("option");
+    option.value = subject;
+    option.textContent = subject;
+    subjectSelect.appendChild(option);
+});
+}
+
 </script>
     
 </body>
