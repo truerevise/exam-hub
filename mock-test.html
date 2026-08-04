@@ -67,6 +67,36 @@ Start Test
 </button>
 
 </div>
+<script type="module">
 
+import { db } from "./firebase-config.js";
+import {
+collection,
+getDocs
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+
+const examSelect = document.getElementById("examSelect");
+
+async function loadExams(){
+
+const snapshot = await getDocs(collection(db,"exams"));
+
+snapshot.forEach(doc=>{
+
+const option=document.createElement("option");
+
+option.value=doc.data().name;
+option.textContent=doc.data().name;
+
+examSelect.appendChild(option);
+
+});
+
+}
+
+loadExams();
+
+</script>
+    
 </body>
 </html>
