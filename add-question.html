@@ -66,6 +66,42 @@
 <button>⭐ Save Question</button>
 
 </div>
+<script type="module">
+import { db } from "./firebase-config.js";
+import { collection, addDoc } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
+const saveBtn = document.querySelector("button");
+
+saveBtn.addEventListener("click", async () => {
+  const inputs = document.querySelectorAll("input");
+  const textarea = document.querySelector("textarea");
+  const select = document.querySelector("select");
+
+  try {
+    await addDoc(collection(db, "questions"), {
+      category: inputs[0].value,
+      exam: inputs[1].value,
+      subject: inputs[2].value,
+      question: textarea.value,
+      optionA: inputs[3].value,
+      optionB: inputs[4].value,
+      optionC: inputs[5].value,
+      optionD: inputs[6].value,
+      answer: inputs[7].value,
+      explanation: inputs[8].value,
+      difficulty: select.value,
+      marks: inputs[9].value,
+      negativeMarks: inputs[10].value,
+      createdAt: new Date()
+    });
+
+    alert("Question saved successfully!");
+  } catch (e) {
+    alert("Error: " + e.message);
+  }
+});
+</script>
+
+  
 </body>
 </html>
