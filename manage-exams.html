@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manage Exams</title>
+
+<style>
+body{
+    background:#111;
+    color:white;
+    font-family:Arial;
+    padding:20px;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    margin:10px 0;
+    background:#222;
+    color:white;
+    border:1px solid #444;
+    border-radius:10px;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+}
+
+li{
+    margin:10px 0;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>Manage Exams</h2>
+
+<input id="examName" placeholder="Enter Exam Name">
+
+<button id="saveBtn">Add Exam</button>
+
+<h3>Available Exams</h3>
+
+<ul id="examList"></ul>
+
+<script type="module">
+
+import { db } from "./firebase-config.js";
+
+import {
+collection,
+addDoc,
+getDocs
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+
+const saveBtn=document.getElementById("saveBtn");
+const examList=document.getElementById("examList");
+
+async function loadExams(){
+
+examList.innerHTML="";
+
+const snapshot=await getDocs(collection(db,"exams"));
+
+snapshot.forEach(doc=>{
+
+examList.innerHTML+=`
+<li>${doc.data().name}</li>
+`;
+
+});
+
+}
+
+loadExams();
+
+saveBtn.onclick=async()=>{
+
+const name=document.getElementById("examName").value;
+
+if(name=="") return;
+
+await addDoc(collection(db,"exams"),{
+name:name
+});
+
+alert("Exam Added");
+
+document.getElementById("examName").value="";
+
+loadExams();
+
+}
+
+</script>
+
+</body>
+</html>
