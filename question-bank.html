@@ -34,6 +34,55 @@ margin-right:10px;
 <h2>Question Bank</h2>
 
 <div id="questionList"></div>
+<script type="module">
 
+import { db } from "./firebase-config.js";
+
+import {
+collection,
+getDocs
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+
+const questionList = document.getElementById("questionList");
+
+async function loadQuestions(){
+
+questionList.innerHTML="";
+
+const snapshot = await getDocs(collection(db,"questions"));
+
+snapshot.forEach(doc=>{
+
+const q = doc.data();
+
+questionList.innerHTML += `
+<div class="card">
+
+<b>${q.category}</b> | ${q.exam}<br><br>
+
+<b>Subject:</b> ${q.subject}<br><br>
+
+<b>Question:</b><br>
+${q.question}
+
+<hr>
+
+A. ${q.optionA}<br>
+B. ${q.optionB}<br>
+C. ${q.optionC}<br>
+D. ${q.optionD}<br><br>
+
+<b>Correct:</b> ${q.correctOption}
+
+</div>
+`;
+
+});
+
+}
+
+loadQuestions();
+
+</script>
 </body>
 </html>
