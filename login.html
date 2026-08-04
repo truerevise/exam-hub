@@ -117,6 +117,10 @@ loginBtn.addEventListener("click", async () => {
 
     message.style.color = "green";
     message.innerHTML = "Login Successful!";
+    setTimeout(() => {
+    window.location.href = "dashboard.html";
+}, 1000);
+    
 
     // We'll create dashboard.html later
     // window.location.href = "dashboard.html";
