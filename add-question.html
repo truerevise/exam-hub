@@ -49,15 +49,16 @@
 
 <input type="text" placeholder="Option D">
 
-<input type="text" placeholder="Correct Answer">
+<select id="correctOption" style="width:100%;padding:14px;background:#222;color:white;border:1px solid #444;border-radius:10px;margin-top:15px;">
+    <option value="optionA">Correct Option - A</option>
+    <option value="optionB">Correct Option - B</option>
+    <option value="optionC">Correct Option - C</option>
+    <option value="optionD">Correct Option - D</option>
+</select>
 
 <input type="text" placeholder="Explanation">
 
-<select style="width:100%;padding:14px;background:#222;color:white;border:1px solid #444;border-radius:10px;margin-top:15px;">
-<option>Easy</option>
-<option>Medium</option>
-<option>Hard</option>
-</select>
+  
 
 <input type="number" placeholder="Marks">
 
@@ -75,7 +76,7 @@ const saveBtn = document.querySelector("button");
 saveBtn.addEventListener("click", async () => {
   const inputs = document.querySelectorAll("input");
   const textarea = document.querySelector("textarea");
-  const select = document.querySelector("select");
+  const correctOption = document.getElementById("correctOption");
 
   try {
     await addDoc(collection(db, "questions"), {
@@ -87,11 +88,10 @@ saveBtn.addEventListener("click", async () => {
       optionB: inputs[4].value,
       optionC: inputs[5].value,
       optionD: inputs[6].value,
-      answer: inputs[7].value,
-      explanation: inputs[8].value,
-      difficulty: select.value,
-      marks: inputs[9].value,
-      negativeMarks: inputs[10].value,
+      correctOption: correctOption.value,
+explanation: inputs[7].value,
+marks: inputs[8].value,
+negativeMarks: inputs[9].value,
       createdAt: new Date()
     });
 
