@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exam Hub - Test</title>
+
+<style>
+body{
+    margin:0;
+    background:#111;
+    color:white;
+    font-family:Arial,sans-serif;
+}
+
+header{
+    background:#1e3a8a;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.container{
+    padding:15px;
+}
+
+.card{
+    background:#222;
+    padding:15px;
+    border-radius:10px;
+}
+
+.option{
+    background:#333;
+    padding:12px;
+    margin:10px 0;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.option:hover{
+    background:#444;
+}
+
+.buttons{
+    display:flex;
+    justify-content:space-between;
+    margin-top:20px;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+}
+
+.palette{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+    margin-top:25px;
+}
+
+.palette button{
+    padding:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div>Question 1 / 10</div>
+<div>⏱ 60:00</div>
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h3 id="question">
+Loading Question...
+</h3>
+
+<div class="option">A. Option A</div>
+
+<div class="option">B. Option B</div>
+
+<div class="option">C. Option C</div>
+
+<div class="option">D. Option D</div>
+
+</div>
+
+<div class="buttons">
+
+<button>Previous</button>
+
+<button>Next</button>
+
+</div>
+
+<div class="palette">
+
+<button>1</button>
+<button>2</button>
+<button>3</button>
+<button>4</button>
+<button>5</button>
+
+<button>6</button>
+<button>7</button>
+<button>8</button>
+<button>9</button>
+<button>10</button>
+
+</div>
+
+</div>
+
+</body>
+</html>
