@@ -128,7 +128,15 @@ import {
 collection,
 getDocs
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+const params = new URLSearchParams(window.location.search);
 
+const exam = params.get("exam");
+const subject = params.get("subject");
+const count = parseInt(params.get("count"));
+
+console.log(exam);
+console.log(subject);
+console.log(count);
 console.log("Firebase Connected");
 
 </script>
