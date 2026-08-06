@@ -81,17 +81,15 @@ button{
 
 <div class="card">
 
-<h3 id="question">
-Loading Question...
-</h3>
+<h3 id="question">Loading Question...</h3>
 
-<div class="option">A. Option A</div>
+<div class="option" id="optionA"></div>
 
-<div class="option">B. Option B</div>
+<div class="option" id="optionB"></div>
 
-<div class="option">C. Option C</div>
+<div class="option" id="optionC"></div>
 
-<div class="option">D. Option D</div>
+<div class="option" id="optionD"></div>
 
 </div>
 
@@ -154,7 +152,25 @@ async function loadQuestions() {
 
     });
 
-    console.log(questions);
+    if (questions.length > 0) {
+
+    const q = questions[0];
+
+    document.getElementById("question").textContent = q.question;
+
+    document.getElementById("optionA").textContent = "A. " + q.optionA;
+
+    document.getElementById("optionB").textContent = "B. " + q.optionB;
+
+    document.getElementById("optionC").textContent = "C. " + q.optionC;
+
+    document.getElementById("optionD").textContent = "D. " + q.optionD;
+
+} else {
+
+    document.getElementById("question").textContent = "No questions found.";
+
+    }
 
 }
 
