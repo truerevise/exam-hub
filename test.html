@@ -138,6 +138,27 @@ console.log(exam);
 console.log(subject);
 console.log(count);
 console.log("Firebase Connected");
+    let questions = [];
+
+async function loadQuestions() {
+
+    const snapshot = await getDocs(collection(db, "questions"));
+
+    snapshot.forEach(doc => {
+
+        const data = doc.data();
+
+        if (data.exam === exam && data.subject === subject) {
+            questions.push(data);
+        }
+
+    });
+
+    console.log(questions);
+
+}
+
+loadQuestions();
 
 </script>
     
