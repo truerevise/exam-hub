@@ -122,7 +122,16 @@ subjects.forEach(subject => {
     subjectSelect.appendChild(option);
 });
 }
+document.getElementById("startBtn").addEventListener("click", () => {
 
+    const exam = document.getElementById("examSelect").value;
+    const subject = document.getElementById("subjectSelect").value;
+    const count = document.getElementById("questionCount").value;
+
+    window.location.href =
+        `test.html?exam=${encodeURIComponent(exam)}&subject=${encodeURIComponent(subject)}&count=${count}`;
+
+});
 </script>
     
 </body>
