@@ -83,13 +83,13 @@ button{
 
 <h3 id="question">Loading Question...</h3>
 
-<div class="option" id="optionA"></div>
+<div class="option" id="optionA" onclick="selectAnswer('A')"></div>
 
-<div class="option" id="optionB"></div>
+<div class="option" id="optionB" onclick="selectAnswer('B')"></div>
 
-<div class="option" id="optionC"></div>
+<div class="option" id="optionC" onclick="selectAnswer('C')"></div>
 
-<div class="option" id="optionD"></div>
+<div class="option" id="optionD" onclick="selectAnswer('D')"></div>
 
 </div>
 
@@ -176,6 +176,16 @@ async function loadQuestions() {
 
 loadQuestions();
 
+    let selectedAnswer = "";
+
+window.selectAnswer = function(answer){
+
+    selectedAnswer = answer;
+
+    console.log("Selected:", selectedAnswer);
+
+}
+    
 </script>
     
 </body>
