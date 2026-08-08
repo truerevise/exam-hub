@@ -182,6 +182,12 @@ window.selectAnswer = function(answer){
 
     selectedAnswer = answer;
 
+    document.querySelectorAll(".option").forEach(option => {
+        option.style.background = "#333";
+    });
+
+    document.getElementById("option" + answer).style.background = "#2563eb";
+
     console.log("Selected:", selectedAnswer);
 
 }
