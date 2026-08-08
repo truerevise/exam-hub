@@ -97,7 +97,7 @@ button{
 
 <button>Previous</button>
 
-<button>Next</button>
+<button id="nextBtn">Next</button>
 
 </div>
 
@@ -188,7 +188,25 @@ window.selectAnswer = function(answer){
     console.log("Selected:", selectedAnswer);
 
 }
-    
+
+document.getElementById("nextBtn").addEventListener("click", () => {
+
+    if (currentQuestion < questions.length - 1) {
+
+        currentQuestion++;
+
+        const q = questions[currentQuestion];
+
+        document.getElementById("question").textContent = q.question;
+
+        document.getElementById("optionA").textContent = "A. " + q.optionA;
+        document.getElementById("optionB").textContent = "B. " + q.optionB;
+        document.getElementById("optionC").textContent = "C. " + q.optionC;
+        document.getElementById("optionD").textContent = "D. " + q.optionD;
+
+    }
+
+});
 </script>
     
 </body>
