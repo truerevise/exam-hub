@@ -137,7 +137,7 @@ console.log(subject);
 console.log(count);
 console.log("Firebase Connected");
     let questions = [];
-
+let currentQuestion = 0;
 async function loadQuestions() {
 
     const snapshot = await getDocs(collection(db, "questions"));
