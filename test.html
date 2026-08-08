@@ -154,17 +154,14 @@ async function loadQuestions() {
 
     if (questions.length > 0) {
 
-    const q = questions[0];
+    const q = questions[currentQuestion];
 
-    document.getElementById("question").textContent = q.question;
+document.getElementById("question").textContent = q.question;
 
-    document.getElementById("optionA").textContent = "A. " + q.optionA;
-
-    document.getElementById("optionB").textContent = "B. " + q.optionB;
-
-    document.getElementById("optionC").textContent = "C. " + q.optionC;
-
-    document.getElementById("optionD").textContent = "D. " + q.optionD;
+document.getElementById("optionA").textContent = "A. " + q.optionA;
+document.getElementById("optionB").textContent = "B. " + q.optionB;
+document.getElementById("optionC").textContent = "C. " + q.optionC;
+document.getElementById("optionD").textContent = "D. " + q.optionD;
 
 } else {
 
