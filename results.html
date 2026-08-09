@@ -53,6 +53,42 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 const resultsDiv = document.getElementById("results");
+
+    async function loadResults() {
+
+    const snapshot = await getDocs(collection(db, "results"));
+
+    resultsDiv.innerHTML = "";
+
+    snapshot.forEach(doc => {
+
+        const data = doc.data();
+
+        resultsDiv.innerHTML += `
+        <div class="card">
+
+            <h3>${data.exam}</h3>
+
+            <p><b>Subject:</b> ${data.subject}</p>
+
+            <p><b>Score:</b> ${data.score}</p>
+
+            <p><b>Total Questions:</b> ${data.totalQuestions}</p>
+
+            <button onclick="location.href='review.html?id=${doc.id}'">
+                View Solutions
+            </button>
+
+        </div>
+        `;
+
+    });
+
+}
+
+loadResults();
+
+    
 </script>
 
 </body>
