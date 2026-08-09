@@ -72,54 +72,42 @@ button{
 
 <body>
 
+
+
 <header>
-<div id="questionNo">Question 1 / 10</div>
-<div>⏱ 60:00</div>
+    <div id="questionNo">Question 1 / 10</div>
+    <div>⏱ <span id="timer">60:00</span></div>
 </header>
 
 <div class="container">
 
-<div class="card">
+    <div class="card">
 
-<h3 id="question">Loading Question...</h3>
+        <h3 id="question">Loading Question...</h3>
 
-<div class="option" id="optionA" onclick="selectAnswer('A')"></div>
+        <div class="option" id="optionA"></div>
+        <div class="option" id="optionB"></div>
+        <div class="option" id="optionC"></div>
+        <div class="option" id="optionD"></div>
 
-<div class="option" id="optionB" onclick="selectAnswer('B')"></div>
+    </div>
 
-<div class="option" id="optionC" onclick="selectAnswer('C')"></div>
+    <div class="buttons">
 
-<div class="option" id="optionD" onclick="selectAnswer('D')"></div>
+        <button id="prevBtn">Previous</button>
 
-</div>
+        <button id="nextBtn">Next</button>
 
-<div class="buttons">
+        <button id="submitBtn" style="display:none;">
+            Submit Test
+        </button>
 
-<button id="prevBtn">Previous</button>
+    </div>
 
-<button id="nextBtn">Next</button>
-
-<button id="submitBtn" style="display:none;">Submit Test</button>
-
-</div>
-
-<div class="palette">
-
-<button>1</button>
-<button>2</button>
-<button>3</button>
-<button>4</button>
-<button>5</button>
-
-<button>6</button>
-<button>7</button>
-<button>8</button>
-<button>9</button>
-<button>10</button>
+    <div class="palette" id="palette"></div>
 
 </div>
 
-</div>
 <script type="module">
 
 import { db } from "./firebase-config.js";
@@ -128,89 +116,159 @@ import {
 collection,
 getDocs
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+
 const params = new URLSearchParams(window.location.search);
 
 const exam = params.get("exam");
 const subject = params.get("subject");
-const count = parseInt(params.get("count"));
 
-console.log(exam);
-console.log(subject);
-console.log(count);
-console.log("Firebase Connected");
-    let questions = [];
+let questions = [];
 let currentQuestion = 0;
-async function loadQuestions() {
+let answers = [];
 
-    const snapshot = await getDocs(collection(db, "questions"));
+async function loadQuestions(){
 
-    snapshot.forEach(doc => {
+    const snapshot = await getDocs(collection(db,"questions"));
+
+    snapshot.forEach(doc=>{
 
         const data = doc.data();
 
-        if (data.exam === exam && data.subject === subject) {
+        if(data.exam===exam && data.subject===subject){
             questions.push(data);
         }
 
     });
 
-    if (questions.length > 0) {
+    showQuestion();
 
-    const q = questions[currentQuestion];
-
-document.getElementById("question").textContent = q.question;
-
-document.getElementById("optionA").textContent = "A. " + q.optionA;
-document.getElementById("optionB").textContent = "B. " + q.optionB;
-document.getElementById("optionC").textContent = "C. " + q.optionC;
-document.getElementById("optionD").textContent = "D. " + q.optionD;
-
-} else {
-
-    document.getElementById("question").textContent = "No questions found.";
-
-    }
+    createPalette();
 
 }
 
 loadQuestions();
 
-    let selectedAnswer = "";
+function showQuestion(){
 
-window.selectAnswer = function(answer){
+    const q = questions[currentQuestion];
 
-    selectedAnswer = answer;
+    document.getElementById("questionNo").textContent =
+    "Question " + (currentQuestion+1) + " / " + questions.length;
 
-    document.querySelectorAll(".option").forEach(option => {
-        option.style.background = "#333";
-    });
+    document.getElementById("question").textContent = q.question;
 
-    document.getElementById("option" + answer).style.background = "#2563eb";
+    document.getElementById("optionA").textContent = "A. " + q.optionA;
 
-    console.log("Selected:", selectedAnswer);
+    document.getElementById("optionB").textContent = "B. " + q.optionB;
+
+    document.getElementById("optionC").textContent = "C. " + q.optionC;
+
+    document.getElementById("optionD").textContent = "D. " + q.optionD;
+
+}
+    function createPalette(){
+
+    const palette = document.getElementById("palette");
+
+    palette.innerHTML = "";
+
+    for(let i=0;i<questions.length;i++){
+
+        const btn=document.createElement("button");
+
+        btn.textContent=i+1;
+
+        btn.onclick=()=>{
+
+            currentQuestion=i;
+
+            showQuestion();
+
+        };
+
+        palette.appendChild(btn);
+
+    }
 
 }
 
-document.getElementById("nextBtn").addEventListener("click", () => {
+document.getElementById("optionA").onclick=()=>selectAnswer("A");
+document.getElementById("optionB").onclick=()=>selectAnswer("B");
+document.getElementById("optionC").onclick=()=>selectAnswer("C");
+document.getElementById("optionD").onclick=()=>selectAnswer("D");
 
-    if (currentQuestion === questions.length - 1) {
-    document.getElementById("nextBtn").style.display = "none";
-    document.getElementById("submitBtn").style.display = "inline-block";
+function selectAnswer(answer){
+
+    answers[currentQuestion]=answer;
+
+    document.querySelectorAll(".option").forEach(o=>{
+
+        o.style.background="#333";
+
+    });
+
+    document.getElementById("option"+answer).style.background="#2563eb";
+
+}
+
+document.getElementById("nextBtn").onclick=()=>{
+
+    if(currentQuestion<questions.length-1){
+
+        currentQuestion++;
+
+        showQuestion();
+
     }
 
-        document.getElementById("question").textContent = q.question;
+    if(currentQuestion===questions.length-1){
 
-        document.getElementById("optionA").textContent = "A. " + q.optionA;
-        document.getElementById("optionB").textContent = "B. " + q.optionB;
-        document.getElementById("optionC").textContent = "C. " + q.optionC;
-        document.getElementById("optionD").textContent = "D. " + q.optionD;
+        document.getElementById("nextBtn").style.display="none";
 
-        document.getElementById("questionNo").textContent =
-"Question " + (currentQuestion + 1) + " / " + questions.length;
+        document.getElementById("submitBtn").style.display="inline-block";
 
     }
 
-});
+};
+
+document.getElementById("prevBtn").onclick=()=>{
+
+    if(currentQuestion>0){
+
+        currentQuestion--;
+
+        showQuestion();
+
+        document.getElementById("nextBtn").style.display="inline-block";
+
+        document.getElementById("submitBtn").style.display="none";
+
+    }
+
+};
+
+document.getElementById("submitBtn").onclick=()=>{
+
+    let score=0;
+
+    questions.forEach((q,index)=>{
+
+        if(answers[index]===q.answer){
+
+            score+=Number(q.marks);
+
+        }
+
+    });
+
+    alert(
+        "Test Completed!\n\nScore : "
+        +score+
+        "\nTotal Questions : "+
+        questions.length
+    );
+
+};
 </script>
     
 </body>
