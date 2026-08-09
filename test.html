@@ -153,24 +153,23 @@ function showQuestion(){
     document.querySelectorAll(".option").forEach(option => {
     option.style.background = "#333";
 });
-    if (answers[currentQuestion]) {
-    document.getElementById("option" + answers[currentQuestion]).style.background = "#2563eb";
-    }
+    
 
-    const q = questions[currentQuestion];
+if(answers[currentQuestion]){
+    document.getElementById("option"+answers[currentQuestion]).style.background="#2563eb";
+}
 
-    document.getElementById("questionNo").textContent =
-    "Question " + (currentQuestion+1) + " / " + questions.length;
+const q = questions[currentQuestion];
 
-    document.getElementById("question").textContent = q.question;
+document.getElementById("questionNo").textContent =
+"Question " + (currentQuestion + 1) + " / " + questions.length;
 
-    document.getElementById("optionA").textContent = "A. " + q.optionA;
+document.getElementById("question").textContent = q.question;
 
-    document.getElementById("optionB").textContent = "B. " + q.optionB;
-
-    document.getElementById("optionC").textContent = "C. " + q.optionC;
-
-    document.getElementById("optionD").textContent = "D. " + q.optionD;
+document.getElementById("optionA").textContent = "A. " + q.optionA;
+document.getElementById("optionB").textContent = "B. " + q.optionB;
+document.getElementById("optionC").textContent = "C. " + q.optionC;
+document.getElementById("optionD").textContent = "D. " + q.optionD;
 
 }
     function createPalette(){
