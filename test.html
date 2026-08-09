@@ -150,6 +150,13 @@ loadQuestions();
 
 function showQuestion(){
 
+    document.querySelectorAll(".option").forEach(option => {
+    option.style.background = "#333";
+});
+    if (answers[currentQuestion]) {
+    document.getElementById("option" + answers[currentQuestion]).style.background = "#2563eb";
+    }
+
     const q = questions[currentQuestion];
 
     document.getElementById("questionNo").textContent =
