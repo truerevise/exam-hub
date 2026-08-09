@@ -45,7 +45,14 @@ button{
 <div id="results"></div>
 
 <script type="module">
+import { db } from "./firebase-config.js";
 
+import {
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+
+const resultsDiv = document.getElementById("results");
 </script>
 
 </body>
