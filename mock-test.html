@@ -55,12 +55,6 @@ select{
 <option>Select Subject</option>
 </select>
 
-<select id="questionCount">
-<option value="10">10 Questions</option>
-<option value="20">20 Questions</option>
-<option value="50">50 Questions</option>
-<option value="100">100 Questions</option>
-</select>
 
 <button id="startBtn">
 Start Test
@@ -126,11 +120,10 @@ document.getElementById("startBtn").addEventListener("click", () => {
 
     const exam = document.getElementById("examSelect").value;
     const subject = document.getElementById("subjectSelect").value;
-    const count = document.getElementById("questionCount").value;
+    
 
     window.location.href =
-        `test.html?exam=${encodeURIComponent(exam)}&subject=${encodeURIComponent(subject)}&count=${count}`;
-
+`test.html?exam=${encodeURIComponent(exam)}&subject=${encodeURIComponent(subject)}`;
 });
 </script>
     
