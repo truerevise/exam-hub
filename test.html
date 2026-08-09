@@ -73,7 +73,7 @@ button{
 <body>
 
 <header>
-<div>Question 1 / 10</div>
+<div id="questionNo">Question 1 / 10</div>
 <div>⏱ 60:00</div>
 </header>
 
@@ -205,6 +205,9 @@ document.getElementById("nextBtn").addEventListener("click", () => {
         document.getElementById("optionB").textContent = "B. " + q.optionB;
         document.getElementById("optionC").textContent = "C. " + q.optionC;
         document.getElementById("optionD").textContent = "D. " + q.optionD;
+
+        document.getElementById("questionNo").textContent =
+"Question " + (currentQuestion + 1) + " / " + questions.length;
 
     }
 
