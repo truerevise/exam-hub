@@ -254,7 +254,7 @@ document.getElementById("prevBtn").onclick=()=>{
 
 };
 
-document.getElementById("submitBtn").onclick=()=>{
+document.getElementById("submitBtn").onclick = async () => {
 
     let score=0;
 
@@ -267,7 +267,14 @@ document.getElementById("submitBtn").onclick=()=>{
         }
 
     });
-
+await addDoc(collection(db, "results"), {
+    exam: exam,
+    subject: subject,
+    score: score,
+    totalQuestions: questions.length,
+    submittedAt: new Date()
+});
+    
     alert(
         "Test Completed!\n\nScore : "
         +score+
