@@ -3,163 +3,169 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
-
+<title>Exam Hub | Dashboard</title>
 <link rel="stylesheet" href="css/style.css">
-
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
 </head>
 
 <body>
 
 <header>
+  <div class="header-inner">
+    <div class="brand">
+      <button class="icon-btn" type="button" aria-label="Menu">
+        <span class="material-icons">menu</span>
+      </button>
+      <div class="logo">Exam Hub</div>
+    </div>
 
-<div style="display:flex;align-items:center;justify-content:space-between;">
-
-<div style="display:flex;align-items:center;gap:10px;">
-
-<span class="material-icons">menu</span>
-
-<div class="logo">Exam Hub</div>
-
-</div>
-
-<div style="display:flex;align-items:center;gap:15px;">
-
-<span class="material-icons">search</span>
-
-<span class="material-icons">notifications</span>
-
-<span class="material-icons">account_circle</span>
-
-</div>
-
-</div>
-
+    <div class="header-actions">
+      <button class="icon-btn" type="button" aria-label="Search" onclick="document.getElementById('examSearch').focus()">
+        <span class="material-icons">search</span>
+      </button>
+      <button class="icon-btn" type="button" aria-label="Notifications">
+        <span class="material-icons">notifications_none</span>
+      </button>
+      <button class="icon-btn" type="button" aria-label="Account">
+        <span class="material-icons">account_circle</span>
+      </button>
+    </div>
+  </div>
 </header>
 
-<div class="container">
+<main class="container">
 
-<div class="search-box">
+  <section class="hero">
+    <h1>Welcome, Student 👋</h1>
+    <p>Prepare smarter, practise regularly and stay on track with your competitive exam preparation.</p>
+  </section>
 
-<input
-type="text"
-placeholder="Search Exams...">
+  <div class="search-box">
+    <span class="material-icons">search</span>
+    <input id="examSearch" type="search" placeholder="Search exams..." autocomplete="off" aria-label="Search exams">
+  </div>
 
-</div>
+  <h2 class="section-title">🔥 Live Tests</h2>
 
+  <div class="live-grid" id="liveTests">
+    <div class="live-card searchable" data-search="TG Police Daily Test 18 police">
+      <span class="status">LIVE TEST</span>
+      <h3>TG Police Daily Test - 18</h3>
+      <p>⏰ Ends in 08:20 Hours</p>
+      <button type="button">Start Live Test</button>
+    </div>
 
-<h2>Welcome Student 👋</h2>
+    <div class="live-card searchable" data-search="UGC NET Commerce Unit 1 commerce net">
+      <span class="status">LIVE TEST</span>
+      <h3>UGC NET Commerce Unit 1</h3>
+      <p>⏰ Ends in 15:42 Hours</p>
+      <button type="button">Start Live Test</button>
+    </div>
+  </div>
 
-<h2 class="section-title">🔥 Live Tests</h2>
+  <div class="view-all">
+    <a href="#explore">View All →</a>
+  </div>
 
-<div class="live-card">
+  <h2 class="section-title" id="explore">📚 Explore Exams</h2>
 
-<h3>TG Police Daily Test - 18</h3>
+  <div class="exam-grid" id="examGrid">
+    <div class="card searchable" data-search="TG Police police">
+      <span class="exam-icon">👮</span>
+      <h3>TG Police</h3>
+      <button type="button">Open</button>
+    </div>
 
-<p>⏰ Ends in 08:20 Hours</p>
+    <div class="card searchable" data-search="UGC NET commerce net">
+      <span class="exam-icon">🎓</span>
+      <h3>UGC NET</h3>
+      <button type="button">Open</button>
+    </div>
 
-<button>Start Live Test</button>
+    <div class="card searchable" data-search="TSPSC tspsc">
+      <span class="exam-icon">🏛️</span>
+      <h3>TSPSC</h3>
+      <button type="button">Open</button>
+    </div>
 
-</div>
+    <div class="card searchable" data-search="Banking bank">
+      <span class="exam-icon">🏦</span>
+      <h3>Banking</h3>
+      <button type="button">Open</button>
+    </div>
 
-<div class="live-card">
+    <div class="card searchable" data-search="Railway railway rrb">
+      <span class="exam-icon">🚂</span>
+      <h3>Railway</h3>
+      <button type="button">Open</button>
+    </div>
 
-<h3>UGC NET Commerce Unit 1</h3>
+    <div class="card searchable" data-search="SSC staff selection commission">
+      <span class="exam-icon">💻</span>
+      <h3>SSC</h3>
+      <button type="button">Open</button>
+    </div>
 
-<p>⏰ Ends in 15:42 Hours</p>
+    <div class="card searchable" data-search="Postal post india">
+      <span class="exam-icon">📮</span>
+      <h3>Postal</h3>
+      <button type="button">Open</button>
+    </div>
 
-<button>Start Live Test</button>
+    <div class="card searchable" data-search="More Exams all exams">
+      <span class="exam-icon">➕</span>
+      <h3>More Exams</h3>
+      <button type="button">View All</button>
+    </div>
+  </div>
 
-</div>
+  <h2 class="section-title">🔔 Notifications</h2>
 
-<div style="text-align:right;margin-bottom:20px;">
+  <div class="card info-row">
+    <div>
+      <h3>No New Notifications</h3>
+      <p>Important announcements from Exam Hub will appear here.</p>
+      <button type="button">View Notifications</button>
+    </div>
+    <span class="material-icons">notifications_none</span>
+  </div>
 
-<a href="#" style="color:#4da3ff;text-decoration:none;">
-View All →
-</a>
+  <h2 class="section-title">⭐ Saved Questions</h2>
 
-</div>
+  <div class="card info-row">
+    <div>
+      <h3>Saved Questions</h3>
+      <p>Quickly revisit questions you saved while taking tests.</p>
+      <button type="button">Open Saved Questions</button>
+    </div>
+    <span class="material-icons">bookmark_border</span>
+  </div>
 
-<h2 class="section-title">📚 Explore Exams</h2>
+  <div class="card logout-card">
+    <button id="logoutBtn" type="button">Logout</button>
+  </div>
 
-<div class="exam-grid">
+</main>
 
-<div class="card">
-<h3>👮 TG Police</h3>
-<button>Open</button>
-</div>
+<script>
+const searchInput = document.getElementById('examSearch');
+const searchableItems = document.querySelectorAll('.searchable');
 
-<div class="card">
-<h3>🎓 UGC NET</h3>
-<button>Open</button>
-</div>
+searchInput.addEventListener('input', function () {
+  const query = this.value.trim().toLowerCase();
 
-<div class="card">
-<h3>🏛 TSPSC</h3>
-<button>Open</button>
-</div>
+  searchableItems.forEach(function (item) {
+    const text = (item.dataset.search || item.textContent).toLowerCase();
+    item.style.display = !query || text.includes(query) ? '' : 'none';
+  });
+});
 
-<div class="card">
-<h3>🏦 Banking</h3>
-<button>Open</button>
-</div>
-
-<div class="card">
-<h3>🚂 Railway</h3>
-<button>Open</button>
-</div>
-
-<div class="card">
-<h3>💻 SSC</h3>
-<button>Open</button>
-</div>
-
-<div class="card">
-<h3>📮 Postal</h3>
-<button>Open</button>
-</div>
-
-<div class="card">
-<h3>➕ More Exams</h3>
-<button>View All</button>
-</div>
-
-</div>
-
-<h2 class="section-title">🔔 Notifications</h2>
-
-<div class="card">
-
-<h3>No New Notifications</h3>
-
-<p>All important announcements from Exam Hub will appear here.</p>
-
-<button>View Notifications</button>
-
-</div>
-
-
-
-<h2 class="section-title">⭐ Saved Questions</h2>
-
-<div class="card">
-
-<h3>Saved Questions</h3>
-
-<p>View all questions you saved while taking tests.</p>
-
-<button>Open Saved Questions</button>
-
-</div>
-  
-  
-<div class="card">
-<button id="logoutBtn">Logout</button>
-</div>
-
-</div>
+document.getElementById('logoutBtn').addEventListener('click', function () {
+  if (confirm('Are you sure you want to logout?')) {
+    window.location.href = 'index.html';
+  }
+});
+</script>
 
 </body>
 </html>
