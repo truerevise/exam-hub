@@ -267,11 +267,23 @@ document.getElementById("submitBtn").onclick = async () => {
         }
 
     });
+    const solutionData = questions.map((q, index) => ({
+    question: q.question,
+    optionA: q.optionA,
+    optionB: q.optionB,
+    optionC: q.optionC,
+    optionD: q.optionD,
+    selectedAnswer: answers[index] || "",
+    correctAnswer: q.answer,
+    explanation: q.explanation || ""
+}));
+
 await addDoc(collection(db, "results"), {
     exam: exam,
     subject: subject,
     score: score,
     totalQuestions: questions.length,
+    solutions: solutionData,
     submittedAt: new Date()
 });
     
