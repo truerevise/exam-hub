@@ -278,7 +278,7 @@ document.getElementById("submitBtn").onclick = async () => {
     explanation: q.explanation || ""
 }));
 
-await addDoc(collection(db, "results"), {
+const resultRef = await addDoc(collection(db, "results"), {
     exam: exam,
     subject: subject,
     score: score,
@@ -286,13 +286,9 @@ await addDoc(collection(db, "results"), {
     solutions: solutionData,
     submittedAt: new Date()
 });
+
+window.location.href = "results.html";
     
-    alert(
-        "Test Completed!\n\nScore : "
-        +score+
-        "\nTotal Questions : "+
-        questions.length
-    );
 
 };
 </script>
