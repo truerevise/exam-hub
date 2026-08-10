@@ -3,129 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mock Test</title>
-
+<title>Exam Hub | Mock Test</title>
 <style>
-body{
-    background:#111;
-    color:white;
-    font-family:Arial,sans-serif;
-    margin:0;
-    padding:20px;
-}
-.card{
-    background:#222;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:15px;
-}
-button{
-    width:100%;
-    padding:14px;
-    background:#2962ff;
-    color:white;
-    border:none;
-    border-radius:10px;
-    margin-top:10px;
-}
-select{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    background:#222;
-    color:white;
-    border:1px solid #444;
-    border-radius:10px;
-}
+body{background:#111;color:white;font-family:Arial,sans-serif;margin:0;padding:20px}
+.card{background:#222;padding:15px;border-radius:10px;margin-bottom:15px}
+button{width:100%;padding:14px;background:#2962ff;color:white;border:none;border-radius:10px;margin-top:10px;cursor:pointer}
+select{width:100%;padding:12px;margin:10px 0;background:#222;color:white;border:1px solid #444;border-radius:10px}
+.status{font-size:14px;color:#9ca3af;margin-top:10px;min-height:20px}
 </style>
-
 </head>
-
 <body>
-
 <h2>Start Mock Test</h2>
-
 <div class="card">
-
-<select id="examSelect">
-<option>Select Exam</option>
-</select>
-
-<select id="subjectSelect">
-<option>Select Subject</option>
-</select>
-
-
-<button id="startBtn">
-Start Test
-</button>
-
+<select id="examSelect"><option value="">Select Exam</option></select>
+<select id="subjectSelect" disabled><option value="">Select Subject</option></select>
+<button id="startBtn">Start Test</button>
+<div id="status" class="status"></div>
 </div>
+
 <script type="module">
-
 import { db } from "./firebase-config.js";
-import {
-collection,
-getDocs
-} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
-const examSelect = document.getElementById("examSelect");
+const examSelect=document.getElementById('examSelect');
+const subjectSelect=document.getElementById('subjectSelect');
+const status=document.getElementById('status');
+const params=new URLSearchParams(window.location.search);
+const requestedExam=params.get('exam');
+const requestedSubject=params.get('subject');
+
+function setStatus(message){status.textContent=message;}
 
 async function loadExams(){
-
-const snapshot = await getDocs(collection(db,"exams"));
-
-snapshot.forEach(doc=>{
-
-const option=document.createElement("option");
-
-option.value=doc.data().name;
-option.textContent=doc.data().name;
-
-examSelect.appendChild(option);
-
-});
-
+  try{
+    setStatus('Loading exams...');
+    const snapshot=await getDocs(collection(db,'exams'));
+    const names=[];
+    snapshot.forEach(doc=>{
+      const name=doc.data().name;
+      if(name && !names.includes(name)) names.push(name);
+    });
+    names.sort().forEach(name=>{
+      const option=document.createElement('option');
+      option.value=name; option.textContent=name; examSelect.appendChild(option);
+    });
+    if(requestedExam && names.includes(requestedExam)) examSelect.value=requestedExam;
+    if(examSelect.value) await loadSubjects(); else setStatus(names.length?'Select an exam and subject.':'No exams are available yet.');
+  }catch(error){console.error(error);setStatus('Unable to load exams. Please check Firebase configuration.');}
 }
+
+async function loadSubjects(){
+  subjectSelect.innerHTML='<option value="">Select Subject</option>';
+  subjectSelect.disabled=true;
+  if(!examSelect.value){setStatus('Select an exam first.');return;}
+  try{
+    setStatus('Loading subjects...');
+    const snapshot=await getDocs(collection(db,'questions'));
+    const subjects=new Set();
+    snapshot.forEach(doc=>{
+      const data=doc.data();
+      if(data.exam===examSelect.value && data.subject) subjects.add(data.subject);
+    });
+    [...subjects].sort().forEach(subject=>{
+      const option=document.createElement('option'); option.value=subject; option.textContent=subject; subjectSelect.appendChild(option);
+    });
+    subjectSelect.disabled=subjects.size===0;
+    if(requestedSubject && subjects.has(requestedSubject)) subjectSelect.value=requestedSubject;
+    setStatus(subjects.size?`${subjects.size} subject${subjects.size===1?'':'s'} available.`:'No questions are available for this exam yet.');
+  }catch(error){console.error(error);setStatus('Unable to load subjects. Please try again.');}
+}
+
+examSelect.addEventListener('change',loadSubjects);
+
+document.getElementById('startBtn').addEventListener('click',()=>{
+  const exam=examSelect.value; const subject=subjectSelect.value;
+  if(!exam){alert('Please select an exam.');return;}
+  if(!subject){alert('Please select a subject.');return;}
+  window.location.href=`test.html?exam=${encodeURIComponent(exam)}&subject=${encodeURIComponent(subject)}`;
+});
 
 loadExams();
-
-examSelect.addEventListener("change", loadSubjects);
-
-async function loadSubjects() {
-const subjectSelect = document.getElementById("subjectSelect");
-
-subjectSelect.innerHTML = '<option>Select Subject</option>';
-
-const snapshot = await getDocs(collection(db, "questions"));
-
-const subjects = new Set();
-
-snapshot.forEach(doc => {
-    const data = doc.data();
-
-    if (data.exam === examSelect.value) {
-        subjects.add(data.subject);
-    }
-});
-
-subjects.forEach(subject => {
-    const option = document.createElement("option");
-    option.value = subject;
-    option.textContent = subject;
-    subjectSelect.appendChild(option);
-});
-}
-document.getElementById("startBtn").addEventListener("click", () => {
-
-    const exam = document.getElementById("examSelect").value;
-    const subject = document.getElementById("subjectSelect").value;
-    
-
-    window.location.href =
-`test.html?exam=${encodeURIComponent(exam)}&subject=${encodeURIComponent(subject)}`;
-});
 </script>
-    
 </body>
 </html>
