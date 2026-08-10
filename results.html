@@ -60,11 +60,24 @@ const resultsDiv = document.getElementById("results");
 
     resultsDiv.innerHTML = "";
 
-    snapshot.forEach(doc => {
+    if (snapshot.empty) {
+        resultsDiv.innerHTML = "<p>No test results found.</p>";
+        return;
+    }
 
-        const data = doc.data();
+    // Convert documents to an array and sort newest first
+    const results = snapshot.docs.sort((a, b) => {
+        const dateA = a.data().submittedAt?.toDate?.() || new Date(0);
+        const dateB = b.data().submittedAt?.toDate?.() || new Date(0);
 
-        resultsDiv.innerHTML += `
+        return dateB - dateA;
+    });
+
+    // Show ONLY the latest attempt
+    const doc = results[0];
+    const data = doc.data();
+
+    resultsDiv.innerHTML = `
         <div class="card">
 
             <h3>${data.exam}</h3>
@@ -80,11 +93,8 @@ const resultsDiv = document.getElementById("results");
             </button>
 
         </div>
-        `;
-
-    });
-
-}
+    `;
+    }
 
 loadResults();
 
