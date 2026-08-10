@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Solutions</title>
+
+<style>
+
+body {
+    margin: 0;
+    padding: 15px;
+    background: #111;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #222;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.question {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.option {
+    background: #333;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+}
+
+.selected {
+    border: 2px solid #ff9800;
+}
+
+.correct {
+    border: 2px solid #00c853;
+}
+
+.wrong {
+    border: 2px solid #f44336;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.explanation {
+    background: #333;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.backBtn {
+    width: 100%;
+    padding: 12px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Solutions</h2>
+
+<div id="resultInfo"></div>
+
+<div id="solutions">
+    Loading Solutions...
+</div>
+
+<script type="module">
+
+import { db } from "./firebase-config.js";
+
+import {
+    doc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+
+const params = new URLSearchParams(window.location.search);
+
+const resultId = params.get("id");
+
+const solutionsDiv = document.getElementById("solutions");
+
+const resultInfo = document.getElementById("resultInfo");
+
+
+async function loadSolutions() {
+
+    if (!resultId) {
+        solutionsDiv.innerHTML = "<p>Result not found.</p>";
+        return;
+    }
+
+    const resultRef = doc(db, "results", resultId);
+
+    const resultSnap = await getDoc(resultRef);
+
+    if (!resultSnap.exists()) {
+        solutionsDiv.innerHTML = "<p>Result not found.</p>";
+        return;
+    }
+
+    const data = resultSnap.data();
+
+    resultInfo.innerHTML = `
+        <div class="card">
+            <p><b>Exam:</b> ${data.exam}</p>
+            <p><b>Subject:</b> ${data.subject}</p>
+            <p><b>Score:</b> ${data.score}</p>
+            <p><b>Total Questions:</b> ${data.totalQuestions}</p>
+        </div>
+    `;
+
+
+    solutionsDiv.innerHTML = "";
+
+
+    data.solutions.forEach((q, index) => {
+
+        let selectedText = "";
+
+        if (q.selectedAnswer === "A") {
+            selectedText = q.optionA;
+        }
+
+        if (q.selectedAnswer === "B") {
+            selectedText = q.optionB;
+        }
+
+        if (q.selectedAnswer === "C") {
+            selectedText = q.optionC;
+        }
+
+        if (q.selectedAnswer === "D") {
+            selectedText = q.optionD;
+        }
+
+
+        let correctText = "";
+
+        if (q.correctAnswer === "A") {
+            correctText = q.optionA;
+        }
+
+        if (q.correctAnswer === "B") {
+            correctText = q.optionB;
+        }
+
+        if (q.correctAnswer === "C") {
+            correctText = q.optionC;
+        }
+
+        if (q.correctAnswer === "D") {
+            correctText = q.optionD;
+        }
+
+
+        solutionsDiv.innerHTML += `
+
+            <div class="card">
+
+                <div class="question">
+                    ${index + 1}. ${q.question}
+                </div>
+
+
+                <div class="option">
+                    <b>A.</b> ${q.optionA}
+                </div>
+
+                <div class="option">
+                    <b>B.</b> ${q.optionB}
+                </div>
+
+                <div class="option">
+                    <b>C.</b> ${q.optionC}
+                </div>
+
+                <div class="option">
+                    <b>D.</b> ${q.optionD}
+                </div>
+
+
+                <p>
+                    <span class="label">Your Answer:</span>
+                    ${q.selectedAnswer || "Not Answered"}
+                    ${selectedText ? " — " + selectedText : ""}
+                </p>
+
+
+                <p>
+                    <span class="label">Correct Answer:</span>
+                    ${q.correctAnswer} — ${correctText}
+                </p>
+
+
+                <div class="explanation">
+
+                    <span class="label">
+                        Explanation:
+                    </span>
+
+                    <br><br>
+
+                    ${q.explanation || "No explanation available."}
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+loadSolutions();
+
+</script>
+
+</body>
+</html>
