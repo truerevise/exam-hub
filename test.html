@@ -4,294 +4,72 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Exam Hub - Test</title>
-
 <style>
-body{
-    margin:0;
-    background:#111;
-    color:white;
-    font-family:Arial,sans-serif;
-}
-
-header{
-    background:#1e3a8a;
-    padding:15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.container{
-    padding:15px;
-}
-
-.card{
-    background:#222;
-    padding:15px;
-    border-radius:10px;
-}
-
-.option{
-    background:#333;
-    padding:12px;
-    margin:10px 0;
-    border-radius:8px;
-    cursor:pointer;
-}
-
-.option:hover{
-    background:#444;
-}
-
-.buttons{
-    display:flex;
-    justify-content:space-between;
-    margin-top:20px;
-}
-
-button{
-    background:#2563eb;
-    color:white;
-    border:none;
-    padding:12px 20px;
-    border-radius:8px;
-}
-
-.palette{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:10px;
-    margin-top:25px;
-}
-
-.palette button{
-    padding:10px;
-}
+body{margin:0;background:#111;color:white;font-family:Arial,sans-serif}
+header{background:#1e3a8a;padding:15px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:2}
+.container{padding:15px}.card{background:#222;padding:15px;border-radius:10px}.option{background:#333;padding:12px;margin:10px 0;border-radius:8px;cursor:pointer}.option:hover{background:#444}.option.selected{background:#2563eb}.buttons{display:flex;gap:10px;justify-content:space-between;margin-top:20px}button{background:#2563eb;color:white;border:none;padding:12px 20px;border-radius:8px;cursor:pointer}.buttons button{flex:1}.palette{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:25px}.palette button{padding:10px}.palette button.answered{background:#15803d}.message{background:#3b1d1d;padding:15px;border-radius:10px;margin-top:15px}
 </style>
 </head>
-
 <body>
-
-
-
-<header>
-    <div id="questionNo">Question 1 / 10</div>
-    <div>⏱ <span id="timer">60:00</span></div>
-</header>
-
+<header><div id="questionNo">Loading...</div><div>⏱ <span id="timer">60:00</span></div></header>
 <div class="container">
-
-    <div class="card">
-
-        <h3 id="question">Loading Question...</h3>
-
-        <div class="option" id="optionA"></div>
-        <div class="option" id="optionB"></div>
-        <div class="option" id="optionC"></div>
-        <div class="option" id="optionD"></div>
-
-    </div>
-
-    <div class="buttons">
-
-        <button id="prevBtn">Previous</button>
-
-        <button id="nextBtn">Next</button>
-
-        <button id="submitBtn" style="display:none;">
-            Submit Test
-        </button>
-
-    </div>
-
-    <div class="palette" id="palette"></div>
-
+<div id="testArea" class="card">
+<h3 id="question">Loading Question...</h3>
+<div class="option" id="optionA"></div><div class="option" id="optionB"></div><div class="option" id="optionC"></div><div class="option" id="optionD"></div>
 </div>
-
+<div id="message"></div>
+<div class="buttons"><button id="prevBtn">Previous</button><button id="nextBtn">Next</button><button id="submitBtn" style="display:none">Submit Test</button></div>
+<div class="palette" id="palette"></div>
+</div>
 <script type="module">
-
-import { db } from "./firebase-config.js";
-
-import {
-collection,
-getDocs,
-addDoc
-} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
-
-const params = new URLSearchParams(window.location.search);
-
-const exam = params.get("exam");
-const subject = params.get("subject");
-
-let questions = [];
-let currentQuestion = 0;
-let answers = [];
+import { db } from './firebase-config.js';
+import { collection, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
+const params=new URLSearchParams(location.search), exam=params.get('exam'), subject=params.get('subject');
+let questions=[],currentQuestion=0,answers=[],remainingSeconds=3600,timerId=null,submitting=false;
+const $=id=>document.getElementById(id);
+const options=['A','B','C','D'];
 
 async function loadQuestions(){
-
-    const snapshot = await getDocs(collection(db,"questions"));
-
-    snapshot.forEach(doc=>{
-
-        const data = doc.data();
-
-        if(data.exam===exam && data.subject===subject){
-            questions.push(data);
-        }
-
-    });
-
-    showQuestion();
-
-    createPalette();
-
+  try{
+    const snapshot=await getDocs(collection(db,'questions'));
+    snapshot.forEach(doc=>{const data=doc.data();if(data.exam===exam&&data.subject===subject)questions.push(data);});
+    if(!questions.length){$('testArea').innerHTML=`<div class="message">No questions are available for <b>${exam||'this exam'}</b> / <b>${subject||'this subject'}</b>.</div>`;$('prevBtn').style.display='none';$('nextBtn').style.display='none';return;}
+    answers=new Array(questions.length).fill('');
+    createPalette();showQuestion();startTimer();
+  }catch(error){console.error(error);$('testArea').innerHTML='<div class="message">Unable to load questions. Please try again.</div>';}
 }
-
-loadQuestions();
 
 function showQuestion(){
-
-    document.querySelectorAll(".option").forEach(option => {
-    option.style.background = "#333";
-});
-    
-
-if(answers[currentQuestion]){
-    document.getElementById("option"+answers[currentQuestion]).style.background="#2563eb";
+  const q=questions[currentQuestion];
+  $('questionNo').textContent=`Question ${currentQuestion+1} / ${questions.length}`;
+  $('question').textContent=q.question||'Question not available';
+  options.forEach(letter=>{$('option'+letter).textContent=`${letter}. ${q['option'+letter]||''}`;$('option'+letter).classList.toggle('selected',answers[currentQuestion]===letter);});
+  $('prevBtn').disabled=currentQuestion===0;
+  $('nextBtn').style.display=currentQuestion===questions.length-1?'none':'inline-block';
+  $('submitBtn').style.display=currentQuestion===questions.length-1?'inline-block':'none';
+  updatePalette();
 }
 
-const q = questions[currentQuestion];
+function createPalette(){const palette=$('palette');palette.innerHTML='';questions.forEach((_,i)=>{const btn=document.createElement('button');btn.textContent=i+1;btn.onclick=()=>{currentQuestion=i;showQuestion()};palette.appendChild(btn)});updatePalette()}
+function updatePalette(){[...$('palette').children].forEach((btn,i)=>btn.classList.toggle('answered',Boolean(answers[i])))}
+function selectAnswer(answer){answers[currentQuestion]=answer;showQuestion()}
+options.forEach(letter=>$('option'+letter).onclick=()=>selectAnswer(letter));
+$('nextBtn').onclick=()=>{if(currentQuestion<questions.length-1){currentQuestion++;showQuestion()}};
+$('prevBtn').onclick=()=>{if(currentQuestion>0){currentQuestion--;showQuestion()}};
 
-document.getElementById("questionNo").textContent =
-"Question " + (currentQuestion + 1) + " / " + questions.length;
+function startTimer(){timerId=setInterval(()=>{remainingSeconds--;const min=Math.floor(remainingSeconds/60),sec=remainingSeconds%60;$('timer').textContent=`${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;if(remainingSeconds<=0){clearInterval(timerId);submitTest(true)}},1000)}
 
-document.getElementById("question").textContent = q.question;
-
-document.getElementById("optionA").textContent = "A. " + q.optionA;
-document.getElementById("optionB").textContent = "B. " + q.optionB;
-document.getElementById("optionC").textContent = "C. " + q.optionC;
-document.getElementById("optionD").textContent = "D. " + q.optionD;
-
+async function submitTest(autoSubmit=false){
+  if(submitting)return;submitting=true;if(timerId)clearInterval(timerId);
+  if(!autoSubmit&&!confirm('Submit this test now?')){submitting=false;startTimer();return;}
+  let score=0;
+  questions.forEach((q,index)=>{if(answers[index]===q.answer)score+=Number(q.marks||1)});
+  const solutionData=questions.map((q,index)=>({question:q.question,optionA:q.optionA,optionB:q.optionB,optionC:q.optionC,optionD:q.optionD,selectedAnswer:answers[index]||'',correctAnswer:q.answer,explanation:q.explanation||''}));
+  try{await addDoc(collection(db,'results'),{exam,subject,score,totalQuestions:questions.length,solutions:solutionData,submittedAt:new Date()});location.href='results.html';}
+  catch(error){console.error(error);submitting=false;alert('Could not save your result. Please check your internet connection and try again.');startTimer();}
 }
-    function createPalette(){
-
-    const palette = document.getElementById("palette");
-
-    palette.innerHTML = "";
-
-    for(let i=0;i<questions.length;i++){
-
-        const btn=document.createElement("button");
-
-        btn.textContent=i+1;
-
-        btn.onclick=()=>{
-
-            currentQuestion=i;
-
-            showQuestion();
-
-        };
-
-        palette.appendChild(btn);
-
-    }
-
-}
-
-document.getElementById("optionA").onclick=()=>selectAnswer("A");
-document.getElementById("optionB").onclick=()=>selectAnswer("B");
-document.getElementById("optionC").onclick=()=>selectAnswer("C");
-document.getElementById("optionD").onclick=()=>selectAnswer("D");
-
-function selectAnswer(answer){
-
-    answers[currentQuestion]=answer;
-
-    document.querySelectorAll(".option").forEach(o=>{
-
-        o.style.background="#333";
-
-    });
-
-    document.getElementById("option"+answer).style.background="#2563eb";
-
-}
-
-document.getElementById("nextBtn").onclick=()=>{
-
-    if(currentQuestion<questions.length-1){
-
-        currentQuestion++;
-
-        showQuestion();
-
-    }
-
-    if(currentQuestion===questions.length-1){
-
-        document.getElementById("nextBtn").style.display="none";
-
-        document.getElementById("submitBtn").style.display="inline-block";
-
-    }
-
-};
-
-document.getElementById("prevBtn").onclick=()=>{
-
-    if(currentQuestion>0){
-
-        currentQuestion--;
-
-        showQuestion();
-
-        document.getElementById("nextBtn").style.display="inline-block";
-
-        document.getElementById("submitBtn").style.display="none";
-
-    }
-
-};
-
-document.getElementById("submitBtn").onclick = async () => {
-
-    let score=0;
-
-    questions.forEach((q,index)=>{
-
-        if(answers[index]===q.answer){
-
-            score+=Number(q.marks);
-
-        }
-
-    });
-    const solutionData = questions.map((q, index) => ({
-    question: q.question,
-    optionA: q.optionA,
-    optionB: q.optionB,
-    optionC: q.optionC,
-    optionD: q.optionD,
-    selectedAnswer: answers[index] || "",
-    correctAnswer: q.answer,
-    explanation: q.explanation || ""
-}));
-
-const resultRef = await addDoc(collection(db, "results"), {
-    exam: exam,
-    subject: subject,
-    score: score,
-    totalQuestions: questions.length,
-    solutions: solutionData,
-    submittedAt: new Date()
-});
-
-window.location.href = "results.html";
-    
-
-};
+$('submitBtn').onclick=()=>submitTest(false);
+loadQuestions();
 </script>
-    
 </body>
 </html>
