@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="css/style.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
-.admin-wrap{max-width:1000px;margin:auto;padding:20px}.admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.admin-brand{font-size:24px;font-weight:800}.admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.admin-card{background:#1f1f1f;border:1px solid #333;border-radius:16px;padding:20px}.admin-card h3{margin:8px 0}.admin-card p{color:#aaa}.admin-card button,.login-box button{width:100%;padding:12px;border:0;border-radius:10px;background:#2962ff;color:white;font-weight:700}.login-box{max-width:420px;margin:70px auto}.login-box input{width:100%;box-sizing:border-box;padding:13px;margin:7px 0;border-radius:10px;border:1px solid #444;background:#222;color:#fff}.msg{min-height:22px;margin-top:10px;color:#ff7777;line-height:1.4}.hidden{display:none}@media(max-width:650px){.admin-grid{grid-template-columns:1fr}.admin-wrap{padding:14px}}
+.admin-wrap{max-width:1000px;margin:auto;padding:20px}.admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.admin-brand{font-size:24px;font-weight:800}.admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.admin-card{background:#1f1f1f;border:1px solid #333;border-radius:16px;padding:20px}.admin-card h3{margin:8px 0}.admin-card p{color:#aaa}.admin-card button,.login-box button{width:100%;padding:12px;border:0;border-radius:10px;background:#2962ff;color:white;font-weight:700}.login-box{max-width:420px;margin:70px auto}.msg{min-height:22px;margin-top:10px;color:#ff7777;line-height:1.4}.ok{color:#55dd99}.hidden{display:none}@media(max-width:650px){.admin-grid{grid-template-columns:1fr}.admin-wrap{padding:14px}}
 </style>
 </head>
 <body>
@@ -16,14 +16,12 @@
     <div class="admin-brand">🛠️ Exam Hub Admin</div>
     <button id="logoutBtn" class="hidden">Logout</button>
   </div>
-
   <section id="loginBox" class="admin-card login-box">
     <h2>Admin Login</h2>
     <p>Continue securely with your Google account.</p>
     <button id="googleBtn">🔐 Continue with Google</button>
     <div id="loginMsg" class="msg"></div>
   </section>
-
   <section id="panel" class="hidden">
     <div class="admin-grid">
       <div class="admin-card"><span class="material-icons">add_circle</span><h3>Add Question</h3><p>Create a question with options, correct answer and explanation.</p><button onclick="location.href='add-question.html'">Add Question</button></div>
@@ -35,64 +33,49 @@
     </div>
   </section>
 </div>
-
 <script type="module">
 import {auth} from './firebase-config.js';
-import {
-  GoogleAuthProvider,
-  signInWithRedirect,
-  getRedirectResult,
-  onAuthStateChanged,
-  signOut,
-  setPersistence,
-  browserLocalPersistence
-} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
+import {GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut,setPersistence,browserLocalPersistence} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
 
 const ADMIN_EMAIL='kiransingh.smile@gmail.com'.toLowerCase();
 const provider=new GoogleAuthProvider();
-const isAdmin=u=>u&&u.email&&u.email.toLowerCase()===ADMIN_EMAIL;
+provider.setCustomParameters({prompt:'select_account'});
 const loginBox=document.getElementById('loginBox');
 const panel=document.getElementById('panel');
 const logoutBtn=document.getElementById('logoutBtn');
 const msg=document.getElementById('loginMsg');
 
-function showError(e){
-  console.error(e);
-  const code=e?.code||'unknown';
-  const detail=e?.message||'No additional details.';
-  msg.textContent='Sign-in error: '+code+' — '+detail;
-}
-
-onAuthStateChanged(auth,u=>{
+function isAdmin(u){return !!(u&&u.email&&u.email.toLowerCase()===ADMIN_EMAIL);}
+function showError(e){console.error(e);msg.className='msg';msg.textContent='Sign-in error: '+(e?.code||'unknown')+' — '+(e?.message||'Please try again.');}
+function showPanel(u){
+  if(!u)return;
   if(isAdmin(u)){
     loginBox.classList.add('hidden');
     panel.classList.remove('hidden');
     logoutBtn.classList.remove('hidden');
   }else{
-    loginBox.classList.remove('hidden');
     panel.classList.add('hidden');
+    loginBox.classList.remove('hidden');
     logoutBtn.classList.add('hidden');
+    msg.className='msg';
+    msg.textContent='Signed in as '+(u.email||'unknown')+'. This account is not authorized as Exam Hub Admin.';
+    signOut(auth).catch(console.error);
   }
-});
-
-// Complete a Google redirect sign-in after Firebase returns to this page.
-try{
-  await getRedirectResult(auth);
-}catch(e){
-  showError(e);
 }
 
+onAuthStateChanged(auth,showPanel);
+
 document.getElementById('googleBtn').onclick=async()=>{
+  msg.className='msg';
   msg.textContent='Opening Google sign-in...';
   try{
     await setPersistence(auth,browserLocalPersistence);
-    await signInWithRedirect(auth,provider);
-  }catch(e){
-    showError(e);
-  }
+    const result=await signInWithPopup(auth,provider);
+    showPanel(result.user);
+  }catch(e){showError(e);}
 };
 
-logoutBtn.onclick=()=>signOut(auth);
+logoutBtn.onclick=async()=>{await signOut(auth);};
 </script>
 </body>
 </html>
