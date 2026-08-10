@@ -3,14 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <title>Test Solutions</title>
+    <title>Solutions</title>
 
     <style>
-
         body {
             margin: 0;
             padding: 15px;
@@ -31,17 +28,24 @@
             margin-bottom: 15px;
         }
 
+        .summary {
+            background: #222;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
         .question {
             font-size: 18px;
             font-weight: bold;
-            margin-bottom: 15px;
             line-height: 1.5;
+            margin-bottom: 15px;
         }
 
-        .answer-box {
+        .answer {
             padding: 12px;
-            margin-top: 10px;
             border-radius: 8px;
+            margin-top: 10px;
         }
 
         .your-answer {
@@ -78,11 +82,12 @@
             line-height: 1.5;
         }
 
-        .summary {
-            background: #222;
+        .error {
+            background: #3b0000;
+            border-left: 4px solid #f44336;
             padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            border-radius: 8px;
+            line-height: 1.5;
         }
 
         .backBtn {
@@ -93,20 +98,9 @@
             border: none;
             border-radius: 8px;
             font-size: 16px;
-            cursor: pointer;
             margin-bottom: 20px;
         }
-
-        .error {
-            background: #3b0000;
-            border-left: 4px solid #f44336;
-            padding: 15px;
-            border-radius: 8px;
-            line-height: 1.5;
-        }
-
     </style>
-
 </head>
 
 <body>
@@ -119,7 +113,7 @@
         Loading Solutions...
     </div>
 
-    <button class="backBtn" onclick="history.back()">
+    <button class="backBtn" id="backBtn">
         ← Back to Results
     </button>
 
@@ -129,18 +123,19 @@
         import { db } from "./firebase-config.js";
 
         import {
+            collection,
             doc,
             getDoc
         } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 
-        // Get result ID from URL
-        const params = new URLSearchParams(window.location.search);
+        const params =
+            new URLSearchParams(window.location.search);
 
-        const resultId = params.get("id");
+        const resultId =
+            params.get("id");
 
 
-        // HTML elements
         const solutionsDiv =
             document.getElementById("solutions");
 
@@ -148,18 +143,20 @@
             document.getElementById("resultInfo");
 
 
+        document.getElementById("backBtn").onclick = function () {
+            history.back();
+        };
+
+
         async function loadSolutions() {
 
             try {
 
-                // Check result ID
                 if (!resultId) {
 
                     solutionsDiv.innerHTML = `
                         <div class="error">
-                            <b>Result ID not found.</b><br><br>
-                            Please open the solutions from the
-                            My Test Results page.
+                            <b>Result ID not found.</b>
                         </div>
                     `;
 
@@ -167,21 +164,29 @@
                 }
 
 
-                // Get result document from Firebase
+                /*
+                 * IMPORTANT:
+                 * Get the results COLLECTION first,
+                 * then get the individual document.
+                 */
+
+                const resultsCollection =
+                    collection(db, "results");
+
                 const resultRef =
-                    doc(db, "results", resultId);
+                    doc(resultsCollection, resultId);
 
                 const resultSnap =
                     await getDoc(resultRef);
 
 
-                // Check whether result exists
                 if (!resultSnap.exists()) {
 
                     solutionsDiv.innerHTML = `
                         <div class="error">
-                            <b>Result not found.</b><br><br>
-                            This test result does not exist.
+                            <b>Result not found.</b>
+                            <br><br>
+                            The selected test result could not be found.
                         </div>
                     `;
 
@@ -189,13 +194,15 @@
                 }
 
 
-                // Get Firebase data
-                const data = resultSnap.data();
+                const data =
+                    resultSnap.data();
 
 
-                // Show test summary
+                /*
+                 * TEST SUMMARY
+                 */
+
                 resultInfo.innerHTML = `
-
                     <div class="summary">
 
                         <p>
@@ -219,86 +226,81 @@
                         </p>
 
                     </div>
-
                 `;
 
 
-                // Get saved solutions
-                let solutions = data.solutions || [];
+                /*
+                 * GET SAVED SOLUTIONS
+                 */
+
+                let solutions =
+                    data.solutions || [];
 
 
-                // Safety check if solutions were saved as JSON text
                 if (typeof solutions === "string") {
 
                     try {
-
-                        solutions = JSON.parse(solutions);
-
-                    } catch (e) {
-
-                        solutions = [];
-
+                        solutions =
+                            JSON.parse(solutions);
                     }
 
+                    catch (e) {
+                        solutions = [];
+                    }
                 }
 
 
-                // Make sure solutions is an array
                 if (!Array.isArray(solutions)) {
-
                     solutions = [];
-
                 }
 
 
-                // No solutions found
+                /*
+                 * NO SOLUTIONS
+                 */
+
                 if (solutions.length === 0) {
 
                     solutionsDiv.innerHTML = `
-
                         <div class="error">
 
-                            <b>No solutions are stored for this attempt.</b>
+                            <b>No solutions are saved for this attempt.</b>
 
                             <br><br>
 
-                            This usually happens because this test
-                            was submitted before the solution-saving
-                            code was added.
-
-                            <br><br>
-
-                            Please take the test again and submit
-                            a new attempt.
+                            Please take a NEW test attempt and
+                            submit it again.
 
                         </div>
-
                     `;
 
                     return;
                 }
 
 
-                // Clear loading message
+                /*
+                 * DISPLAY SOLUTIONS
+                 */
+
                 solutionsDiv.innerHTML = "";
 
 
-                // Display every question
-                solutions.forEach((q, index) => {
+                solutions.forEach(function (q, index) {
 
 
                     const selectedAnswer =
                         q.selectedAnswer || "";
-
 
                     const correctAnswer =
                         q.correctAnswer || "";
 
 
                     /*
-                     * Convert answer letter to answer text
+                     * YOUR ANSWER TEXT
                      */
-                    let selectedText = "Not Answered";
+
+                    let selectedText =
+                        "Not Answered";
 
 
                     if (selectedAnswer === "A") {
@@ -317,20 +319,17 @@
                         selectedText = q.optionD || "";
                     }
 
-                    /*
-                     * If selectedAnswer already contains
-                     * the answer text instead of A/B/C/D
-                     */
                     else if (selectedAnswer !== "") {
                         selectedText = selectedAnswer;
                     }
 
 
                     /*
-                     * Convert correct answer letter
-                     * to answer text
+                     * CORRECT ANSWER TEXT
                      */
-                    let correctText = "";
+
+                    let correctText =
+                        correctAnswer;
 
 
                     if (correctAnswer === "A") {
@@ -349,46 +348,49 @@
                         correctText = q.optionD || "";
                     }
 
+
                     /*
-                     * If correctAnswer already contains
-                     * the answer text
+                     * CHECK ANSWER
                      */
-                    else {
-                        correctText = correctAnswer;
-                    }
 
-
-                    // Check whether answer is correct
                     const isCorrect =
                         selectedAnswer !== "" &&
                         selectedAnswer === correctAnswer;
 
 
-                    // Create question card
+                    /*
+                     * CREATE CARD
+                     */
+
                     const card =
                         document.createElement("div");
 
-                    card.className = "card";
+                    card.className =
+                        "card";
 
 
                     /*
-                     * Question
+                     * QUESTION
                      */
+
                     const question =
                         document.createElement("div");
 
-                    question.className = "question";
+                    question.className =
+                        "question";
 
-                    question.innerHTML =
-                        `${index + 1}. ${q.question || "Question not available"}`;
+                    question.textContent =
+                        (index + 1) + ". " +
+                        (q.question || "Question not available");
 
 
                     card.appendChild(question);
 
 
                     /*
-                     * Your answer
+                     * YOUR ANSWER
                      */
+
                     const yourAnswer =
                         document.createElement("div");
 
@@ -396,27 +398,25 @@
                     if (selectedAnswer === "") {
 
                         yourAnswer.className =
-                            "answer-box not-answered";
+                            "answer not-answered";
 
                     }
 
                     else if (isCorrect) {
 
                         yourAnswer.className =
-                            "answer-box correct-answer";
+                            "answer correct-answer";
 
                     }
 
                     else {
 
                         yourAnswer.className =
-                            "answer-box wrong-answer";
-
+                            "answer wrong-answer";
                     }
 
 
                     yourAnswer.innerHTML = `
-
                         <span class="label">
                             Your Answer:
                         </span>
@@ -426,7 +426,6 @@
                             ? "Not Answered"
                             : selectedAnswer + " - " + selectedText
                         }
-
                     `;
 
 
@@ -434,23 +433,22 @@
 
 
                     /*
-                     * Correct answer
+                     * CORRECT ANSWER
                      */
+
                     const correctAnswerBox =
                         document.createElement("div");
 
                     correctAnswerBox.className =
-                        "answer-box correct-answer";
+                        "answer correct-answer";
 
 
                     correctAnswerBox.innerHTML = `
-
                         <span class="label">
                             Correct Answer:
                         </span>
 
                         ${correctAnswer} - ${correctText}
-
                     `;
 
 
@@ -458,8 +456,9 @@
 
 
                     /*
-                     * Explanation
+                     * EXPLANATION
                      */
+
                     const explanation =
                         document.createElement("div");
 
@@ -468,7 +467,6 @@
 
 
                     explanation.innerHTML = `
-
                         <span class="label">
                             Explanation:
                         </span>
@@ -477,16 +475,12 @@
                             q.explanation ||
                             "No explanation available."
                         }
-
                     `;
 
 
                     card.appendChild(explanation);
 
 
-                    /*
-                     * Add card to page
-                     */
                     solutionsDiv.appendChild(card);
 
                 });
@@ -503,15 +497,9 @@
 
 
                 solutionsDiv.innerHTML = `
-
                     <div class="error">
 
                         <b>Unable to load solutions.</b>
-
-                        <br><br>
-
-                        Please check your internet
-                        connection and try again.
 
                         <br><br>
 
@@ -519,7 +507,6 @@
                         ${error.message}
 
                     </div>
-
                 `;
 
             }
@@ -527,7 +514,6 @@
         }
 
 
-        // Start loading solutions
         loadSolutions();
 
     </script>
