@@ -1,2 +1,98 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Exam Hub | Admin Panel</title><link rel="stylesheet" href="css/style.css"><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><style>.admin-wrap{max-width:1000px;margin:auto;padding:20px}.admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.admin-brand{font-size:24px;font-weight:800}.admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.admin-card{background:#1f1f1f;border:1px solid #333;border-radius:16px;padding:20px}.admin-card h3{margin:8px 0}.admin-card p{color:#aaa}.admin-card button,.login-box button{width:100%;padding:12px;border:0;border-radius:10px;background:#2962ff;color:white;font-weight:700}.login-box{max-width:420px;margin:70px auto}.login-box input{width:100%;box-sizing:border-box;padding:13px;margin:7px 0;border-radius:10px;border:1px solid #444;background:#222;color:#fff}.msg{min-height:22px;margin-top:10px;color:#ff7777;line-height:1.4}.hidden{display:none}@media(max-width:650px){.admin-grid{grid-template-columns:1fr}.admin-wrap{padding:14px}}</style></head><body><div class="admin-wrap"><div class="admin-head"><div class="admin-brand">🛠️ Exam Hub Admin</div><button id="logoutBtn" class="hidden">Logout</button></div><section id="loginBox" class="admin-card login-box"><h2>Admin Login</h2><p>Continue securely with your Google account.</p><button id="googleBtn">🔐 Continue with Google</button><div id="loginMsg" class="msg"></div></section><section id="panel" class="hidden"><div class="admin-grid"><div class="admin-card"><span class="material-icons">add_circle</span><h3>Add Question</h3><p>Create a question with options, correct answer and explanation.</p><button onclick="location.href='add-question.html'">Add Question</button></div><div class="admin-card"><span class="material-icons">library_books</span><h3>Question Bank</h3><p>View and manage questions stored in Firebase.</p><button onclick="location.href='question-bank.html'">Open Question Bank</button></div><div class="admin-card"><span class="material-icons">quiz</span><h3>Mock Tests</h3><p>Manage the questions used by student mock tests.</p><button onclick="location.href='mock-test.html'">Open Mock Tests</button></div><div class="admin-card"><span class="material-icons">groups</span><h3>Students</h3><p>Student management will be connected next.</p><button onclick="alert('Student management is coming next.')">Students</button></div><div class="admin-card"><span class="material-icons">bar_chart</span><h3>Results</h3><p>Review student test attempts and scores.</p><button onclick="location.href='results.html'">Results</button></div><div class="admin-card"><span class="material-icons">campaign</span><h3>Notifications</h3><p>Post announcements for students.</p><button onclick="alert('Notifications management is coming next.')">Notifications</button></div></div></section></div><script type="module">import {auth} from './firebase-config.js';import {GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';const ADMIN_EMAIL='kiransingh.smile@gmail.com'.toLowerCase();const provider=new GoogleAuthProvider();const isAdmin=u=>u&&u.email&&u.email.toLowerCase()===ADMIN_EMAIL;const loginBox=document.getElementById('loginBox'),panel=document.getElementById('panel'),logoutBtn=document.getElementById('logoutBtn'),msg=document.getElementById('loginMsg');onAuthStateChanged(auth,u=>{if(isAdmin(u)){loginBox.classList.add('hidden');panel.classList.remove('hidden');logoutBtn.classList.remove('hidden')}else{loginBox.classList.remove('hidden');panel.classList.add('hidden');logoutBtn.classList.add('hidden')}});document.getElementById('googleBtn').onclick=async()=>{msg.textContent='Opening Google sign-in...';try{const result=await signInWithPopup(auth,provider);if(!isAdmin(result.user)){await signOut(auth);msg.textContent='Access denied. This Google account is not an Exam Hub administrator.'}else{msg.textContent=''}}catch(e){console.error(e);const code=e?.code||'unknown';const detail=e?.message||'No additional details.';msg.textContent='Sign-in error: '+code+' — '+detail;}};logoutBtn.onclick=()=>signOut(auth);</script></body></html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Exam Hub | Admin Panel</title>
+<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+.admin-wrap{max-width:1000px;margin:auto;padding:20px}.admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.admin-brand{font-size:24px;font-weight:800}.admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.admin-card{background:#1f1f1f;border:1px solid #333;border-radius:16px;padding:20px}.admin-card h3{margin:8px 0}.admin-card p{color:#aaa}.admin-card button,.login-box button{width:100%;padding:12px;border:0;border-radius:10px;background:#2962ff;color:white;font-weight:700}.login-box{max-width:420px;margin:70px auto}.login-box input{width:100%;box-sizing:border-box;padding:13px;margin:7px 0;border-radius:10px;border:1px solid #444;background:#222;color:#fff}.msg{min-height:22px;margin-top:10px;color:#ff7777;line-height:1.4}.hidden{display:none}@media(max-width:650px){.admin-grid{grid-template-columns:1fr}.admin-wrap{padding:14px}}
+</style>
+</head>
+<body>
+<div class="admin-wrap">
+  <div class="admin-head">
+    <div class="admin-brand">🛠️ Exam Hub Admin</div>
+    <button id="logoutBtn" class="hidden">Logout</button>
+  </div>
+
+  <section id="loginBox" class="admin-card login-box">
+    <h2>Admin Login</h2>
+    <p>Continue securely with your Google account.</p>
+    <button id="googleBtn">🔐 Continue with Google</button>
+    <div id="loginMsg" class="msg"></div>
+  </section>
+
+  <section id="panel" class="hidden">
+    <div class="admin-grid">
+      <div class="admin-card"><span class="material-icons">add_circle</span><h3>Add Question</h3><p>Create a question with options, correct answer and explanation.</p><button onclick="location.href='add-question.html'">Add Question</button></div>
+      <div class="admin-card"><span class="material-icons">library_books</span><h3>Question Bank</h3><p>View and manage questions stored in Firebase.</p><button onclick="location.href='question-bank.html'">Open Question Bank</button></div>
+      <div class="admin-card"><span class="material-icons">quiz</span><h3>Mock Tests</h3><p>Manage the questions used by student mock tests.</p><button onclick="location.href='mock-test.html'">Open Mock Tests</button></div>
+      <div class="admin-card"><span class="material-icons">groups</span><h3>Students</h3><p>Student management will be connected next.</p><button onclick="alert('Student management is coming next.')">Students</button></div>
+      <div class="admin-card"><span class="material-icons">bar_chart</span><h3>Results</h3><p>Review student test attempts and scores.</p><button onclick="location.href='results.html'">Results</button></div>
+      <div class="admin-card"><span class="material-icons">campaign</span><h3>Notifications</h3><p>Post announcements for students.</p><button onclick="alert('Notifications management is coming next.')">Notifications</button></div>
+    </div>
+  </section>
+</div>
+
+<script type="module">
+import {auth} from './firebase-config.js';
+import {
+  GoogleAuthProvider,
+  signInWithRedirect,
+  getRedirectResult,
+  onAuthStateChanged,
+  signOut,
+  setPersistence,
+  browserLocalPersistence
+} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
+
+const ADMIN_EMAIL='kiransingh.smile@gmail.com'.toLowerCase();
+const provider=new GoogleAuthProvider();
+const isAdmin=u=>u&&u.email&&u.email.toLowerCase()===ADMIN_EMAIL;
+const loginBox=document.getElementById('loginBox');
+const panel=document.getElementById('panel');
+const logoutBtn=document.getElementById('logoutBtn');
+const msg=document.getElementById('loginMsg');
+
+function showError(e){
+  console.error(e);
+  const code=e?.code||'unknown';
+  const detail=e?.message||'No additional details.';
+  msg.textContent='Sign-in error: '+code+' — '+detail;
+}
+
+onAuthStateChanged(auth,u=>{
+  if(isAdmin(u)){
+    loginBox.classList.add('hidden');
+    panel.classList.remove('hidden');
+    logoutBtn.classList.remove('hidden');
+  }else{
+    loginBox.classList.remove('hidden');
+    panel.classList.add('hidden');
+    logoutBtn.classList.add('hidden');
+  }
+});
+
+// Complete a Google redirect sign-in after Firebase returns to this page.
+try{
+  await getRedirectResult(auth);
+}catch(e){
+  showError(e);
+}
+
+document.getElementById('googleBtn').onclick=async()=>{
+  msg.textContent='Opening Google sign-in...';
+  try{
+    await setPersistence(auth,browserLocalPersistence);
+    await signInWithRedirect(auth,provider);
+  }catch(e){
+    showError(e);
+  }
+};
+
+logoutBtn.onclick=()=>signOut(auth);
+</script>
+</body>
+</html>
