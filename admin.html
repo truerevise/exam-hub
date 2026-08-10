@@ -1,88 +1,34 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exam Hub Admin</title>
-
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Exam Hub | Admin Panel</title>
 <link rel="stylesheet" href="css/style.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-</head>
-
+<style>
+.admin-wrap{max-width:1000px;margin:auto;padding:20px}.admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.admin-brand{font-size:24px;font-weight:800}.admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.admin-card{background:#1f1f1f;border:1px solid #333;border-radius:16px;padding:20px}.admin-card h3{margin:8px 0}.admin-card p{color:#aaa}.admin-card button{width:100%;padding:12px;border:0;border-radius:10px;background:#2962ff;color:white;font-weight:700}.login-box{max-width:420px;margin:70px auto}.login-box input{width:100%;box-sizing:border-box;padding:13px;margin:7px 0;border-radius:10px;border:1px solid #444;background:#222;color:#fff}.login-box button{width:100%;padding:13px;border:0;border-radius:10px;background:#2962ff;color:#fff;font-weight:700;margin-top:8px}.msg{min-height:22px;margin-top:10px;color:#ff7777}.hidden{display:none}@media(max-width:650px){.admin-grid{grid-template-columns:1fr}.admin-wrap{padding:14px}}
+</style></head>
 <body>
-
-<header>
-
-<div style="display:flex;justify-content:space-between;align-items:center;">
-
-<div style="display:flex;align-items:center;gap:10px;">
-<span class="material-icons">admin_panel_settings</span>
-<div class="logo">Exam Hub Admin</div>
-</div>
-
-<div style="display:flex;gap:15px;">
-<span class="material-icons">notifications</span>
-<span class="material-icons">account_circle</span>
-</div>
-
-</div>
-
-</header>
-
-<div class="container">
-
-<h2>Admin Dashboard</h2>
-
-<div class="exam-grid">
-
-<div class="card">
-<h3>➕ Add Question</h3>
-<button onclick="window.location.href='add-question.html'">
-Add
-</button>
-  
-</div>
-
-<div class="card">
-<h3>📚 Question Bank</h3>
-<button>Open</button>
-</div>
-
-<div class="card">
-<h3>🔥 Create Live Test</h3>
-<button>Create</button>
-</div>
-
-<div class="card">
-<h3>📢 Notifications</h3>
-<button>Post</button>
-</div>
-
-<div class="card">
-<h3>👥 Students</h3>
-<button>View</button>
-</div>
-
-<div class="card">
-<h3>📊 Results</h3>
-<button>Open</button>
-</div>
-
-<div class="card">
-<h3>⚙ Settings</h3>
-<button>Open</button>
-</div>
-
-<div class="card">
-<h3>🚪 Logout</h3>
-<button>Logout</button>
-</div>
-
-</div>
-
-</div>
-
-</body>
-</html>
+<div class="admin-wrap">
+<div class="admin-head"><div class="admin-brand">🛠️ Exam Hub Admin</div><button id="logoutBtn" class="hidden">Logout</button></div>
+<section id="loginBox" class="admin-card login-box"><h2>Admin Login</h2><p>Sign in with your authorized administrator account.</p><input id="email" type="email" placeholder="Admin email"><input id="password" type="password" placeholder="Password"><button id="loginBtn">Login</button><div id="loginMsg" class="msg"></div></section>
+<section id="panel" class="hidden">
+<div class="admin-grid">
+<div class="admin-card"><span class="material-icons">add_circle</span><h3>Add Question</h3><p>Create a question with options, correct answer and explanation.</p><button onclick="location.href='add-question.html'">Add Question</button></div>
+<div class="admin-card"><span class="material-icons">library_books</span><h3>Question Bank</h3><p>View and manage questions stored in Firebase.</p><button onclick="location.href='question-bank.html'">Open Question Bank</button></div>
+<div class="admin-card"><span class="material-icons">quiz</span><h3>Mock Tests</h3><p>Manage the questions used by student mock tests.</p><button onclick="location.href='mock-test.html'">Open Mock Tests</button></div>
+<div class="admin-card"><span class="material-icons">groups</span><h3>Students</h3><p>Student management will be connected next.</p><button onclick="alert('Student management is coming next.')">Students</button></div>
+<div class="admin-card"><span class="material-icons">bar_chart</span><h3>Results</h3><p>Review student test attempts and scores.</p><button onclick="location.href='results.html'">Results</button></div>
+<div class="admin-card"><span class="material-icons">campaign</span><h3>Notifications</h3><p>Post announcements for students.</p><button onclick="alert('Notifications management is coming next.')">Notifications</button></div>
+</div></section></div>
+<script type="module">
+import {auth} from './firebase-config.js';
+import {signInWithEmailAndPassword,onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
+// Replace this value with the email of your Firebase admin account.
+const ADMIN_EMAILS=['REPLACE_WITH_YOUR_ADMIN_EMAIL'];
+const isAdmin=u=>u && ADMIN_EMAILS.includes((u.email||'').toLowerCase());
+const loginBox=document.getElementById('loginBox'),panel=document.getElementById('panel'),logoutBtn=document.getElementById('logoutBtn');
+onAuthStateChanged(auth,u=>{if(isAdmin(u)){loginBox.classList.add('hidden');panel.classList.remove('hidden');logoutBtn.classList.remove('hidden')}else{loginBox.classList.remove('hidden');panel.classList.add('hidden');logoutBtn.classList.add('hidden')}});
+document.getElementById('loginBtn').onclick=async()=>{try{await signInWithEmailAndPassword(auth,document.getElementById('email').value.trim(),document.getElementById('password').value);document.getElementById('loginMsg').textContent=''}catch(e){document.getElementById('loginMsg').textContent='Login failed. Check email and password.'}};
+logoutBtn.onclick=()=>signOut(auth);
+</script></body></html>
