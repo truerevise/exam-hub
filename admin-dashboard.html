@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Exam Hub | Admin Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+.admin-wrap{max-width:1000px;margin:auto;padding:20px}.admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.admin-brand{font-size:24px;font-weight:800}.admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.admin-card{background:#1f1f1f;border:1px solid #333;border-radius:16px;padding:20px}.admin-card h3{margin:8px 0}.admin-card p{color:#aaa}.admin-card button,.logout{width:100%;padding:12px;border:0;border-radius:10px;background:#2962ff;color:white;font-weight:700}.logout{width:auto;background:#7b2535;padding:10px 18px}.status{color:#55dd99;margin-bottom:18px}@media(max-width:650px){.admin-grid{grid-template-columns:1fr}.admin-wrap{padding:14px}}
+</style>
+</head>
+<body>
+<div class="admin-wrap">
+  <div class="admin-head">
+    <div class="admin-brand">🛠️ Exam Hub Admin</div>
+    <button id="logoutBtn" class="logout">Logout</button>
+  </div>
+  <div class="status" id="status">Checking admin access...</div>
+  <section class="admin-grid">
+    <div class="admin-card"><span class="material-icons">add_circle</span><h3>Add Question</h3><p>Create a question with options, correct answer and explanation.</p><button onclick="location.href='add-question.html'">Add Question</button></div>
+    <div class="admin-card"><span class="material-icons">library_books</span><h3>Question Bank</h3><p>View and manage questions stored in Firebase.</p><button onclick="location.href='question-bank.html'">Open Question Bank</button></div>
+    <div class="admin-card"><span class="material-icons">quiz</span><h3>Mock Tests</h3><p>Manage the questions used by student mock tests.</p><button onclick="location.href='mock-test.html'">Open Mock Tests</button></div>
+    <div class="admin-card"><span class="material-icons">groups</span><h3>Students</h3><p>Student management will be connected next.</p><button onclick="alert('Student management is coming next.')">Students</button></div>
+    <div class="admin-card"><span class="material-icons">bar_chart</span><h3>Results</h3><p>Review student test attempts and scores.</p><button onclick="location.href='results.html'">Results</button></div>
+    <div class="admin-card"><span class="material-icons">campaign</span><h3>Notifications</h3><p>Post announcements for students.</p><button onclick="alert('Notifications management is coming next.')">Notifications</button></div>
+  </section>
+</div>
+<script type="module">
+import {auth} from './firebase-config.js';
+import {onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
+const ADMIN_EMAIL='kiransingh.smile@gmail.com'.toLowerCase();
+const status=document.getElementById('status');
+onAuthStateChanged(auth,(u)=>{
+  if(u && u.email && u.email.toLowerCase()===ADMIN_EMAIL){
+    status.textContent='Signed in as '+u.email;
+  }else{
+    location.replace('admin.html');
+  }
+});
+document.getElementById('logoutBtn').onclick=async()=>{await signOut(auth);location.replace('admin.html');};
+</script>
+</body>
+</html>
