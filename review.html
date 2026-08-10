@@ -170,14 +170,10 @@
                  * then get the individual document.
                  */
 
-                const resultsCollection =
-                    collection(db, "results");
+                const resultRef = doc(db, "results", resultId);
 
-                const resultRef =
-                    doc(resultsCollection, resultId);
-
-                const resultSnap =
-                    await getDoc(resultRef);
+const resultSnap = await getDoc(resultRef);
+            
 
 
                 if (!resultSnap.exists()) {
