@@ -1,25 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Exam Hub | Dashboard</title>
-<link rel="stylesheet" href="css/style.css"><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+/* Dashboard navigation fixes */
+.icon-btn{cursor:pointer;display:inline-flex;align-items:center;justify-content:center;position:relative;z-index:20}
+.nav-link{color:inherit;text-decoration:none}
+.drawer-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:90}
+.drawer{position:fixed;top:0;left:-310px;width:290px;max-width:82vw;height:100vh;background:#fff;z-index:100;box-shadow:4px 0 20px rgba(0,0,0,.18);transition:left .25s ease;display:flex;flex-direction:column}
+.drawer.open{left:0}
+.drawer-backdrop.open{display:block}
+.drawer-header{padding:22px 18px;background:#0d6efd;color:#fff;display:flex;align-items:center;justify-content:space-between}
+.drawer-header h2{margin:0;font-size:22px}
+.drawer-close{border:0;background:transparent;color:#fff;cursor:pointer;font-size:28px}
+.drawer-nav{padding:12px 0;flex:1;overflow-y:auto}
+.drawer-nav a,.drawer-logout{display:flex;align-items:center;gap:14px;width:100%;box-sizing:border-box;padding:15px 20px;border:0;background:transparent;color:#222;text-decoration:none;font-size:16px;cursor:pointer;text-align:left}
+.drawer-nav a:hover,.drawer-logout:hover{background:#f1f5f9}
+.drawer-nav .material-icons{font-size:23px;color:#0d6efd}
+.drawer-footer{border-top:1px solid #e5e7eb;padding:8px 0}
+.drawer-logout{color:#dc2626}
+.drawer-logout .material-icons{color:#dc2626}
+.saved-open-btn{display:inline-flex;align-items:center;gap:7px;text-decoration:none}
+@media(max-width:600px){.header-inner{padding-left:10px;padding-right:10px}.header-actions{gap:2px}.logo{font-size:18px}}
+</style>
 </head>
 <body>
-<header><div class="header-inner"><div class="brand"><button class="icon-btn" type="button" aria-label="Open mock tests" onclick="go('mock-test.html')"><span class="material-icons">menu</span></button><div class="logo">Exam Hub</div></div><div class="header-actions"><button class="icon-btn" type="button" aria-label="Search" onclick="document.getElementById('examSearch').focus()"><span class="material-icons">search</span></button><button class="icon-btn" type="button" aria-label="Results" onclick="go('results.html')"><span class="material-icons">notifications_none</span></button><button class="icon-btn" type="button" aria-label="Profile" onclick="go('profile.html')"><span class="material-icons">account_circle</span></button></div></div></header>
+
+<div id="drawerBackdrop" class="drawer-backdrop"></div>
+<aside id="sideDrawer" class="drawer" aria-label="Main menu">
+  <div class="drawer-header">
+    <h2>Exam Hub</h2>
+    <button id="drawerClose" class="drawer-close" type="button" aria-label="Close menu">×</button>
+  </div>
+  <nav class="drawer-nav">
+    <a href="profile.html"><span class="material-icons">account_circle</span><span>My Profile</span></a>
+    <a href="current-affairs.html"><span class="material-icons">newspaper</span><span>Current Affairs</span></a>
+    <a href="saved-questions.html"><span class="material-icons">bookmark</span><span>Saved Questions</span></a>
+    <a href="results.html"><span class="material-icons">bar_chart</span><span>My Results</span></a>
+    <a href="mock-test.html"><span class="material-icons">quiz</span><span>Mock Tests</span></a>
+  </nav>
+  <div class="drawer-footer">
+    <button id="drawerLogout" class="drawer-logout" type="button"><span class="material-icons">logout</span><span>Logout</span></button>
+  </div>
+</aside>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <button id="menuBtn" class="icon-btn" type="button" aria-label="Open menu" aria-expanded="false">
+        <span class="material-icons">menu</span>
+      </button>
+      <div class="logo">Exam Hub</div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" type="button" aria-label="Search" onclick="document.getElementById('examSearch').focus()"><span class="material-icons">search</span></button>
+      <a class="icon-btn nav-link" aria-label="Results" href="results.html"><span class="material-icons">notifications_none</span></a>
+      <a class="icon-btn nav-link" aria-label="Profile" href="profile.html"><span class="material-icons">account_circle</span></a>
+    </div>
+  </div>
+</header>
+
 <main class="container">
-<section class="hero"><h1>Welcome, Student 👋</h1><p>Prepare smarter, practise regularly and stay on track with your competitive exam preparation.</p></section>
+<section class="hero">
+  <h1>Welcome, Student 👋</h1>
+  <p>Prepare smarter, practise regularly and stay on track with your competitive exam preparation.</p>
+</section>
+
 <div class="search-box"><span class="material-icons">search</span><input id="examSearch" type="search" placeholder="Search exams..." autocomplete="off" aria-label="Search exams"></div>
-<h2 class="section-title">🔥 Live Tests</h2><div class="live-grid" id="liveTests"><div class="live-card searchable" data-search="TG Police Daily Test 18 police"><span class="status">LIVE TEST</span><h3>TG Police Daily Test - 18</h3><p>⏰ Ends in 08:20 Hours</p><button type="button" onclick="go('mock-test.html?exam=TG%20Police')">Start Live Test</button></div><div class="live-card searchable" data-search="UGC NET Commerce Unit 1 commerce net"><span class="status">LIVE TEST</span><h3>UGC NET Commerce Unit 1</h3><p>⏰ Ends in 15:42 Hours</p><button type="button" onclick="go('mock-test.html?exam=UGC%20NET')">Start Live Test</button></div></div><div class="view-all"><a href="#explore">View All →</a></div>
-<h2 class="section-title" id="explore">📚 Explore Exams</h2><div class="exam-grid" id="examGrid"><div class="card searchable" data-search="TG Police police"><span class="exam-icon">👮</span><h3>TG Police</h3><button type="button" onclick="openExam('TG Police')">Open</button></div><div class="card searchable" data-search="UGC NET commerce net"><span class="exam-icon">🎓</span><h3>UGC NET</h3><button type="button" onclick="openExam('UGC NET')">Open</button></div><div class="card searchable" data-search="TSPSC tspsc"><span class="exam-icon">🏛️</span><h3>TSPSC</h3><button type="button" onclick="openExam('TSPSC')">Open</button></div><div class="card searchable" data-search="Banking bank"><span class="exam-icon">🏦</span><h3>Banking</h3><button type="button" onclick="openExam('Banking')">Open</button></div><div class="card searchable" data-search="Railway railway rrb"><span class="exam-icon">🚂</span><h3>Railway</h3><button type="button" onclick="openExam('Railway')">Open</button></div><div class="card searchable" data-search="SSC staff selection commission"><span class="exam-icon">💻</span><h3>SSC</h3><button type="button" onclick="openExam('SSC')">Open</button></div><div class="card searchable" data-search="Postal post india"><span class="exam-icon">📮</span><h3>Postal</h3><button type="button" onclick="openExam('Postal')">Open</button></div><div class="card searchable" data-search="More Exams all exams"><span class="exam-icon">➕</span><h3>More Exams</h3><button type="button" onclick="go('mock-test.html')">View All</button></div></div>
-<h2 class="section-title">🏆 My Results</h2><div class="card info-row"><div><h3>Test Results</h3><p>Review your latest mock-test score and solutions.</p><button type="button" onclick="go('results.html')">View Results</button></div><span class="material-icons">bar_chart</span></div>
-<h2 class="section-title">🔔 Notifications</h2><div class="card info-row"><div><h3>No New Notifications</h3><p>Important announcements from Exam Hub will appear here.</p><button type="button" onclick="showComingSoon('Notifications')">View Notifications</button></div><span class="material-icons">notifications_none</span></div>
-<h2 class="section-title">⭐ Saved Questions</h2><div class="card info-row"><div><h3>Saved Questions</h3><p>Quickly revisit questions you save while taking tests.</p><button type="button" onclick="showComingSoon('Saved Questions')">Open Saved Questions</button></div><span class="material-icons">bookmark_border</span></div>
-<div class="card logout-card"><button id="logoutBtn" type="button">Logout</button></div>
+
+<h2 class="section-title">🔥 Live Tests</h2>
+<div class="live-grid" id="liveTests">
+  <div class="live-card searchable" data-search="TG Police Daily Test 18 police"><span class="status">LIVE TEST</span><h3>TG Police Daily Test - 18</h3><p>⏰ Ends in 08:20 Hours</p><button type="button" onclick="go('mock-test.html?exam=TG%20Police')">Start Live Test</button></div>
+  <div class="live-card searchable" data-search="UGC NET Commerce Unit 1 commerce net"><span class="status">LIVE TEST</span><h3>UGC NET Commerce Unit 1</h3><p>⏰ Ends in 15:42 Hours</p><button type="button" onclick="go('mock-test.html?exam=UGC%20NET')">Start Live Test</button></div>
+</div>
+<div class="view-all"><a href="#explore">View All →</a></div>
+
+<h2 class="section-title" id="explore">📚 Explore Exams</h2>
+<div class="exam-grid" id="examGrid">
+  <div class="card searchable" data-search="TG Police police"><span class="exam-icon">👮</span><h3>TG Police</h3><button type="button" onclick="openExam('TG Police')">Open</button></div>
+  <div class="card searchable" data-search="UGC NET commerce net"><span class="exam-icon">🎓</span><h3>UGC NET</h3><button type="button" onclick="openExam('UGC NET')">Open</button></div>
+  <div class="card searchable" data-search="TSPSC tspsc"><span class="exam-icon">🏛️</span><h3>TSPSC</h3><button type="button" onclick="openExam('TSPSC')">Open</button></div>
+  <div class="card searchable" data-search="Banking bank"><span class="exam-icon">🏦</span><h3>Banking</h3><button type="button" onclick="openExam('Banking')">Open</button></div>
+  <div class="card searchable" data-search="Railway railway rrb"><span class="exam-icon">🚂</span><h3>Railway</h3><button type="button" onclick="openExam('Railway')">Open</button></div>
+  <div class="card searchable" data-search="SSC staff selection commission"><span class="exam-icon">💻</span><h3>SSC</h3><button type="button" onclick="openExam('SSC')">Open</button></div>
+  <div class="card searchable" data-search="Postal post india"><span class="exam-icon">📮</span><h3>Postal</h3><button type="button" onclick="openExam('Postal')">Open</button></div>
+  <div class="card searchable" data-search="More Exams all exams"><span class="exam-icon">➕</span><h3>More Exams</h3><button type="button" onclick="go('mock-test.html')">View All</button></div>
+</div>
+
+<h2 class="section-title">🏆 My Results</h2>
+<div class="card info-row"><div><h3>Test Results</h3><p>Review your latest mock-test score and solutions.</p><button type="button" onclick="go('results.html')">View Results</button></div><span class="material-icons">bar_chart</span></div>
+
+<h2 class="section-title">🔔 Notifications</h2>
+<div class="card info-row"><div><h3>No New Notifications</h3><p>Important announcements from Exam Hub will appear here.</p><button type="button" onclick="go('current-affairs.html')">View Updates</button></div><span class="material-icons">notifications_none</span></div>
+
+<h2 class="section-title">⭐ Saved Questions</h2>
+<div class="card info-row"><div><h3>Saved Questions</h3><p>Quickly revisit questions you save while taking tests.</p><a class="saved-open-btn" href="saved-questions.html"><button type="button">Open Saved Questions</button></a></div><span class="material-icons">bookmark_border</span></div>
+
+<div class="card logout-card" style="margin-top:24px;margin-bottom:30px"><button id="logoutBtn" type="button">Logout</button></div>
 </main>
+
 <script type="module">
-import { auth } from "./firebase-config.js";import { signOut } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
-function go(page){location.href=page}function openExam(exam){location.href='mock-test.html?exam='+encodeURIComponent(exam)}function showComingSoon(name){alert(name+' is the next feature to be connected.')}
-const searchInput=document.getElementById('examSearch');document.querySelectorAll('.searchable').forEach(item=>searchInput.addEventListener('input',function(){const q=this.value.trim().toLowerCase();document.querySelectorAll('.searchable').forEach(x=>x.style.display=!q||(x.dataset.search||x.textContent).toLowerCase().includes(q)?'':'none')}));
-document.getElementById('logoutBtn').addEventListener('click',async()=>{if(confirm('Are you sure you want to logout?')){await signOut(auth);location.href='index.html'}});
-</script></body></html>
+import { auth } from "./firebase-config.js";
+import { signOut } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+
+const drawer=document.getElementById('sideDrawer');
+const backdrop=document.getElementById('drawerBackdrop');
+const menuBtn=document.getElementById('menuBtn');
+const closeBtn=document.getElementById('drawerClose');
+
+function openDrawer(){drawer.classList.add('open');backdrop.classList.add('open');menuBtn.setAttribute('aria-expanded','true');}
+function closeDrawer(){drawer.classList.remove('open');backdrop.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+menuBtn.addEventListener('click',openDrawer);
+closeBtn.addEventListener('click',closeDrawer);
+backdrop.addEventListener('click',closeDrawer);
+
+document.querySelectorAll('.drawer-nav a').forEach(a=>a.addEventListener('click',closeDrawer));
+
+function go(page){location.href=page}
+function openExam(exam){location.href='mock-test.html?exam='+encodeURIComponent(exam)}
+window.go=go;
+window.openExam=openExam;
+
+const searchInput=document.getElementById('examSearch');
+searchInput.addEventListener('input',function(){
+  const q=this.value.trim().toLowerCase();
+  document.querySelectorAll('.searchable').forEach(item=>{
+    const text=(item.dataset.search||item.textContent).toLowerCase();
+    item.style.display=!q||text.includes(q)?'':'none';
+  });
+});
+
+async function logout(){
+  if(!confirm('Are you sure you want to logout?')) return;
+  try{await signOut(auth);location.href='index.html';}
+  catch(error){alert('Unable to logout. Please try again.');}
+}
+document.getElementById('logoutBtn').addEventListener('click',logout);
+document.getElementById('drawerLogout').addEventListener('click',logout);
+</script>
+</body>
+</html>
