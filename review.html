@@ -2,110 +2,539 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Solutions</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-<style>
+    <title>Test Solutions</title>
 
-body {
-    margin: 0;
-    padding: 15px;
-    background: #111;
-    color: white;
-    font-family: Arial, sans-serif;
-}
+    <style>
 
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
+        body {
+            margin: 0;
+            padding: 15px;
+            background: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
 
-.card {
-    background: #222;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-}
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-.question {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
+        .card {
+            background: #222;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
 
-.option {
-    background: #333;
-    padding: 10px;
-    margin: 8px 0;
-    border-radius: 8px;
-}
+        .question {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
 
-.selected {
-    border: 2px solid #ff9800;
-}
+        .answer-box {
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
 
-.correct {
-    border: 2px solid #00c853;
-}
+        .your-answer {
+            background: #332b00;
+            border-left: 4px solid #ff9800;
+        }
 
-.wrong {
-    border: 2px solid #f44336;
-}
+        .correct-answer {
+            background: #003b2b;
+            border-left: 4px solid #00c853;
+        }
 
-.label {
-    font-weight: bold;
-}
+        .wrong-answer {
+            background: #3b0000;
+            border-left: 4px solid #f44336;
+        }
 
-.explanation {
-    background: #333;
-    padding: 12px;
-    border-radius: 8px;
-    margin-top: 15px;
-}
+        .not-answered {
+            background: #333;
+            border-left: 4px solid #999;
+        }
 
-.backBtn {
-    width: 100%;
-    padding: 12px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    margin-bottom: 20px;
-}
+        .label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
 
-</style>
+        .explanation {
+            background: #333;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+
+        .summary {
+            background: #222;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .backBtn {
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .error {
+            background: #3b0000;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            border-radius: 8px;
+            line-height: 1.5;
+        }
+
+    </style>
+
 </head>
 
 <body>
 
-<h2>Solutions</h2>
+    <h2>Solutions</h2>
 
-<div id="resultInfo"></div>
+    <div id="resultInfo"></div>
 
-<div id="solutions">
-    Loading Solutions...
-</div>
+    <div id="solutions">
+        Loading Solutions...
+    </div>
 
-<script type="module">
-
-import { db } from "./firebase-config.js";
-
-import {
-    doc,
-    getDoc
-} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+    <button class="backBtn" onclick="history.back()">
+        ← Back to Results
+    </button>
 
 
-const params = new URLSearchParams(window.location.search);
+    <script type="module">
 
-const resultId = params.get("id");
+        import { db } from "./firebase-config.js";
 
-const solutionsDiv = document.getElementById("solutions");
+        import {
+            doc,
+            getDoc
+        } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-const resultInfo = document.getElementById("resultInfo");
+
+        // Get result ID from URL
+        const params = new URLSearchParams(window.location.search);
+
+        const resultId = params.get("id");
+
+
+        // HTML elements
+        const solutionsDiv =
+            document.getElementById("solutions");
+
+        const resultInfo =
+            document.getElementById("resultInfo");
+
+
+        async function loadSolutions() {
+
+            try {
+
+                // Check result ID
+                if (!resultId) {
+
+                    solutionsDiv.innerHTML = `
+                        <div class="error">
+                            <b>Result ID not found.</b><br><br>
+                            Please open the solutions from the
+                            My Test Results page.
+                        </div>
+                    `;
+
+                    return;
+                }
+
+
+                // Get result document from Firebase
+                const resultRef =
+                    doc(db, "results", resultId);
+
+                const resultSnap =
+                    await getDoc(resultRef);
+
+
+                // Check whether result exists
+                if (!resultSnap.exists()) {
+
+                    solutionsDiv.innerHTML = `
+                        <div class="error">
+                            <b>Result not found.</b><br><br>
+                            This test result does not exist.
+                        </div>
+                    `;
+
+                    return;
+                }
+
+
+                // Get Firebase data
+                const data = resultSnap.data();
+
+
+                // Show test summary
+                resultInfo.innerHTML = `
+
+                    <div class="summary">
+
+                        <p>
+                            <b>Exam:</b>
+                            ${data.exam || "N/A"}
+                        </p>
+
+                        <p>
+                            <b>Subject:</b>
+                            ${data.subject || "N/A"}
+                        </p>
+
+                        <p>
+                            <b>Score:</b>
+                            ${data.score ?? 0}
+                        </p>
+
+                        <p>
+                            <b>Total Questions:</b>
+                            ${data.totalQuestions ?? 0}
+                        </p>
+
+                    </div>
+
+                `;
+
+
+                // Get saved solutions
+                let solutions = data.solutions || [];
+
+
+                // Safety check if solutions were saved as JSON text
+                if (typeof solutions === "string") {
+
+                    try {
+
+                        solutions = JSON.parse(solutions);
+
+                    } catch (e) {
+
+                        solutions = [];
+
+                    }
+
+                }
+
+
+                // Make sure solutions is an array
+                if (!Array.isArray(solutions)) {
+
+                    solutions = [];
+
+                }
+
+
+                // No solutions found
+                if (solutions.length === 0) {
+
+                    solutionsDiv.innerHTML = `
+
+                        <div class="error">
+
+                            <b>No solutions are stored for this attempt.</b>
+
+                            <br><br>
+
+                            This usually happens because this test
+                            was submitted before the solution-saving
+                            code was added.
+
+                            <br><br>
+
+                            Please take the test again and submit
+                            a new attempt.
+
+                        </div>
+
+                    `;
+
+                    return;
+                }
+
+
+                // Clear loading message
+                solutionsDiv.innerHTML = "";
+
+
+                // Display every question
+                solutions.forEach((q, index) => {
+
+
+                    const selectedAnswer =
+                        q.selectedAnswer || "";
+
+
+                    const correctAnswer =
+                        q.correctAnswer || "";
+
+
+                    /*
+                     * Convert answer letter to answer text
+                     */
+                    let selectedText = "Not Answered";
+
+
+                    if (selectedAnswer === "A") {
+                        selectedText = q.optionA || "";
+                    }
+
+                    else if (selectedAnswer === "B") {
+                        selectedText = q.optionB || "";
+                    }
+
+                    else if (selectedAnswer === "C") {
+                        selectedText = q.optionC || "";
+                    }
+
+                    else if (selectedAnswer === "D") {
+                        selectedText = q.optionD || "";
+                    }
+
+                    /*
+                     * If selectedAnswer already contains
+                     * the answer text instead of A/B/C/D
+                     */
+                    else if (selectedAnswer !== "") {
+                        selectedText = selectedAnswer;
+                    }
+
+
+                    /*
+                     * Convert correct answer letter
+                     * to answer text
+                     */
+                    let correctText = "";
+
+
+                    if (correctAnswer === "A") {
+                        correctText = q.optionA || "";
+                    }
+
+                    else if (correctAnswer === "B") {
+                        correctText = q.optionB || "";
+                    }
+
+                    else if (correctAnswer === "C") {
+                        correctText = q.optionC || "";
+                    }
+
+                    else if (correctAnswer === "D") {
+                        correctText = q.optionD || "";
+                    }
+
+                    /*
+                     * If correctAnswer already contains
+                     * the answer text
+                     */
+                    else {
+                        correctText = correctAnswer;
+                    }
+
+
+                    // Check whether answer is correct
+                    const isCorrect =
+                        selectedAnswer !== "" &&
+                        selectedAnswer === correctAnswer;
+
+
+                    // Create question card
+                    const card =
+                        document.createElement("div");
+
+                    card.className = "card";
+
+
+                    /*
+                     * Question
+                     */
+                    const question =
+                        document.createElement("div");
+
+                    question.className = "question";
+
+                    question.innerHTML =
+                        `${index + 1}. ${q.question || "Question not available"}`;
+
+
+                    card.appendChild(question);
+
+
+                    /*
+                     * Your answer
+                     */
+                    const yourAnswer =
+                        document.createElement("div");
+
+
+                    if (selectedAnswer === "") {
+
+                        yourAnswer.className =
+                            "answer-box not-answered";
+
+                    }
+
+                    else if (isCorrect) {
+
+                        yourAnswer.className =
+                            "answer-box correct-answer";
+
+                    }
+
+                    else {
+
+                        yourAnswer.className =
+                            "answer-box wrong-answer";
+
+                    }
+
+
+                    yourAnswer.innerHTML = `
+
+                        <span class="label">
+                            Your Answer:
+                        </span>
+
+                        ${
+                            selectedAnswer === ""
+                            ? "Not Answered"
+                            : selectedAnswer + " - " + selectedText
+                        }
+
+                    `;
+
+
+                    card.appendChild(yourAnswer);
+
+
+                    /*
+                     * Correct answer
+                     */
+                    const correctAnswerBox =
+                        document.createElement("div");
+
+                    correctAnswerBox.className =
+                        "answer-box correct-answer";
+
+
+                    correctAnswerBox.innerHTML = `
+
+                        <span class="label">
+                            Correct Answer:
+                        </span>
+
+                        ${correctAnswer} - ${correctText}
+
+                    `;
+
+
+                    card.appendChild(correctAnswerBox);
+
+
+                    /*
+                     * Explanation
+                     */
+                    const explanation =
+                        document.createElement("div");
+
+                    explanation.className =
+                        "explanation";
+
+
+                    explanation.innerHTML = `
+
+                        <span class="label">
+                            Explanation:
+                        </span>
+
+                        ${
+                            q.explanation ||
+                            "No explanation available."
+                        }
+
+                    `;
+
+
+                    card.appendChild(explanation);
+
+
+                    /*
+                     * Add card to page
+                     */
+                    solutionsDiv.appendChild(card);
+
+                });
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Solutions Error:",
+                    error
+                );
+
+
+                solutionsDiv.innerHTML = `
+
+                    <div class="error">
+
+                        <b>Unable to load solutions.</b>
+
+                        <br><br>
+
+                        Please check your internet
+                        connection and try again.
+
+                        <br><br>
+
+                        Error:
+                        ${error.message}
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        // Start loading solutions
+        loadSolutions();
+
+    </script>
+
+</body>
+
+</html>const resultInfo = document.getElementById("resultInfo");
 
 
 async function loadSolutions() {
