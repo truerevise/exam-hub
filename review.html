@@ -139,7 +139,9 @@ async function loadSolutions() {
     solutionsDiv.innerHTML = "";
 
 
-    data.solutions.forEach((q, index) => {
+    const solutions = data.solutions || [];
+
+solutions.forEach((q, index) => {
 
         let selectedText = "";
 
