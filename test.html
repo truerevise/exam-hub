@@ -7,7 +7,7 @@
 <style>
 body{margin:0;background:#111;color:white;font-family:Arial,sans-serif}
 header{background:#1e3a8a;padding:15px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:2}
-.container{padding:15px}.card{background:#222;padding:15px;border-radius:10px}.option{background:#333;padding:12px;margin:10px 0;border-radius:8px;cursor:pointer}.option:hover{background:#444}.option.selected{background:#2563eb}.buttons{display:flex;gap:10px;justify-content:space-between;margin-top:20px}button{background:#2563eb;color:white;border:none;padding:12px 20px;border-radius:8px;cursor:pointer}.buttons button{flex:1}.palette{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:25px}.palette button{padding:10px}.palette button.answered{background:#15803d}.message{background:#3b1d1d;padding:15px;border-radius:10px;margin-top:15px}
+.container{padding:15px}.card{background:#222;padding:15px;border-radius:10px}.option{background:#333;padding:12px;margin:10px 0;border-radius:8px;cursor:pointer}.option:hover{background:#444}.option.selected{background:#2563eb}.buttons{display:flex;gap:10px;justify-content:space-between;margin-top:20px}button{background:#2563eb;color:white;border:none;padding:12px 20px;border-radius:8px;cursor:pointer}.buttons button{flex:1}.palette{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:25px}.palette button{padding:10px}.palette button.answered{background:#15803d}.message{background:#3b1d1d;padding:15px;border-radius:10px;margin-top:15px}.premium{background:#172554;border:1px solid #3b82f6;padding:16px;border-radius:12px;margin-top:12px}.premium button{width:100%;margin-top:12px}
 </style>
 </head>
 <body>
@@ -24,13 +24,30 @@ header{background:#1e3a8a;padding:15px;display:flex;justify-content:space-betwee
 <script type="module">
 import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
-import { collection, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
+import { collection, query, where, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
 const params=new URLSearchParams(location.search), exam=params.get('exam'), subject=params.get('subject');
 let questions=[],currentQuestion=0,answers=[],remainingSeconds=3600,timerId=null,submitting=false;
 const $=id=>document.getElementById(id);
 const options=['A','B','C','D'];
 function normQuestion(data){const o=data.options||{};return{...data,optionA:data.optionA??o.A??'',optionB:data.optionB??o.B??'',optionC:data.optionC??o.C??'',optionD:data.optionD??o.D??'',answer:data.answer??data.correctAnswer??''};}
-async function loadQuestions(){try{const snapshot=await getDocs(collection(db,'questions'));snapshot.forEach(doc=>{const data=normQuestion(doc.data());if(data.exam===exam&&data.subject===subject)questions.push(data);});if(!questions.length){$('testArea').innerHTML=`<div class="message">No questions are available for <b>${exam||'this exam'}</b> / <b>${subject||'this subject'}</b>.</div>`;$('prevBtn').style.display='none';$('nextBtn').style.display='none';return;}answers=new Array(questions.length).fill('');createPalette();showQuestion();startTimer();}catch(error){console.error(error);$('testArea').innerHTML='<div class="message">Unable to load questions. Please try again.</div>';}}
+function showPremiumMessage(){
+  $('testArea').innerHTML=`<div class="premium"><h3>👑 Premium Pass Required</h3><p>This exam requires an active Premium Pass. Daily Live Tests and exams marked Free are available without a pass.</p><button onclick="location.href='pass-access.html'">View Premium Pass</button></div>`;
+  $('prevBtn').style.display='none';$('nextBtn').style.display='none';$('submitBtn').style.display='none';$('palette').innerHTML='';$('questionNo').textContent='Premium Exam';
+}
+async function loadQuestions(){
+  try{
+    if(!exam||!subject){$('testArea').innerHTML='<div class="message">Exam or subject was not selected.</div>';return;}
+    const qref=query(collection(db,'questions'),where('exam','==',exam),where('subject','==',subject));
+    const snapshot=await getDocs(qref);
+    snapshot.forEach(doc=>questions.push(normQuestion(doc.data())));
+    if(!questions.length){$('testArea').innerHTML=`<div class="message">No questions are available for <b>${exam}</b> / <b>${subject}</b>.</div>`;$('prevBtn').style.display='none';$('nextBtn').style.display='none';return;}
+    answers=new Array(questions.length).fill('');createPalette();showQuestion();startTimer();
+  }catch(error){
+    console.error(error);
+    if(error?.code==='permission-denied') showPremiumMessage();
+    else $('testArea').innerHTML='<div class="message">Unable to load questions. Please try again.</div>';
+  }
+}
 function showQuestion(){const q=questions[currentQuestion];$('questionNo').textContent=`Question ${currentQuestion+1} / ${questions.length}`;$('question').textContent=q.question||'Question not available';options.forEach(letter=>{$('option'+letter).textContent=`${letter}. ${q['option'+letter]||''}`;$('option'+letter).classList.toggle('selected',answers[currentQuestion]===letter);});$('prevBtn').disabled=currentQuestion===0;$('nextBtn').style.display=currentQuestion===questions.length-1?'none':'inline-block';$('submitBtn').style.display=currentQuestion===questions.length-1?'inline-block':'none';updatePalette();}
 function createPalette(){const palette=$('palette');palette.innerHTML='';questions.forEach((_,i)=>{const btn=document.createElement('button');btn.textContent=i+1;btn.onclick=()=>{currentQuestion=i;showQuestion()};palette.appendChild(btn)});updatePalette()}
 function updatePalette(){[...$('palette').children].forEach((btn,i)=>btn.classList.toggle('answered',Boolean(answers[i])))}
