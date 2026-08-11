@@ -21,7 +21,7 @@
     <div class="admin-card"><span class="material-icons">add_circle</span><h3>Add Question</h3><p>Create a question with options, correct answer and explanation.</p><button onclick="location.href='add-question.html'">Add Question</button></div>
     <div class="admin-card"><span class="material-icons">library_books</span><h3>Question Bank</h3><p>View and manage questions stored in Firebase.</p><button onclick="location.href='question-bank.html'">Open Question Bank</button></div>
     <div class="admin-card"><span class="material-icons">quiz</span><h3>Mock Tests</h3><p>Manage the questions used by student mock tests.</p><button onclick="location.href='mock-test.html'">Open Mock Tests</button></div>
-    <div class="admin-card"><span class="material-icons">groups</span><h3>Students</h3><p>Student management will be connected next.</p><button onclick="alert('Student management is coming next.')">Students</button></div>
+    <div class="admin-card"><span class="material-icons">groups</span><h3>Students</h3><p>View registered students and their profile details from Firebase.</p><button onclick="location.href='students.html'">Open Students</button></div>
     <div class="admin-card"><span class="material-icons">bar_chart</span><h3>Results</h3><p>Review student test attempts and scores.</p><button onclick="location.href='results.html'">Results</button></div>
     <div class="admin-card"><span class="material-icons">campaign</span><h3>Notifications</h3><p>Post announcements for students.</p><button onclick="alert('Notifications management is coming next.')">Notifications</button></div>
   </section>
@@ -32,11 +32,8 @@ import {onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/12.
 const ADMIN_EMAIL='kiransingh.smile@gmail.com'.toLowerCase();
 const status=document.getElementById('status');
 onAuthStateChanged(auth,(u)=>{
-  if(u && u.email && u.email.toLowerCase()===ADMIN_EMAIL){
-    status.textContent='Signed in as '+u.email;
-  }else{
-    location.replace('admin.html');
-  }
+  if(u && u.email && u.email.toLowerCase()===ADMIN_EMAIL){status.textContent='Signed in as '+u.email;}
+  else{location.replace('admin.html');}
 });
 document.getElementById('logoutBtn').onclick=async()=>{await signOut(auth);location.replace('admin.html');};
 </script>
