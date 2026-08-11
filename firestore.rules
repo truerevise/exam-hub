@@ -3,42 +3,66 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn() { return request.auth != null; }
-    function isAdmin() { return signedIn() && request.auth.token.email == 'kiransingh.smile@gmail.com'; }
+    function isAdmin() {
+      return signedIn() && request.auth.token.email == 'kiransingh.smile@gmail.com';
+    }
+    function studentDoc() {
+      return get(/databases/$(database)/documents/students/$(request.auth.uid));
+    }
+    function hasActivePass() {
+      return signedIn()
+        && studentDoc().data.premiumUntil != null
+        && studentDoc().data.premiumUntil > request.time;
+    }
+    function isFreeExam(examName) {
+      return get(/databases/$(database)/documents/passSettings/main).data.freeExams.hasAny([examName]);
+    }
+    function canAccessExam(examName) {
+      return isAdmin() || hasActivePass() || isFreeExam(examName);
+    }
 
     match /passSettings/{settingId} {
       allow read: if signedIn();
       allow create, update, delete: if isAdmin();
     }
 
+    // Exam metadata remains readable so the exam catalogue can be displayed.
+    // Actual question access is protected below.
     match /exams/{examId} {
       allow read: if signedIn();
       allow write: if isAdmin();
     }
+
     match /questions/{questionId} {
-      allow read: if signedIn();
+      allow read: if signedIn() && canAccessExam(resource.data.exam);
       allow create, update, delete: if isAdmin();
     }
+
     match /dailyLiveTests/{testId} {
       allow read: if signedIn();
       allow create, update, delete: if isAdmin();
     }
+
     match /students/{studentId} {
       allow read: if isAdmin() || (signedIn() && request.auth.uid == studentId);
       allow create: if signedIn() && request.auth.uid == studentId;
       allow update: if isAdmin() || (signedIn() && request.auth.uid == studentId && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','mobile','photoURL','displayName']));
       allow delete: if isAdmin();
     }
+
     match /results/{resultId} {
       allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
       allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
       allow update, delete: if isAdmin();
     }
+
     match /savedQuestions/{savedId} {
       allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
       allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
       allow update: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid && request.resource.data.uid == request.auth.uid);
       allow delete: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
     }
+
     match /students/{studentId}/savedQuestions/{savedId} {
       allow read, write: if isAdmin() || (signedIn() && request.auth.uid == studentId);
     }
