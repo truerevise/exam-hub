@@ -13,12 +13,18 @@ const RAZORPAY_KEY_SECRET = defineSecret('RAZORPAY_KEY_SECRET');
 const RAZORPAY_WEBHOOK_SECRET = defineSecret('RAZORPAY_WEBHOOK_SECRET');
 
 const functionsSecrets = [RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET];
+const SITE_ORIGIN = 'https://truerevise.github.io';
 
 function razorpayClient() {
   return new Razorpay({
     key_id: RAZORPAY_KEY_ID.value(),
     key_secret: RAZORPAY_KEY_SECRET.value()
   });
+}
+
+function safeEqualHex(expected, received) {
+  if (!received || expected.length !== received.length) return false;
+  return crypto.timingSafeEqual(Buffer.from(expected, 'utf8'), Buffer.from(received, 'utf8'));
 }
 
 async function getPassSettings() {
@@ -29,7 +35,7 @@ async function getPassSettings() {
   return { price, validityDays };
 }
 
-exports.createPremiumOrder = onCall({ secrets: functionsSecrets, cors: ['https://truerevise.github.io'] }, async (request) => {
+exports.createPremiumOrder = onCall({ secrets: functionsSecrets, cors: [SITE_ORIGIN] }, async (request) => {
   if (!request.auth) throw new HttpsError('unauthenticated', 'Please sign in first.');
 
   const { price, validityDays } = await getPassSettings();
@@ -39,7 +45,11 @@ exports.createPremiumOrder = onCall({ secrets: functionsSecrets, cors: ['https:/
     amount,
     currency: 'INR',
     receipt,
-    notes: { uid: request.auth.uid, validityDays: String(validityDays), product: 'Exam Hub Premium Pass' }
+    notes: {
+      uid: request.auth.uid,
+      validityDays: String(validityDays),
+      product: 'Exam Hub Premium Pass'
+    }
   });
 
   await db.collection('paymentOrders').doc(order.id).set({
@@ -52,10 +62,16 @@ exports.createPremiumOrder = onCall({ secrets: functionsSecrets, cors: ['https:/
     createdAt: FieldValue.serverTimestamp()
   });
 
-  return { orderId: order.id, amount, currency: 'INR', keyId: RAZORPAY_KEY_ID.value(), validityDays };
+  return {
+    orderId: order.id,
+    amount,
+    currency: 'INR',
+    keyId: RAZORPAY_KEY_ID.value(),
+    validityDays
+  };
 });
 
-exports.verifyPremiumPayment = onCall({ secrets: functionsSecrets, cors: ['https://truerevise.github.io'] }, async (request) => {
+exports.verifyPremiumPayment = onCall({ secrets: functionsSecrets, cors: [SITE_ORIGIN] }, async (request) => {
   if (!request.auth) throw new HttpsError('unauthenticated', 'Please sign in first.');
 
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = request.data || {};
@@ -67,14 +83,17 @@ exports.verifyPremiumPayment = onCall({ secrets: functionsSecrets, cors: ['https
   const orderSnap = await orderRef.get();
   if (!orderSnap.exists) throw new HttpsError('not-found', 'Payment order not found.');
   const order = orderSnap.data();
-  if (order.uid !== request.auth.uid) throw new HttpsError('permission-denied', 'This payment belongs to another account.');
+  if (order.uid !== request.auth.uid) {
+    throw new HttpsError('permission-denied', 'This payment belongs to another account.');
+  }
   if (order.status === 'paid') return { success: true, alreadyProcessed: true };
 
   const expected = crypto.createHmac('sha256', RAZORPAY_KEY_SECRET.value())
     .update(`${order.orderId}|${razorpay_payment_id}`)
     .digest('hex');
-  const valid = crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(razorpay_signature));
-  if (!valid) throw new HttpsError('permission-denied', 'Payment verification failed.');
+  if (!safeEqualHex(expected, razorpay_signature)) {
+    throw new HttpsError('permission-denied', 'Payment verification failed.');
+  }
 
   const payment = await razorpayClient().payments.fetch(razorpay_payment_id);
   if (payment.order_id !== order.orderId || Number(payment.amount) !== Number(order.amount) || payment.currency !== 'INR') {
@@ -85,12 +104,25 @@ exports.verifyPremiumPayment = onCall({ secrets: functionsSecrets, cors: ['https
   }
 
   const studentRef = db.doc(`students/${request.auth.uid}`);
-  const studentSnap = await studentRef.get();
-  const existingUntil = studentSnap.exists ? Number(studentSnap.data().premiumUntil || 0) : 0;
-  const base = Math.max(Date.now(), existingUntil);
-  const premiumUntil = base + Number(order.validityDays || 30) * 24 * 60 * 60 * 1000;
+  let premiumUntil = 0;
 
   await db.runTransaction(async (tx) => {
+    const freshOrderSnap = await tx.get(orderRef);
+    if (!freshOrderSnap.exists) throw new HttpsError('not-found', 'Payment order not found.');
+    const freshOrder = freshOrderSnap.data();
+    if (freshOrder.status === 'paid') {
+      premiumUntil = 0;
+      return;
+    }
+    if (freshOrder.uid !== request.auth.uid) {
+      throw new HttpsError('permission-denied', 'This payment belongs to another account.');
+    }
+
+    const studentSnap = await tx.get(studentRef);
+    const existingUntil = studentSnap.exists ? Number(studentSnap.data().premiumUntil || 0) : 0;
+    const base = Math.max(Date.now(), existingUntil);
+    premiumUntil = base + Number(freshOrder.validityDays || 30) * 24 * 60 * 60 * 1000;
+
     tx.update(orderRef, {
       status: 'paid',
       paymentId: razorpay_payment_id,
@@ -107,31 +139,50 @@ exports.verifyPremiumPayment = onCall({ secrets: functionsSecrets, cors: ['https
   return { success: true, premiumUntil };
 });
 
-exports.razorpayWebhook = onRequest({ secrets: [RAZORPAY_KEY_SECRET, RAZORPAY_WEBHOOK_SECRET] }, async (req, res) => {
+exports.razorpayWebhook = onRequest({ secrets: [RAZORPAY_WEBHOOK_SECRET] }, async (req, res) => {
   if (req.method !== 'POST') return res.status(405).send('Method Not Allowed');
+
   const signature = req.get('x-razorpay-signature') || '';
   const rawBody = req.rawBody;
-  const expected = crypto.createHmac('sha256', RAZORPAY_WEBHOOK_SECRET.value()).update(rawBody).digest('hex');
-  if (!signature || !crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(signature))) return res.status(401).send('Invalid signature');
+  const expected = crypto.createHmac('sha256', RAZORPAY_WEBHOOK_SECRET.value())
+    .update(rawBody)
+    .digest('hex');
+  if (!safeEqualHex(expected, signature)) return res.status(401).send('Invalid signature');
 
   const event = req.body || {};
   if (event.event === 'payment.captured') {
     const payment = event.payload?.payment?.entity;
     if (payment?.order_id && payment?.id) {
       const orderRef = db.collection('paymentOrders').doc(payment.order_id);
-      const snap = await orderRef.get();
-      if (snap.exists && snap.data().status !== 'paid') {
-        const order = snap.data();
-        const studentRef = db.doc(`students/${order.uid}`);
-        const studentSnap = await studentRef.get();
-        const existingUntil = studentSnap.exists ? Number(studentSnap.data().premiumUntil || 0) : 0;
-        const premiumUntil = Math.max(Date.now(), existingUntil) + Number(order.validityDays || 30) * 24 * 60 * 60 * 1000;
+      const orderSnap = await orderRef.get();
+      if (orderSnap.exists && orderSnap.data().status !== 'paid') {
         await db.runTransaction(async (tx) => {
-          tx.update(orderRef, { status: 'paid', paymentId: payment.id, paidAt: FieldValue.serverTimestamp(), source: 'webhook' });
-          tx.set(studentRef, { premium: true, premiumUntil, premiumActivatedAt: FieldValue.serverTimestamp(), lastPremiumPaymentId: payment.id }, { merge: true });
+          const freshOrderSnap = await tx.get(orderRef);
+          if (!freshOrderSnap.exists) return;
+          const order = freshOrderSnap.data();
+          if (order.status === 'paid') return;
+
+          const studentRef = db.doc(`students/${order.uid}`);
+          const studentSnap = await tx.get(studentRef);
+          const existingUntil = studentSnap.exists ? Number(studentSnap.data().premiumUntil || 0) : 0;
+          const premiumUntil = Math.max(Date.now(), existingUntil) + Number(order.validityDays || 30) * 24 * 60 * 60 * 1000;
+
+          tx.update(orderRef, {
+            status: 'paid',
+            paymentId: payment.id,
+            paidAt: FieldValue.serverTimestamp(),
+            source: 'webhook'
+          });
+          tx.set(studentRef, {
+            premium: true,
+            premiumUntil,
+            premiumActivatedAt: FieldValue.serverTimestamp(),
+            lastPremiumPaymentId: payment.id
+          }, { merge: true });
         });
       }
     }
   }
+
   return res.status(200).json({ received: true });
 });
