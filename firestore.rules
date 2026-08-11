@@ -1,0 +1,67 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && request.auth.token.email == 'kiransingh.smile@gmail.com';
+    }
+
+    // Exam/question catalogue: students can read, only the admin can change it.
+    match /exams/{examId} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
+    match /questions/{questionId} {
+      allow read: if signedIn();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Daily Live Tests: students can see active/published test documents;
+    // only the admin can publish, edit or delete them.
+    match /dailyLiveTests/{testId} {
+      allow read: if signedIn();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Each student may read/write only their own profile document.
+    // The admin can view all student profiles.
+    match /students/{studentId} {
+      allow read: if isAdmin() || (signedIn() && request.auth.uid == studentId);
+      allow create, update: if signedIn() && request.auth.uid == studentId;
+      allow delete: if isAdmin();
+    }
+
+    // Results belong to the student who submitted them.
+    // Admin can read every result for compiled/individual reporting.
+    match /results/{resultId} {
+      allow read: if isAdmin()
+        || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    // Saved-question documents should contain a uid field matching the owner.
+    match /savedQuestions/{savedId} {
+      allow read, create, update, delete: if signedIn()
+        && (isAdmin() || request.auth.uid == resource.data.uid);
+    }
+
+    // If saved questions are later stored as a subcollection under a student,
+    // keep the same ownership boundary.
+    match /students/{studentId}/savedQuestions/{savedId} {
+      allow read, write: if signedIn()
+        && (isAdmin() || request.auth.uid == studentId);
+    }
+
+    // Current affairs/notifications are not yet implemented in the client.
+    // They remain denied by default until their data model is finalized.
+  }
+}
