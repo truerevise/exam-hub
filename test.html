@@ -22,23 +22,23 @@ header{background:#1e3a8a;padding:15px;display:flex;justify-content:space-betwee
 <div class="palette" id="palette"></div>
 </div>
 <script type="module">
-import { db } from './firebase-config.js';
+import { auth, db } from './firebase-config.js';
+import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
 import { collection, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
 const params=new URLSearchParams(location.search), exam=params.get('exam'), subject=params.get('subject');
 let questions=[],currentQuestion=0,answers=[],remainingSeconds=3600,timerId=null,submitting=false;
 const $=id=>document.getElementById(id);
 const options=['A','B','C','D'];
-
+function normQuestion(data){const o=data.options||{};return{...data,optionA:data.optionA??o.A??'',optionB:data.optionB??o.B??'',optionC:data.optionC??o.C??'',optionD:data.optionD??o.D??'',answer:data.answer??data.correctAnswer??''};}
 async function loadQuestions(){
   try{
     const snapshot=await getDocs(collection(db,'questions'));
-    snapshot.forEach(doc=>{const data=doc.data();if(data.exam===exam&&data.subject===subject)questions.push(data);});
+    snapshot.forEach(doc=>{const data=normQuestion(doc.data());if(data.exam===exam&&data.subject===subject)questions.push(data);});
     if(!questions.length){$('testArea').innerHTML=`<div class="message">No questions are available for <b>${exam||'this exam'}</b> / <b>${subject||'this subject'}</b>.</div>`;$('prevBtn').style.display='none';$('nextBtn').style.display='none';return;}
     answers=new Array(questions.length).fill('');
     createPalette();showQuestion();startTimer();
   }catch(error){console.error(error);$('testArea').innerHTML='<div class="message">Unable to load questions. Please try again.</div>';}
 }
-
 function showQuestion(){
   const q=questions[currentQuestion];
   $('questionNo').textContent=`Question ${currentQuestion+1} / ${questions.length}`;
@@ -49,27 +49,25 @@ function showQuestion(){
   $('submitBtn').style.display=currentQuestion===questions.length-1?'inline-block':'none';
   updatePalette();
 }
-
 function createPalette(){const palette=$('palette');palette.innerHTML='';questions.forEach((_,i)=>{const btn=document.createElement('button');btn.textContent=i+1;btn.onclick=()=>{currentQuestion=i;showQuestion()};palette.appendChild(btn)});updatePalette()}
 function updatePalette(){[...$('palette').children].forEach((btn,i)=>btn.classList.toggle('answered',Boolean(answers[i])))}
 function selectAnswer(answer){answers[currentQuestion]=answer;showQuestion()}
 options.forEach(letter=>$('option'+letter).onclick=()=>selectAnswer(letter));
 $('nextBtn').onclick=()=>{if(currentQuestion<questions.length-1){currentQuestion++;showQuestion()}};
 $('prevBtn').onclick=()=>{if(currentQuestion>0){currentQuestion--;showQuestion()}};
-
 function startTimer(){timerId=setInterval(()=>{remainingSeconds--;const min=Math.floor(remainingSeconds/60),sec=remainingSeconds%60;$('timer').textContent=`${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;if(remainingSeconds<=0){clearInterval(timerId);submitTest(true)}},1000)}
-
 async function submitTest(autoSubmit=false){
   if(submitting)return;submitting=true;if(timerId)clearInterval(timerId);
   if(!autoSubmit&&!confirm('Submit this test now?')){submitting=false;startTimer();return;}
+  const user=auth.currentUser;if(!user){submitting=false;alert('Please sign in before submitting your test.');return;}
   let score=0;
   questions.forEach((q,index)=>{if(answers[index]===q.answer)score+=Number(q.marks||1)});
   const solutionData=questions.map((q,index)=>({question:q.question,optionA:q.optionA,optionB:q.optionB,optionC:q.optionC,optionD:q.optionD,selectedAnswer:answers[index]||'',correctAnswer:q.answer,explanation:q.explanation||''}));
-  try{await addDoc(collection(db,'results'),{exam,subject,score,totalQuestions:questions.length,solutions:solutionData,submittedAt:new Date()});location.href='results.html';}
+  try{await addDoc(collection(db,'results'),{uid:user.uid,email:user.email||'',name:user.displayName||'',exam,subject,score,totalQuestions:questions.length,solutions:solutionData,submittedAt:new Date()});location.href='results.html';}
   catch(error){console.error(error);submitting=false;alert('Could not save your result. Please check your internet connection and try again.');startTimer();}
 }
 $('submitBtn').onclick=()=>submitTest(false);
-loadQuestions();
+onAuthStateChanged(auth,user=>{if(user)loadQuestions();else location.href='login.html';});
 </script>
 </body>
 </html>
