@@ -6,17 +6,27 @@ service cloud.firestore {
     function isAdmin() {
       return signedIn() && request.auth.token.email == 'kiransingh.smile@gmail.com';
     }
+    function authEmailVerified() {
+      return signedIn() && request.auth.token.email_verified == true;
+    }
+    function authPhoneVerified() {
+      return signedIn() && request.auth.token.phone_number != null;
+    }
     function verifiedUser() {
-      return signedIn()
-        && request.auth.token.email_verified == true
-        && request.auth.token.phone_number != null;
+      return authEmailVerified() && authPhoneVerified();
     }
     function studentDoc() {
       return get(/databases/$(database)/documents/students/$(request.auth.uid));
     }
+    function hasVerifiedProfile() {
+      return signedIn()
+        && studentDoc().data.get('emailVerified', false) == true
+        && studentDoc().data.get('phoneVerified', false) == true;
+    }
     function hasActivePass() {
-      return verifiedUser()
-        && studentDoc().data.premiumUntil != null
+      return signedIn()
+        && (verifiedUser() || hasVerifiedProfile())
+        && studentDoc().data.get('premiumUntil', null) != null
         && studentDoc().data.premiumUntil > request.time;
     }
     function isFreeExam(examName) {
@@ -49,7 +59,19 @@ service cloud.firestore {
     match /students/{studentId} {
       allow read: if isAdmin() || (verifiedUser() && request.auth.uid == studentId);
       allow create: if verifiedUser() && request.auth.uid == studentId;
-      allow update: if isAdmin() || (verifiedUser() && request.auth.uid == studentId && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','photoURL','displayName','emailVerified','phoneVerified','verifiedAt']));
+      allow update: if isAdmin() || (
+        verifiedUser()
+        && request.auth.uid == studentId
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','photoURL','displayName','emailVerified','phoneVerified','verifiedAt'])
+      ) || (
+        signedIn()
+        && request.auth.uid == studentId
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['emailVerified','phoneVerified','verifiedAt'])
+        && request.resource.data.emailVerified == true
+        && request.resource.data.phoneVerified == true
+        && authEmailVerified()
+        && authPhoneVerified()
+      );
       allow delete: if isAdmin();
     }
 
