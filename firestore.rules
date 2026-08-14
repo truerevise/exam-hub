@@ -6,11 +6,16 @@ service cloud.firestore {
     function isAdmin() {
       return signedIn() && request.auth.token.email == 'kiransingh.smile@gmail.com';
     }
+    function verifiedUser() {
+      return signedIn()
+        && request.auth.token.email_verified == true
+        && request.auth.token.phone_number != null;
+    }
     function studentDoc() {
       return get(/databases/$(database)/documents/students/$(request.auth.uid));
     }
     function hasActivePass() {
-      return signedIn()
+      return verifiedUser()
         && studentDoc().data.premiumUntil != null
         && studentDoc().data.premiumUntil > request.time;
     }
@@ -18,53 +23,51 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/passSettings/main).data.freeExams.hasAny([examName]);
     }
     function canAccessExam(examName) {
-      return isAdmin() || hasActivePass() || isFreeExam(examName);
+      return isAdmin() || hasActivePass() || (verifiedUser() && isFreeExam(examName));
     }
 
     match /passSettings/{settingId} {
-      allow read: if signedIn();
+      allow read: if isAdmin() || verifiedUser();
       allow create, update, delete: if isAdmin();
     }
 
-    // Exam metadata remains readable so the exam catalogue can be displayed.
-    // Actual question access is protected below.
     match /exams/{examId} {
-      allow read: if signedIn();
+      allow read: if isAdmin() || verifiedUser();
       allow write: if isAdmin();
     }
 
     match /questions/{questionId} {
-      allow read: if signedIn() && canAccessExam(resource.data.exam);
+      allow read: if canAccessExam(resource.data.exam);
       allow create, update, delete: if isAdmin();
     }
 
     match /dailyLiveTests/{testId} {
-      allow read: if signedIn();
+      allow read: if isAdmin() || verifiedUser();
       allow create, update, delete: if isAdmin();
     }
 
     match /students/{studentId} {
-      allow read: if isAdmin() || (signedIn() && request.auth.uid == studentId);
-      allow create: if signedIn() && request.auth.uid == studentId;
-      allow update: if isAdmin() || (signedIn() && request.auth.uid == studentId && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','mobile','photoURL','displayName']));
+      allow read: if isAdmin() || (verifiedUser() && request.auth.uid == studentId);
+      allow create: if verifiedUser() && request.auth.uid == studentId;
+      allow update: if isAdmin() || (verifiedUser() && request.auth.uid == studentId && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','photoURL','displayName','emailVerified','phoneVerified','verifiedAt']));
       allow delete: if isAdmin();
     }
 
     match /results/{resultId} {
-      allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
-      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+      allow read: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid);
+      allow create: if verifiedUser() && request.resource.data.uid == request.auth.uid;
       allow update, delete: if isAdmin();
     }
 
     match /savedQuestions/{savedId} {
-      allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
-      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
-      allow update: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid && request.resource.data.uid == request.auth.uid);
-      allow delete: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow read: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid);
+      allow create: if verifiedUser() && request.resource.data.uid == request.auth.uid;
+      allow update: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid && request.resource.data.uid == request.auth.uid);
+      allow delete: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid);
     }
 
     match /students/{studentId}/savedQuestions/{savedId} {
-      allow read, write: if isAdmin() || (signedIn() && request.auth.uid == studentId);
+      allow read, write: if isAdmin() || (verifiedUser() && request.auth.uid == studentId);
     }
   }
 }
