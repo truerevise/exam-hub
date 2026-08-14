@@ -1,1 +1,99 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Exam Hub | Mock Test</title><style>body{background:#111;color:white;font-family:Arial,sans-serif;margin:0;padding:20px}.card{background:#222;padding:15px;border-radius:10px;margin-bottom:15px}button{width:100%;padding:14px;background:#2962ff;color:white;border:none;border-radius:10px;margin-top:10px;cursor:pointer}select{width:100%;padding:12px;margin:10px 0;background:#222;color:white;border:1px solid #444;border-radius:10px}.status{font-size:14px;color:#9ca3af;margin-top:10px;min-height:20px}.pass{background:#153b27;color:#86efac;padding:10px;border-radius:10px;margin-top:10px}.lock{background:#3b2614;color:#fbbf24;padding:10px;border-radius:10px;margin-top:10px}</style></head><body><h2>Start Mock Test</h2><div class="card"><select id="examSelect"><option value="">Select Exam</option></select><select id="subjectSelect" disabled><option value="">Select Subject</option></select><div id="access" class="status"></div><button id="startBtn">Start Test</button><div id="status" class="status"></div></div><script type="module">import{auth,db}from'./firebase-config.js';import{onAuthStateChanged}from'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';import{collection,getDocs,doc,getDoc,query,where}from'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';const examSelect=document.getElementById('examSelect'),subjectSelect=document.getElementById('subjectSelect'),status=document.getElementById('status'),access=document.getElementById('access'),params=new URLSearchParams(location.search),requestedExam=params.get('exam'),requestedSubject=params.get('subject');let user=null,settings={freeExams:[]},premiumUntil=0;function setStatus(m){status.textContent=m}async function loadAccess(){const s=await getDoc(doc(db,'passSettings','main'));if(s.exists())settings={...settings,...s.data()};const p=await getDoc(doc(db,'students',user.uid));premiumUntil=p.exists()?Number(p.data().premiumUntil||0):0;updateAccess()}function isFree(){return settings.freeExams?.includes(examSelect.value)}function hasPremium(){return premiumUntil>Date.now()}function updateAccess(){if(!examSelect.value){access.textContent='';access.className='status';return}if(isFree()){access.textContent='🟢 FREE EXAM';access.className='pass'}else if(hasPremium()){access.textContent='👑 PREMIUM PASS ACTIVE';access.className='pass'}else{access.textContent='🔒 PREMIUM — ₹'+(settings.price||20)+' pass required';access.className='lock'}}async function loadExams(){try{setStatus('Loading exams...');const snapshot=await getDocs(collection(db,'exams'));const names=[];snapshot.forEach(d=>{const n=d.data().name;if(n&&!names.includes(n))names.push(n)});names.sort().forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;examSelect.appendChild(o)});if(requestedExam&&names.includes(requestedExam))examSelect.value=requestedExam;if(examSelect.value)await loadSubjects();else setStatus(names.length?'Select an exam and subject.':'No exams are available yet.')}catch(e){console.error(e);setStatus('Unable to load exams.')}}async function loadSubjects(){subjectSelect.innerHTML='<option value="">Select Subject</option>';subjectSelect.disabled=true;if(!examSelect.value)return;try{setStatus('Loading subjects...');const qref=query(collection(db,'questions'),where('exam','==',examSelect.value));const snapshot=await getDocs(qref);const subjects=new Set();snapshot.forEach(d=>{const x=d.data();if(x.subject)subjects.add(x.subject)});[...subjects].sort().forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;subjectSelect.appendChild(o)});subjectSelect.disabled=!subjects.size;if(requestedSubject&&subjects.has(requestedSubject))subjectSelect.value=requestedSubject;updateAccess();setStatus(subjects.size?`${subjects.size} subject${subjects.size===1?'':'s'} available.`:'No questions are available for this exam yet.')}catch(e){console.error(e);if(e?.code==='permission-denied'){setStatus('Premium exam: an active Premium Pass is required to load its subjects.')}else setStatus('Unable to load subjects.')}}examSelect.addEventListener('change',async()=>{await loadSubjects();updateAccess()});document.getElementById('startBtn').onclick=()=>{const exam=examSelect.value,subject=subjectSelect.value;if(!exam||!subject){alert('Please select an exam and subject.');return}if(!isFree()&&!hasPremium()){if(confirm('This exam requires a Premium Pass. Open the Premium Pass page?'))location.href='pass-access.html';return}location.href=`test.html?exam=${encodeURIComponent(exam)}&subject=${encodeURIComponent(subject)}`};onAuthStateChanged(auth,async u=>{if(!u){location.href='login.html';return}user=u;await loadAccess();await loadExams()});</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exam Hub | Mock Test</title>
+<style>
+:root{--bg:#0f1117;--card:#181b23;--card2:#20242e;--line:#303541;--text:#f7f8fb;--muted:#a7adbb;--blue:#3264ff;--green:#38d996;--gold:#f5c451;--danger:#ffb454}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;min-height:100vh;padding:28px 18px 50px}main{max-width:850px;margin:auto}.top{margin-bottom:24px}.eyebrow{font-size:13px;color:#8ea4ff;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}h1{font-size:32px;margin:0 0 8px}h2{font-size:20px;margin:0}.intro{color:var(--muted);line-height:1.5;margin:0}.section{margin-top:28px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:14px}.count{font-size:13px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}.exam-card,.subject-card{border:1px solid var(--line);background:var(--card);border-radius:18px;padding:18px;text-align:left;cursor:pointer;color:var(--text);transition:.18s ease;position:relative}.exam-card:hover,.subject-card:hover{transform:translateY(-2px);border-color:#5266a9;background:var(--card2)}.exam-card.active{border-color:var(--blue);box-shadow:0 0 0 1px var(--blue) inset}.icon{width:42px;height:42px;border-radius:13px;background:#252b3a;display:grid;place-items:center;font-size:21px;margin-bottom:14px}.exam-name{font-size:17px;font-weight:700}.meta{color:var(--muted);font-size:13px;margin-top:7px}.badge{position:absolute;right:13px;top:13px;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:700}.free{background:#143c2e;color:#65e5ad}.premium{background:#443615;color:#ffd56a}.subject-card{display:block;width:100%}.subject-title{font-size:16px;font-weight:700;padding-right:55px}.subject-meta{font-size:13px;color:var(--muted);margin-top:7px}.start{margin-top:15px;width:100%;border:0;border-radius:12px;padding:12px;background:var(--blue);color:white;font-weight:700;font-size:14px;cursor:pointer}.start:active{transform:scale(.99)}.notice{margin-top:15px;padding:14px 16px;border-radius:14px;background:#181d29;border:1px solid var(--line);color:var(--muted);line-height:1.45}.lock{background:#302516;border-color:#604a25;color:#ffd477}.success{background:#122c24;border-color:#245d4b;color:#7af0bd}.empty{text-align:center;padding:28px 16px;border:1px dashed var(--line);border-radius:16px;color:var(--muted)}.hidden{display:none!important}.back{background:none;border:0;color:#91a7ff;padding:0;margin:0 0 18px;font-size:14px;cursor:pointer}.loading{padding:18px;color:var(--muted)}@media(max-width:560px){body{padding:22px 15px 40px}h1{font-size:27px}.grid{grid-template-columns:1fr}.exam-card{padding:16px}}
+</style>
+</head>
+<body>
+<main>
+<div class="top">
+<div class="eyebrow">🧠 Exam Hub</div>
+<h1>Choose your Mock Test</h1>
+<p class="intro">Pick an exam, choose a subject, and start practising instantly.</p>
+</div>
+
+<section id="examSection" class="section">
+<div class="section-head"><h2>📚 Select Exam</h2><span id="examCount" class="count"></span></div>
+<div id="examGrid" class="grid"><div class="loading">Loading exams...</div></div>
+</section>
+
+<section id="subjectSection" class="section hidden">
+<button id="backBtn" class="back">← Change exam</button>
+<div class="section-head"><h2 id="subjectHeading">Choose a Subject</h2><span id="subjectCount" class="count"></span></div>
+<div id="access" class="notice hidden"></div>
+<div id="subjectGrid" class="grid"></div>
+</section>
+</main>
+
+<script type="module">
+import{auth,db}from'./firebase-config.js';
+import{onAuthStateChanged}from'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
+import{collection,getDocs,doc,getDoc,query,where}from'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
+
+const examGrid=document.getElementById('examGrid'),subjectGrid=document.getElementById('subjectGrid'),examCount=document.getElementById('examCount'),subjectCount=document.getElementById('subjectCount'),subjectHeading=document.getElementById('subjectHeading'),subjectSection=document.getElementById('subjectSection'),access=document.getElementById('access'),backBtn=document.getElementById('backBtn');
+const params=new URLSearchParams(location.search),requestedExam=params.get('exam'),requestedSubject=params.get('subject');
+let user=null,settings={freeExams:[]},premiumUntil=0,exams=[];
+
+function isFree(name){return settings.freeExams?.includes(name)}
+function hasPremium(){return premiumUntil>Date.now()}
+function showAccess(text,type){access.textContent=text;access.className='notice '+(type||'');}
+function clearAccess(){access.className='notice hidden';access.textContent=''}
+
+async function loadAccess(){
+ try{
+  const s=await getDoc(doc(db,'passSettings','main'));if(s.exists())settings={...settings,...s.data()};
+  const p=await getDoc(doc(db,'students',user.uid));premiumUntil=p.exists()?Number(p.data().premiumUntil||0):0;
+ }catch(e){console.error(e)}
+}
+
+function examCard(name){
+ const free=isFree(name),card=document.createElement('button');card.className='exam-card'+(requestedExam===name?' active':'');card.type='button';
+ card.innerHTML=`<div class="icon">${free?'📝':'🔒'}</div><span class="badge ${free?'free':'premium'}">${free?'FREE':'PREMIUM'}</span><div class="exam-name"></div><div class="meta">Tap to view subjects →</div>`;
+ card.querySelector('.exam-name').textContent=name;card.onclick=()=>selectExam(name,card);return card;
+}
+
+async function loadExams(){
+ try{
+  const snapshot=await getDocs(collection(db,'exams'));const names=[];snapshot.forEach(d=>{const n=d.data().name;if(n&&!names.includes(n))names.push(n)});names.sort();exams=names;
+  examGrid.innerHTML='';examCount.textContent=`${names.length} available`;
+  if(!names.length){examGrid.innerHTML='<div class="empty">No exams are available yet.</div>';return}
+  names.forEach(n=>examGrid.appendChild(examCard(n)));
+  if(requestedExam&&names.includes(requestedExam)){
+   const card=[...examGrid.children].find(x=>x.querySelector('.exam-name')?.textContent===requestedExam);await selectExam(requestedExam,card,false);
+  }
+ }catch(e){console.error(e);examGrid.innerHTML='<div class="empty">Unable to load exams. Please refresh and try again.</div>'}
+}
+
+async function selectExam(name,card,scroll=true){
+ document.querySelectorAll('.exam-card').forEach(x=>x.classList.remove('active'));if(card)card.classList.add('active');
+ subjectSection.classList.remove('hidden');subjectHeading.textContent=name;subjectGrid.innerHTML='<div class="loading">Loading subjects...</div>';subjectCount.textContent='';clearAccess();
+ const free=isFree(name);
+ if(!free&&!hasPremium()){
+  showAccess(`🔒 This is a Premium exam. An active Premium Pass (₹${settings.price||20}) is required to access its subjects.`,'lock');
+  subjectGrid.innerHTML='<div class="empty">Premium subjects are locked.<br><button id="premiumBtn" class="start">Get Premium Pass</button></div>';
+  document.getElementById('premiumBtn').onclick=()=>location.href='pass-access.html';
+  if(scroll)subjectSection.scrollIntoView({behavior:'smooth',block:'start'});return;
+ }
+ try{
+  const qref=query(collection(db,'questions'),where('exam','==',name));const snapshot=await getDocs(qref);const subjects=new Map();snapshot.forEach(d=>{const x=d.data();if(x.subject)subjects.set(x.subject,(subjects.get(x.subject)||0)+1)});
+  const list=[...subjects.entries()].sort((a,b)=>a[0].localeCompare(b[0]));subjectCount.textContent=`${list.length} subject${list.length===1?'':'s'}`;subjectGrid.innerHTML='';
+  if(!list.length){subjectGrid.innerHTML='<div class="empty">No questions are available for this exam yet.</div>';return}
+  list.forEach(([subject,total],i)=>{
+   const card=document.createElement('div');card.className='subject-card';card.innerHTML=`<span class="badge ${free?'free':'premium'}">${free?'FREE':'PREMIUM'}</span><div class="icon">${['📖','✏️','🎯','🧩','📊'][i%5]}</div><div class="subject-title"></div><div class="subject-meta">${total} question${total===1?'':'s'} available</div><button class="start" type="button">Start Test →</button>`;card.querySelector('.subject-title').textContent=subject;card.querySelector('.start').onclick=()=>location.href=`test.html?exam=${encodeURIComponent(name)}&subject=${encodeURIComponent(subject)}`;subjectGrid.appendChild(card);
+  });
+  if(requestedSubject){const target=[...subjectGrid.children].find(x=>x.querySelector('.subject-title')?.textContent===requestedSubject);if(target)target.scrollIntoView({behavior:'smooth',block:'center'})}
+ }catch(e){console.error(e);subjectGrid.innerHTML='<div class="empty">Unable to load subjects right now. Please try again.</div>'}
+ if(scroll)subjectSection.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+backBtn.onclick=()=>{subjectSection.classList.add('hidden');window.scrollTo({top:0,behavior:'smooth'});document.querySelectorAll('.exam-card').forEach(x=>x.classList.remove('active'))};
+
+onAuthStateChanged(auth,async u=>{if(!u){location.href='login.html';return}user=u;await loadAccess();await loadExams()});
+</script>
+</body>
+</html>
