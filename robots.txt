@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
+
+# Keep authenticated, administrative and user-specific pages out of search results.
 Disallow: /admin.html
 Disallow: /admin-dashboard.html
 Disallow: /admin-pass-access.html
