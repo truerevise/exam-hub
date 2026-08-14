@@ -1,0 +1,26 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /admin-dashboard.html
+Disallow: /admin-pass-access.html
+Disallow: /add-question.html
+Disallow: /daily-live-admin.html
+Disallow: /manage-exams.html
+Disallow: /students.html
+Disallow: /student-results.html
+Disallow: /dashboard.html
+Disallow: /profile.html
+Disallow: /results.html
+Disallow: /review.html
+Disallow: /saved-questions.html
+Disallow: /pass-access.html
+Disallow: /premium-pass.html
+Disallow: /login.html
+Disallow: /register.html
+Disallow: /forgot-password.html
+Disallow: /verify-account.html
+Disallow: /test.html
+Disallow: /live-test.html
+Disallow: /mock-test.html
+
+Sitemap: https://truerevise.com/sitemap.xml
