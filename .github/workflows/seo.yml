@@ -1,0 +1,57 @@
+name: SEO metadata
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  seo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add lightweight SEO metadata
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          public = {
+              'index.html': ('True Revise | UGC NET, TSPSC & Competitive Exam Mock Tests', 'True Revise helps students prepare for UGC NET, TSPSC and other competitive exams with daily live tests, mock exams, subject-wise practice and instant results.'),
+              'current-affairs.html': ('True Revise | Current Affairs for Competitive Exams', 'Exam-focused current affairs, important events, government schemes, awards, appointments and daily quiz preparation from True Revise.'),
+          }
+          private = {
+              'admin.html','admin-dashboard.html','admin-pass-access.html','add-question.html','daily-live-admin.html','manage-exams.html','students.html','student-results.html','dashboard.html','profile.html','results.html','review.html','saved-questions.html','pass-access.html','premium-pass.html','login.html','register.html','forgot-password.html','verify-account.html','test.html','live-test.html','mock-test.html'
+          }
+
+          for path in Path('.').glob('*.html'):
+              name = path.name
+              text = path.read_text(encoding='utf-8')
+              if '<!-- TrueRevise SEO -->' in text:
+                  continue
+              if name in public:
+                  title, desc = public[name]
+                  canonical = 'https://truerevise.com/' if name == 'index.html' else f'https://truerevise.com/{name}'
+                  block = f'''<!-- TrueRevise SEO -->\n<meta name="description" content="{desc}">\n<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">\n<link rel="canonical" href="{canonical}">\n<meta property="og:type" content="website">\n<meta property="og:url" content="{canonical}">\n<meta property="og:title" content="{title}">\n<meta property="og:description" content="{desc}">\n<meta property="og:site_name" content="True Revise">\n'''
+                  text = re.sub(r'<title>.*?</title>', f'<title>{title}</title>\n{block}', text, count=1, flags=re.S)
+              elif name in private:
+                  block = '<!-- TrueRevise SEO -->\n<meta name="robots" content="noindex,nofollow">\n'
+                  text = text.replace('</head>', block + '</head>', 1)
+              else:
+                  continue
+              path.write_text(text, encoding='utf-8')
+          PY
+      - name: Commit SEO changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add '*.html'
+          if git diff --cached --quiet; then
+            echo "No SEO changes needed"
+          else
+            git commit -m "Apply SEO metadata to site pages"
+            git push
+          fi
