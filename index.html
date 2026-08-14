@@ -3,257 +3,71 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#07111f">
+<meta name="theme-color" content="#070b14">
 <meta name="description" content="Exam Hub - smart online mock tests for competitive exam preparation.">
-<title>Exam Hub | Prepare. Practice. Succeed.</title>
-
+<title>Exam Hub | Smart Mock Tests</title>
 <style>
 :root{
-  --bg:#050b14;
-  --surface:#0b1422;
-  --surface-2:#101c2d;
-  --line:rgba(148,163,184,.16);
-  --text:#f8fafc;
-  --muted:#9aa9bd;
-  --blue:#3b82f6;
-  --blue-2:#60a5fa;
-  --purple:#8b5cf6;
-  --cyan:#22d3ee;
-  --green:#34d399;
-  --shadow:0 20px 60px rgba(0,0,0,.35);
+  --bg:#070b14;--bg2:#0b1220;--card:rgba(16,24,40,.82);--card2:#101a2b;
+  --line:rgba(148,163,184,.14);--text:#f8fafc;--muted:#94a3b8;
+  --blue:#3b82f6;--blue2:#60a5fa;--violet:#8b5cf6;--cyan:#22d3ee;--green:#34d399;
 }
-
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  min-height:100vh;
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:var(--text);
-  background:
-    radial-gradient(circle at 85% 8%,rgba(59,130,246,.16),transparent 28%),
-    radial-gradient(circle at 10% 30%,rgba(139,92,246,.10),transparent 25%),
-    var(--bg);
-}
-
-a{text-decoration:none;color:inherit}
-.container{width:min(1100px,92%);margin:auto}
-
-header{
-  position:sticky;
-  top:0;
-  z-index:20;
-  background:rgba(5,11,20,.82);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--line);
-}
-.nav{
-  min-height:72px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-}
-.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:21px;letter-spacing:-.4px}
-.logo{
-  width:42px;height:42px;border-radius:13px;
-  display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--blue),var(--purple));
-  box-shadow:0 10px 28px rgba(59,130,246,.28);
-  font-size:21px;
-}
-.brand span span{color:var(--blue-2)}
-.nav-links{display:flex;align-items:center;gap:9px}
-.nav-links a{color:#cbd5e1;font-size:14px;padding:9px 12px;border-radius:10px}
-.nav-links a:hover{background:rgba(255,255,255,.06);color:#fff}
-.nav-login{border:1px solid var(--line);background:rgba(255,255,255,.04)}
-
-.hero{position:relative;padding:78px 0 55px;overflow:hidden}
-.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:42px}
-.badge{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:8px 13px;border:1px solid rgba(96,165,250,.32);
-  border-radius:999px;background:rgba(59,130,246,.08);
-  color:#93c5fd;font-size:13px;font-weight:700;
-}
-.hero h1{
-  margin:20px 0 16px;
-  max-width:680px;
-  font-size:clamp(42px,7vw,72px);
-  line-height:.98;
-  letter-spacing:-3px;
-}
-.hero h1 .accent{color:var(--blue-2)}
-.hero p{max-width:610px;color:var(--muted);font-size:18px;line-height:1.7;margin:0 0 28px}
-.actions{display:flex;flex-wrap:wrap;gap:12px}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:9px;
-  min-height:50px;padding:0 19px;border-radius:13px;
-  font-weight:750;font-size:15px;border:1px solid transparent;
-  transition:.2s ease;cursor:pointer;
-}
-.btn-primary{background:linear-gradient(135deg,#2563eb,#4f46e5);box-shadow:0 12px 30px rgba(37,99,235,.28)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 35px rgba(37,99,235,.38)}
-.btn-secondary{background:rgba(255,255,255,.045);border-color:var(--line);color:#e2e8f0}
-.btn-secondary:hover{background:rgba(255,255,255,.08)}
-
-.hero-card{
-  position:relative;min-height:330px;padding:25px;border:1px solid var(--line);
-  border-radius:28px;background:linear-gradient(145deg,rgba(17,28,45,.96),rgba(8,16,28,.92));
-  box-shadow:var(--shadow);overflow:hidden;
-}
-.hero-card:before{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(59,130,246,.18);filter:blur(40px);right:-70px;top:-70px}
-.hero-card-title{position:relative;font-size:14px;color:#93c5fd;font-weight:750;text-transform:uppercase;letter-spacing:1.5px}
-.score{position:relative;margin:24px 0 18px;font-size:50px;font-weight:850;letter-spacing:-2px}
-.score small{font-size:15px;color:var(--muted);font-weight:600;letter-spacing:0}
-.progress{height:9px;background:#172235;border-radius:99px;overflow:hidden}
-.progress span{display:block;width:78%;height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:99px}
-.hero-list{position:relative;display:grid;gap:12px;margin-top:22px}
-.hero-list div{display:flex;align-items:center;justify-content:space-between;padding:13px 14px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(148,163,184,.10);font-size:14px}
-.hero-list b{color:#e2e8f0}.hero-list span{color:var(--green);font-weight:700}
-
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:5px 0 48px}
-.stat{padding:19px;border:1px solid var(--line);background:rgba(255,255,255,.025);border-radius:18px}
-.stat strong{display:block;font-size:25px;margin-bottom:4px}.stat span{color:var(--muted);font-size:13px}
-
-.section{padding:24px 0 70px}
-.section-head{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:20px}
-.section-head h2{font-size:25px;margin:0;letter-spacing:-.8px}.section-head p{margin:5px 0 0;color:var(--muted);font-size:14px}
-.view-all{color:#60a5fa;font-size:14px;font-weight:700}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
-.card{
-  position:relative;padding:22px;border:1px solid var(--line);border-radius:20px;
-  background:linear-gradient(145deg,rgba(16,28,45,.9),rgba(8,16,28,.9));
-  transition:.2s ease;overflow:hidden;
-}
-.card:hover{transform:translateY(-4px);border-color:rgba(96,165,250,.38);box-shadow:0 16px 35px rgba(0,0,0,.24)}
-.icon{width:45px;height:45px;border-radius:14px;display:grid;place-items:center;font-size:21px;background:rgba(59,130,246,.12);border:1px solid rgba(96,165,250,.18);margin-bottom:20px}
-.card:nth-child(2) .icon{background:rgba(52,211,153,.10)}
-.card:nth-child(3) .icon{background:rgba(139,92,246,.12)}
-.card h3{margin:0 0 7px;font-size:18px}.card p{margin:0;color:var(--muted);font-size:14px;line-height:1.55}
-.card-link{display:inline-block;margin-top:17px;color:#93c5fd;font-size:13px;font-weight:750}
-
-.cta{
-  margin:10px 0 60px;padding:30px;border-radius:24px;border:1px solid rgba(96,165,250,.20);
-  background:linear-gradient(120deg,rgba(37,99,235,.13),rgba(139,92,246,.10));
-  display:flex;align-items:center;justify-content:space-between;gap:20px;
-}
-.cta h2{margin:0 0 7px;font-size:22px}.cta p{margin:0;color:var(--muted);font-size:14px}
-
-footer{border-top:1px solid var(--line);padding:28px 0;color:#718096;font-size:13px}
-.footer-inner{display:flex;align-items:center;justify-content:space-between;gap:15px}
-
-@media(max-width:780px){
-  .nav{min-height:64px}.nav-links a:not(.nav-login){display:none}
-  .hero{padding:55px 0 35px}.hero-grid{grid-template-columns:1fr;gap:30px}.hero h1{font-size:49px;letter-spacing:-2px}
-  .hero p{font-size:16px}.hero-card{min-height:auto}.stats{gap:10px}.stat{padding:15px}.stat strong{font-size:21px}
-  .cards{grid-template-columns:1fr}.section{padding-bottom:45px}.cta{align-items:flex-start;flex-direction:column}
-}
-@media(max-width:460px){
-  .container{width:90%}.brand{font-size:18px}.logo{width:38px;height:38px}.nav-login{padding:8px 10px!important}
-  .hero h1{font-size:43px}.actions{display:grid;grid-template-columns:1fr}.btn{width:100%}
-  .stats{grid-template-columns:1fr}.section-head h2{font-size:22px}
-  .footer-inner{flex-direction:column;align-items:flex-start}
-}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 15% 0%,rgba(59,130,246,.18),transparent 30%),radial-gradient(circle at 90% 18%,rgba(139,92,246,.14),transparent 27%),linear-gradient(180deg,#070b14 0%,#080d18 55%,#060a12 100%);min-height:100vh}
+a{color:inherit;text-decoration:none}.container{width:min(1120px,92%);margin:auto}
+header{position:sticky;top:0;z-index:50;background:rgba(7,11,20,.78);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{height:70px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:850;letter-spacing:-.6px}.logo{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#2563eb,#7c3aed);box-shadow:0 10px 28px rgba(59,130,246,.3)}.brand .accent{color:#60a5fa}.navlinks{display:flex;gap:8px;align-items:center}.navlinks a{font-size:14px;color:#cbd5e1;padding:9px 12px;border-radius:10px}.navlinks a:hover{background:rgba(255,255,255,.06);color:#fff}.login{border:1px solid var(--line);background:rgba(255,255,255,.04)}
+.hero{padding:72px 0 30px}.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:42px;align-items:center}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;border:1px solid rgba(96,165,250,.25);background:rgba(59,130,246,.08);color:#93c5fd;font-size:12px;font-weight:800;letter-spacing:.2px}.dot{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 12px #34d399}
+h1{font-size:clamp(46px,7vw,76px);line-height:.96;letter-spacing:-4px;margin:20px 0 18px}h1 span{background:linear-gradient(90deg,#60a5fa,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}.hero-copy{font-size:17px;line-height:1.7;color:var(--muted);max-width:620px;margin:0 0 28px}.actions{display:flex;gap:11px;flex-wrap:wrap}.btn{min-height:50px;padding:0 18px;border-radius:13px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:800;border:1px solid transparent;transition:.2s}.primary{background:linear-gradient(135deg,#2563eb,#4f46e5);box-shadow:0 12px 30px rgba(37,99,235,.28)}.primary:hover{transform:translateY(-2px);box-shadow:0 17px 38px rgba(37,99,235,.4)}.secondary{background:rgba(255,255,255,.045);border-color:var(--line);color:#e2e8f0}.secondary:hover{background:rgba(255,255,255,.08)}
+.preview{position:relative;border:1px solid var(--line);border-radius:26px;padding:20px;background:linear-gradient(145deg,rgba(17,28,47,.94),rgba(8,14,25,.92));box-shadow:0 25px 70px rgba(0,0,0,.35);overflow:hidden}.preview:before{content:"";position:absolute;width:220px;height:220px;right:-90px;top:-90px;border-radius:50%;background:rgba(59,130,246,.2);filter:blur(45px)}.windowbar{display:flex;gap:6px;margin-bottom:20px}.windowbar i{width:7px;height:7px;border-radius:50%;background:#475569}.preview-title{position:relative;color:#93c5fd;font-size:12px;text-transform:uppercase;letter-spacing:1.3px;font-weight:800}.bigstat{position:relative;font-size:46px;font-weight:900;letter-spacing:-2px;margin:15px 0 4px}.bigstat small{font-size:13px;color:var(--muted);letter-spacing:0;font-weight:600}.bar{height:8px;background:#182337;border-radius:99px;overflow:hidden;margin:15px 0 18px}.bar span{display:block;width:78%;height:100%;background:linear-gradient(90deg,#3b82f6,#22d3ee);border-radius:99px}.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mini{padding:13px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(148,163,184,.09)}.mini b{display:block;font-size:18px}.mini small{color:var(--muted);font-size:11px}.trend{color:var(--green)}
+.trust{display:flex;gap:9px;flex-wrap:wrap;margin:28px 0 12px}.pill{padding:8px 11px;border:1px solid var(--line);background:rgba(255,255,255,.025);border-radius:10px;color:#aebbd0;font-size:12px}
+.section{padding:48px 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:18px}.section-head h2{margin:0;font-size:27px;letter-spacing:-1px}.section-head p{margin:6px 0 0;color:var(--muted);font-size:14px}.view{color:#60a5fa;font-weight:800;font-size:13px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{padding:21px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,rgba(16,26,43,.9),rgba(8,15,27,.9));transition:.2s;position:relative;overflow:hidden}.card:hover{transform:translateY(-4px);border-color:rgba(96,165,250,.34);box-shadow:0 18px 38px rgba(0,0,0,.24)}.card:after{content:"";position:absolute;inset:auto -35px -60px auto;width:130px;height:130px;border-radius:50%;background:rgba(59,130,246,.08);filter:blur(20px)}.icon{width:45px;height:45px;border-radius:14px;display:grid;place-items:center;background:rgba(59,130,246,.12);border:1px solid rgba(96,165,250,.16);font-size:21px;margin-bottom:18px}.card:nth-child(2) .icon{background:rgba(139,92,246,.12)}.card:nth-child(3) .icon{background:rgba(34,211,238,.10)}.card h3{margin:0 0 7px;font-size:18px}.card p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}.card-link{display:inline-block;margin-top:16px;color:#93c5fd;font-size:12px;font-weight:800}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:5px}.feature{padding:18px;border:1px solid var(--line);border-radius:17px;background:rgba(255,255,255,.025)}.feature strong{display:block;font-size:15px;margin-bottom:5px}.feature span{color:var(--muted);font-size:12px;line-height:1.5}
+.cta{margin:15px 0 55px;padding:28px;border-radius:23px;border:1px solid rgba(96,165,250,.2);background:linear-gradient(120deg,rgba(37,99,235,.13),rgba(139,92,246,.11));display:flex;align-items:center;justify-content:space-between;gap:20px}.cta h2{margin:0 0 6px;font-size:23px}.cta p{margin:0;color:var(--muted);font-size:13px}
+footer{border-top:1px solid var(--line);padding:25px 0;color:#64748b;font-size:12px}.foot{display:flex;justify-content:space-between;gap:15px}
+@media(max-width:800px){.hero{padding-top:55px}.hero-grid{grid-template-columns:1fr;gap:28px}.hero h1{font-size:53px}.cards,.features{grid-template-columns:1fr}.navlinks a:not(.login){display:none}.section{padding:38px 0}.cta{align-items:flex-start;flex-direction:column}}
+@media(max-width:480px){.container{width:90%}.nav{height:62px}.brand{font-size:18px}.logo{width:37px;height:37px}.hero h1{font-size:44px;letter-spacing:-2.5px}.hero-copy{font-size:15px}.actions{display:grid;grid-template-columns:1fr}.btn{width:100%}.mini-grid{grid-template-columns:1fr 1fr}.section-head h2{font-size:23px}.foot{flex-direction:column}}
 </style>
 </head>
-
 <body>
-<header>
-  <div class="container nav">
-    <a class="brand" href="index.html" aria-label="Exam Hub home">
-      <div class="logo">🎓</div>
-      <span>Exam <span>Hub</span></span>
-    </a>
-    <nav class="nav-links" aria-label="Main navigation">
-      <a href="#exams">Exams</a>
-      <a href="#features">Features</a>
-      <a href="login.html" class="nav-login">Student Login</a>
-    </nav>
-  </div>
-</header>
-
+<header><div class="container nav">
+  <a class="brand" href="index.html"><div class="logo">🎓</div><div>Exam <span class="accent">Hub</span></div></a>
+  <nav class="navlinks"><a href="#exams">Exams</a><a href="#why">Why Exam Hub</a><a class="login" href="login.html">Student Login</a></nav>
+</div></header>
 <main>
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <div class="badge">✦ Smart preparation for competitive exams</div>
-        <h1>Prepare.<br>Practice.<br><span class="accent">Succeed.</span></h1>
-        <p>Free online mock tests designed to help students practise smarter, improve performance and prepare with confidence.</p>
-        <div class="actions">
-          <a href="register.html" class="btn btn-primary">👤 Create Free Account</a>
-          <a href="mock-test.html" class="btn btn-secondary">📝 Start Mock Tests</a>
-        </div>
-      </div>
-
-      <div class="hero-card" aria-label="Practice performance preview">
-        <div class="hero-card-title">Your practice dashboard</div>
-        <div class="score">78% <small>average accuracy</small></div>
-        <div class="progress"><span></span></div>
-        <div class="hero-list">
-          <div><b>Mock tests completed</b><span>24</span></div>
-          <div><b>Questions practised</b><span>480+</span></div>
-          <div><b>Performance trend</b><span>↗ Improving</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="container stats" id="features">
-    <div class="stat"><strong>100%</strong><span>Free practice available</span></div>
-    <div class="stat"><strong>Instant</strong><span>Score & performance feedback</span></div>
-    <div class="stat"><strong>Smart</strong><span>Focused exam preparation</span></div>
-  </section>
-
-  <section class="section" id="exams">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Popular Exam Categories</h2>
-          <p>Choose an exam and start practising.</p>
-        </div>
-        <a href="mock-test.html" class="view-all">View all →</a>
-      </div>
-
-      <div class="cards">
-        <a class="card" href="mock-test.html">
-          <div class="icon">📚</div>
-          <h3>UGC NET</h3>
-          <p>Commerce mock tests and subject-wise practice.</p>
-          <span class="card-link">Start practising →</span>
-        </a>
-        <a class="card" href="mock-test.html">
-          <div class="icon">🏛️</div>
-          <h3>TSPSC</h3>
-          <p>Practice tests for competitive government exams.</p>
-          <span class="card-link">Explore tests →</span>
-        </a>
-        <a class="card" href="mock-test.html">
-          <div class="icon">🏆</div>
-          <h3>Results & Progress</h3>
-          <p>Track your scores and understand your performance.</p>
-          <span class="card-link">View practice →</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <div class="container">
-    <section class="cta">
-      <div>
-        <h2>Ready to improve your score?</h2>
-        <p>Join Exam Hub and make every practice session count.</p>
-      </div>
-      <a href="register.html" class="btn btn-primary">Get Started →</a>
-    </section>
+<section class="hero"><div class="container hero-grid">
+  <div>
+    <div class="eyebrow"><i class="dot"></i> Smart practice for competitive exams</div>
+    <h1>Prepare smarter.<br>Practice better.<br><span>Score higher.</span></h1>
+    <p class="hero-copy">A focused online practice platform for students preparing for UGC NET, TSPSC and other competitive examinations. Take mock tests, learn from mistakes and track your progress.</p>
+    <div class="actions"><a class="btn primary" href="register.html">🚀 Create Free Account</a><a class="btn secondary" href="mock-test.html">📝 Explore Mock Tests</a></div>
+    <div class="trust"><div class="pill">✓ Free exams available</div><div class="pill">✓ Instant results</div><div class="pill">✓ Mobile friendly</div></div>
   </div>
+  <div class="preview">
+    <div class="windowbar"><i></i><i></i><i></i></div>
+    <div class="preview-title">Practice overview</div>
+    <div class="bigstat">78% <small>average accuracy</small></div>
+    <div class="bar"><span></span></div>
+    <div class="mini-grid"><div class="mini"><b>24</b><small>Tests completed</small></div><div class="mini"><b>480+</b><small>Questions practised</small></div><div class="mini"><b class="trend">↗ Improving</b><small>Performance trend</small></div><div class="mini"><b>24/7</b><small>Practice access</small></div></div>
+  </div>
+</div></section>
+
+<section class="section" id="exams"><div class="container">
+  <div class="section-head"><div><h2>Popular exam categories</h2><p>Start with the exam you are preparing for.</p></div><a class="view" href="mock-test.html">View all →</a></div>
+  <div class="cards">
+    <a class="card" href="mock-test.html"><div class="icon">📚</div><h3>UGC NET</h3><p>Commerce and other subject-wise mock tests for focused preparation.</p><span class="card-link">Start practising →</span></a>
+    <a class="card" href="mock-test.html"><div class="icon">🏛️</div><h3>TSPSC</h3><p>Competitive exam practice with quick tests and performance feedback.</p><span class="card-link">Explore tests →</span></a>
+    <a class="card" href="mock-test.html"><div class="icon">🎯</div><h3>More Exams</h3><p>Discover upcoming exam categories and build a consistent practice routine.</p><span class="card-link">Browse mock tests →</span></a>
+  </div>
+</div></section>
+
+<section class="section" id="why"><div class="container">
+  <div class="section-head"><div><h2>Built for serious practice</h2><p>Simple tools that keep your preparation focused.</p></div></div>
+  <div class="features"><div class="feature"><strong>⚡ Instant feedback</strong><span>See your score quickly and identify where you need more practice.</span></div><div class="feature"><strong>📈 Track improvement</strong><span>Use your results to understand your progress over time.</span></div><div class="feature"><strong>🔒 Student accounts</strong><span>Keep your practice history connected to your own account.</span></div></div>
+</div></section>
+
+<div class="container"><section class="cta"><div><h2>Ready to make your next attempt count?</h2><p>Create your free account and start practising today.</p></div><a class="btn primary" href="register.html">Get Started →</a></section></div>
 </main>
-
-<footer>
-  <div class="container footer-inner">
-    <span>© 2026 Exam Hub</span>
-    <span>Smart Practice • Better Results</span>
-  </div>
-</footer>
+<footer><div class="container foot"><span>© 2026 Exam Hub</span><span>Smart Practice • Better Results</span></div></footer>
 </body>
 </html>
