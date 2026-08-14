@@ -23,8 +23,6 @@ service cloud.firestore {
         && studentDoc().data.get('emailVerified', false) == true
         && studentDoc().data.get('phoneVerified', false) == true;
     }
-    // A manually granted Premium Pass is authoritative while its expiry is in the future.
-    // It must not depend on potentially stale Auth phone/email claims.
     function hasActivePass() {
       return signedIn()
         && studentDoc().data.get('premiumUntil', null) != null
@@ -55,6 +53,17 @@ service cloud.firestore {
     match /dailyLiveTests/{testId} {
       allow read: if isAdmin() || verifiedUser();
       allow create, update, delete: if isAdmin();
+    }
+
+    // One immutable attempt record per student per Daily Live Test.
+    match /dailyAttempts/{attemptId} {
+      allow read: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid);
+      allow create: if verifiedUser()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.liveTestId is string
+        && attemptId == request.auth.uid + '_' + request.resource.data.liveTestId
+        && !exists(/databases/$(database)/documents/dailyAttempts/$(attemptId));
+      allow update, delete: if isAdmin();
     }
 
     match /students/{studentId} {
