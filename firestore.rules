@@ -23,9 +23,10 @@ service cloud.firestore {
         && studentDoc().data.get('emailVerified', false) == true
         && studentDoc().data.get('phoneVerified', false) == true;
     }
+    // A manually granted Premium Pass is authoritative while its expiry is in the future.
+    // It must not depend on potentially stale Auth phone/email claims.
     function hasActivePass() {
       return signedIn()
-        && (verifiedUser() || hasVerifiedProfile())
         && studentDoc().data.get('premiumUntil', null) != null
         && studentDoc().data.premiumUntil > request.time;
     }
@@ -85,7 +86,7 @@ service cloud.firestore {
       allow read: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid);
       allow create: if verifiedUser() && request.resource.data.uid == request.auth.uid;
       allow update: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid && request.resource.data.uid == request.auth.uid);
-      allow delete: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid);
+      allow delete: if isAdmin() || (verifiedUser() && request.auth.uid == request.resource.data.uid);
     }
 
     match /students/{studentId}/savedQuestions/{savedId} {
