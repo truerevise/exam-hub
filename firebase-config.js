@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, query, where, orderBy, limit, Timestamp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -15,18 +15,15 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 
-// Keep the authenticated student session available when moving between
-// login.html and verify-account.html on mobile browsers.
 export const authReady = setPersistence(auth, browserLocalPersistence).catch(() => {});
 
+const isHome = () => location.pathname.endsWith('/') || location.pathname.endsWith('/index.html');
+
 // Keep the public-home navigation in sync with the Firebase session.
-// This is intentionally resilient to module timing and browser Back/cache
-// behaviour: it checks immediately, on auth changes, and after DOM loading.
 const syncStudentNavigation = user => {
-  if (!(location.pathname.endsWith('/') || location.pathname.endsWith('/index.html'))) return;
+  if (!isHome()) return;
   const link = document.querySelector('.login-link');
   if (!link) return;
-
   if (user) {
     link.textContent = 'Dashboard';
     link.href = 'dashboard.html';
@@ -38,19 +35,40 @@ const syncStudentNavigation = user => {
   }
 };
 
-if (location.pathname.endsWith('/') || location.pathname.endsWith('/index.html')) {
-  // Handle an already-restored Firebase session.
+if (isHome()) {
   syncStudentNavigation(auth.currentUser);
-
-  // Handle Firebase restoring the session asynchronously.
   onAuthStateChanged(auth, syncStudentNavigation);
-
-  // Handle module/DOM timing and browser Back navigation.
   const syncAfterDom = () => syncStudentNavigation(auth.currentUser);
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', syncAfterDom, { once: true });
-  } else {
-    syncAfterDom();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', syncAfterDom, { once: true });
+  else syncAfterDom();
   window.addEventListener('pageshow', syncAfterDom);
+
+  // Fast path for the Daily Live Tests section. The old homepage query reads
+  // up to 10 historical documents and filters them in the browser. This query
+  // asks Firestore for only tests published during the last 24 hours and
+  // returns at most 3 records, greatly reducing reads and response size.
+  const liveList = document.getElementById('liveList');
+  if (liveList) {
+    const esc = s => String(s ?? '').replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]));
+    const renderLive = docs => {
+      const now = Date.now();
+      const live = docs.map(d => {
+        const data = d.data ? d.data() : d;
+        const start = data.publishedAt?.seconds ? data.publishedAt.seconds * 1000 : Number(data.publishedAt || 0);
+        return { id: d.id || data.id, ...data, _start: start };
+      }).filter(t => t._start && now >= t._start && now < t._start + 86400000);
+      if (!live.length) {
+        liveList.innerHTML = '<div class="empty-live">No live test is available right now. Check back soon.</div>';
+        return;
+      }
+      liveList.innerHTML = live.map(t => `<article class="live-card"><span class="live-status">● LIVE NOW</span><h3>${esc(t.title || 'Daily Live Test')}</h3><p>${t.questionIds?.length || 0} questions • Available for 24 hours</p><button class="attempt" onclick="goLogin('live-test.html?id=${encodeURIComponent(t.id)}')">Attempt Exam →</button></article>`).join('');
+    };
+    const liveQuery = query(
+      collection(db, 'dailyLiveTests'),
+      where('publishedAt', '>=', Timestamp.fromMillis(Date.now() - 86400000)),
+      orderBy('publishedAt', 'desc'),
+      limit(3)
+    );
+    getDocs(liveQuery).then(snap => renderLive(snap.docs)).catch(() => {});
+  }
 }
