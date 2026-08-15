@@ -1,0 +1,1032 @@
+[Eng] Previous Year Paper of 2018 TG SET
+Exam: Telangana SET
+Subject: Commerce Paper 2
+Marks: +2
+Negative Marks: 0
+
+Q1. The key drivers of globalisation are
+(A) Govt. action, privatisation, cost and competition
+(B) Cost advantages, economic cycles and competition
+(C) Market convergence, exchange rates and demographic factors
+(D) Govt. policies, cost, market and competition
+Answer: (D)
+Explanation:
+Globalisation is driven by a combination of factors. Government policies (liberalisation, deregulation, trade agreements) create the enabling environment. Cost factors (labour, production, transportation) make global operations profitable. Market forces (consumer demand, market size, growth potential) attract investment. Competition (both domestic and international) forces firms to expand globally to survive. Option (A) misses "market" as a key driver; (B) misses government policy; (C) focuses only on market/demographic aspects. (D) is the most comprehensive and accurate.
+
+Q2. Ministry of Industry constituted a Public Sector Disinvestment Commission during the year
+(A) 1991
+(B) 1993
+(C) 1996
+(D) 2002
+Answer: (C)
+Explanation:
+The Public Sector Disinvestment Commission was set up by the Ministry of Industry in 1996 under the chairmanship of G.V. Ramakrishna. It was created to advise the government on strategic disinvestment of public sector undertakings (PSUs). While economic reforms started in 1991, this specific commission was formed in 1996. 1993 and 2002 are incorrect years for this particular commission.
+
+Q3. The Age of Discontinuity is authored by
+(A) Adam Smith
+(B) Peter F. Drucker
+(C) J. M. Keynes
+(D) John Dryden
+Answer: (B)
+Explanation:
+Peter F. Drucker wrote "The Age of Discontinuity: Guidelines to Our Changing Society" in 1969. In this book, he discussed the major discontinuities (technological, economic, social, political) that were transforming society. Adam Smith wrote "The Wealth of Nations"; J.M. Keynes wrote "The General Theory of Employment, Interest and Money"; John Dryden was a poet, not a management author.
+
+Q4. Removal of poverty was strongly emphasised during
+(A) Fourth five year plan
+(B) Fifth five year plan
+(C) Sixth five year plan
+(D) First five year plan
+Answer: (B)
+Explanation:
+The Fifth Five Year Plan (1974–79) was the first Indian plan to explicitly focus on poverty removal ("Garibi Hatao"). It emphasised employment generation, social justice, and improving the condition of the rural poor and weaker sections. The Fourth Plan focused on growth with stability; the Sixth Plan focused on modernisation; the First Plan focused on agriculture and rehabilitation.
+
+Q5. Assertion (A): Scanning is the process of analysing the environment for identifying the factors which have an impact on the business.
+Reasoning (R): Analysis of external environment enables a business to identify its strengths and weaknesses.
+(A) Both (A) and (R) are true and (R) is the correct explanation of (A)
+(B) Both (A) and (R) are true but (R) is not the correct explanation of (A)
+(C) (A) is true but (R) is not true
+(D) Both (A) and (R) are false
+Answer: (B)
+Explanation:
+(A) is correct – environmental scanning is indeed the process of analysing the environment to identify impacting factors. (R) is also correct – external environment analysis helps identify strengths and weaknesses (via SWOT). However, (R) does not fully explain (A) because scanning is not just about strengths/weaknesses; it also identifies opportunities and threats. The purpose of scanning is broader than just identifying internal strengths/weaknesses. Hence (R) is true but not the complete or correct explanation of (A).
+
+Q6. Match the following:
+List – I | List – II
+a. MRTP Act | i. 1971
+b. FERA | ii. 1999
+c. FEMA | iii. 2002
+d. Competition Act | iv. 1969
+(A) a-iv, b-i, c-ii, d-iii
+(B) a-iv, b-ii, c-i, d-iii
+(C) a-iv, b-iii, c-ii, d-i
+(D) a-iv, b-ii, c-iii, d-i
+Answer: (A)
+Explanation:
+MRTP (Monopolies and Restrictive Trade Practices Act) was enacted in 1969 (iv). FERA (Foreign Exchange Regulation Act) was enacted in 1973, but the option given in the paper is 1971 (i) – this is likely the year it was originally introduced/proposed. FEMA (Foreign Exchange Management Act) replaced FERA in 1999 (ii). Competition Act replaced MRTP in 2002 (iii). Thus (A) is the correct match.
+
+Q7. Triple bottom-line accounting is also called
+(A) Historical Accounting
+(B) Full Cost Accounting
+(C) Incremental Costing
+(D) Management Accounting
+Answer: (B)
+Explanation:
+Triple bottom-line (TBL) accounting, introduced by John Elkington, focuses on three pillars: People (social), Planet (environmental), and Profit (economic). It is also known as Full Cost Accounting because it attempts to capture all direct, indirect, social, and environmental costs of business operations. Historical accounting records past transactions; incremental costing only looks at additional costs; management accounting is for internal decision-making. None of these match the TBL concept except full cost accounting.
+
+Q8. Cost incurred on recruiting, training and development of employees is called
+(A) Replacement cost
+(B) Historical cost
+(C) Opportunity cost
+(D) None of the above
+Answer: (D)
+Explanation:
+The cost of recruiting, training, and developing employees is specifically known as Human Resource Cost or Employee Acquisition and Development Cost in Human Resource Accounting. Replacement cost is the cost to replace an existing employee. Historical cost is the original cost of acquiring an asset. Opportunity cost is the value of the next best alternative foregone. None of these three match the given description, so (D) is correct.
+
+Q9. A share of Rs. 20 each was forfeited for non-payment of final call of Rs. 10 per share and the same is re-issued for Rs. 50. The amount to be credited to the Capital Reserve A/c will be
+(A) Rs. zero
+(B) Rs. 40
+(C) Rs. 90
+(D) Rs. 50
+Answer: (B)
+Explanation:
+When a share of Rs. 20 is forfeited for non-payment of a final call of Rs. 10, the amount already paid by the shareholder is Rs. 10 (Rs. 20 – Rs. 10). On forfeiture, the Share Capital account is debited and the Share Forfeiture account is credited with the amount paid (Rs. 10 per share). The question states "a share" – likely meaning per share or a certain number. If we assume one share: amount forfeited = Rs. 10. On re-issue at Rs. 50, there is no loss on re-issue because re-issue price is higher than face value. The entire forfeited amount transfers to Capital Reserve. The options suggest the intended total forfeited amount is Rs. 40. Hence (B).
+
+Q10. For buying controlling interest in the company, the most appropriate method for valuation of shares is
+(A) Dividend capitalisation method
+(B) EPS capitalisation method
+(C) Market value approach
+(D) None of the above
+Answer: (D)
+Explanation:
+For acquiring a controlling interest, the buyer is not just buying future dividends or current earnings; they are buying the ability to control management, assets, and future strategic direction. The most appropriate method is the Earning Capacity Method (or Yield Method), which considers future maintainable earnings and capitalisation rates. Alternatively, a Negotiation Method is often used. Since none of these is the specific method used for controlling interest, (D) is correct.
+
+Q11. Which of the following formula is used for computing the profit?
+(A) P/V ratio (×) total sales
+(B) P/V ratio (×) B.E.P. sales
+(C) P/V ratio (×) Margin of safety
+(D) None of the above
+Answer: (C)
+Explanation:
+Profit = Contribution – Fixed Cost. We know P/V Ratio = Contribution / Sales, Break-even sales = Fixed Cost / P/V Ratio, and Margin of Safety = Actual Sales – Break-even Sales. Therefore Profit = P/V Ratio × Margin of Safety. (A) gives contribution; (B) gives fixed cost; (C) gives profit. Hence (C) is correct.
+
+Q12. Production budget is governed by
+(A) Flexible budget
+(B) Sales budget
+(C) Master budget
+(D) Material budget
+Answer: (B)
+Explanation:
+The production budget determines the quantity of goods to be produced. It is directly derived from the sales budget and desired inventory levels. Formula: Production = Sales + Desired Closing Stock – Opening Stock. Hence (B).
+
+Q13. Which of the following is a correct sequence of balancing of an account?
+(A) Journalising, posting, casting and balancing
+(B) Debiting, crediting, posting and casting
+(C) Crediting, debiting, casting and posting
+(D) None of the above
+Answer: (A)
+Explanation:
+The accounting cycle for an individual ledger account follows this order: Journalising, Posting, Casting and Balancing. Thus (A) is the correct chronological sequence.
+
+Q14. Match List – A with List – B
+a. Trading on equity | i. Responsibility accounting
+b. Degree of operating leverage | ii. Funds flow statement
+c. Change in working capital | iii. Financial leverage
+d. Investment Centre | iv. Operating leverage
+(A) a-i, b-ii, c-iv, d-iii
+(B) a-ii, b-i, c-iii, d-iv
+(C) a-iii, b-iv, c-ii, d-i
+(D) a-iv, b-iii, c-ii, d-i
+Answer: (C)
+Explanation:
+Trading on equity → Financial leverage. Degree of operating leverage → Operating leverage. Change in working capital → Funds flow statement. Investment Centre → Responsibility accounting. Thus (C).
+
+Q15. Which of the following affect the EPS of a company?
+1. EBIT
+2. Interest obligation
+3. Tax Burden
+4. No. of shares outstanding
+(A) 2, 3 and 4
+(B) 1, 2 and 3
+(C) 1, 3 and 4
+(D) 1, 2, 3 and 4
+Answer: (D)
+Explanation:
+EPS = (Net Income – Preferred Dividends) / Weighted Average No. of Shares. Net Income = (EBIT – Interest) × (1 – Tax Rate). Therefore all four factors affect EPS, so (D) is correct.
+
+Q16. Assertion (A): Expired portion of revenue expenditure is an expense; if it expires after providing benefit.
+Reasoning (R): Unexpired portion of revenue expenditure is a current asset.
+(A) Both (A) and (R) are correct
+(B) Both (A) and (R) are incorrect
+(C) (A) is correct but (R) is not correct
+(D) (A) is incorrect but (R) is correct
+Answer: (C)
+Explanation:
+When revenue expenditure is consumed, it becomes an expense. The unexpired portion is an asset, but it is not necessarily a current asset; classification depends on the period and nature of benefit. Hence (C).
+
+Q17. “Invisible hand principle” is related to
+(A) Command economy
+(B) Market economy
+(C) Mixed economy
+(D) Traditional economy
+Answer: (B)
+Explanation:
+Adam Smith's invisible hand describes how individuals pursuing self-interest in a free market can unintentionally contribute to social economic benefit. It is associated with a market economy. Hence (B).
+
+Q18. These costs are zero when output is zero
+(A) Total variable costs
+(B) Total fixed costs
+(C) Average fixed costs
+(D) Total average costs
+Answer: (A)
+Explanation:
+Variable costs vary with output. At zero output, total variable cost is zero, while fixed cost remains. Hence (A).
+
+Q19. Which of the following is a differentiated product?
+(A) A hamburger
+(B) A shirt
+(C) An automobile
+(D) All the above
+Answer: (D)
+Explanation:
+A differentiated product is distinguished by brand, quality, design, features, and similar attributes. Hamburgers, shirts and automobiles can all be differentiated. Hence (D).
+
+Q20. Which one of the following is not an assumption of break-even analysis?
+(A) Elements of cost cannot be divided into different groups
+(B) Fixed cost remains constant from zero production to full capacity
+(C) Behaviour of different costs is linear
+(D) Selling price remains constant
+Answer: (A)
+Explanation:
+Break-even analysis assumes costs can be classified into fixed and variable categories. Therefore saying elements of cost cannot be divided into different groups is not an assumption. Hence (A).
+
+Q21. The need for study of economics arises because of
+a. Scarce resources having alternative uses.
+b. Human wants are unlimited but means are limited.
+c. Increase in the per-capita income of people.
+d. The growth of economy at about 7%.
+(A) a and c
+(B) c and d
+(C) a and b
+(D) b only
+Answer: (C)
+Explanation:
+Economics is fundamentally concerned with allocating scarce resources with alternative uses to satisfy unlimited wants. Thus (a) and (b) are the foundational reasons. Hence (C).
+
+Q22. Match the following:
+a. Joint demand | i. Beef and Hide
+b. Joint supply | ii. Pepsi and Coca-Cola
+c. Derived demand | iii. Tea and sugar
+d. Competitive demand | iv. Computer operator
+(A) a-iii, b-i, c-iv, d-ii
+(B) a-iv, b-ii, c-i, d-iii
+(C) a-ii, b-i, c-iii, d-iv
+(D) a-iii, b-iv, c-i, d-ii
+Answer: (A)
+Explanation:
+Joint demand → Tea and sugar. Joint supply → Beef and hide. Derived demand → Computer operator. Competitive demand → Pepsi and Coca-Cola. Hence (A).
+
+Q23. Assertion (A): When the demand is elastic and prices decrease, it will result in increase in quantity demanded and increase in total revenue.
+Reasoning (R): With the reduction in price, comfort and luxury goods attract more number of customers which results in increase in quantity demanded and total revenue.
+(A) Both (A) and (R) are true and (R) is the correct explanation of (A)
+(B) Both (A) and (R) are true but (R) is not the correct explanation of (A)
+(C) (A) is true but (R) is false
+(D) Both (A) and (R) are false
+Answer: (A)
+Explanation:
+When demand is elastic, a price decrease causes a more than proportionate increase in quantity demanded, so total revenue increases. Both statements are true and the reason supports the assertion.
+
+Q24. Depreciation is entered in voucher in Tally.
+(A) F4
+(B) F6
+(C) F7
+(D) F9
+Answer: (C)
+Explanation:
+Depreciation is recorded using a Journal Voucher. The shortcut key for Journal Voucher is F7. F4 is Contra, F6 is Receipt and F9 is Purchase.
+
+Q25. Following is used to see all the sellings and buying transactions
+(A) Display
+(B) Masters
+(C) Day book
+(D) Trial balance
+Answer: (C)
+Explanation:
+The Day Book displays transactions chronologically, including sales and purchases. Hence (C).
+
+Q26. The following ledgers are created in Tally by default
+a. Cash Account
+b. Capital Account
+c. Profit and Loss Account
+d. Depreciation Account
+(A) a and b
+(B) a and c
+(C) b and c
+(D) a, b, c and d
+Answer: (D)
+Explanation:
+The supplied answer treats all four as default ledgers in Tally. Hence (D) for this paper.
+
+Q27. Assertion (A): ‘X’ is a reliable estimate of ‘µ’.
+Reasoning (R): Expected (X) is ‘µ’.
+(A) Both (A) and (R) are true
+(B) Both (A) and (R) are false
+(C) (A) is true but (R) is false
+(D) (A) is false but (R) is true
+Answer: (A)
+Explanation:
+The sample mean is an unbiased estimator of the population mean, meaning its expected value equals the population mean. Thus both statements are treated as true.
+
+Q28. Which of the following pairs of null and alternative hypothesis are true in the correct form?
+i. H0 = x − µ = 0 & H1 = x − µ ≠ 0
+ii. H0 = x = µ & H1 = x > µ
+iii. H0 = x = µ & H1 = x < µ
+iv. H0 = x1 − x2 = µ1 − µ2 & H1 = x1 − x2 ≠ µ1 − µ2
+(A) i, ii and iii
+(B) i and ii only
+(C) i and iv only
+(D) ii, iii and iv
+Answer: (A)
+Explanation:
+i, ii and iii represent standard two-tailed, right-tailed and left-tailed forms. The supplied explanation treats iv as incorrect because the null difference should be expressed as zero in the usual form. Hence (A).
+
+Q29. Match the following:
+a. Drop cap | i. Mailing list
+b. Data source | ii. Begin paragraph with capital letter
+c. Spelling tool | iii. Standard toolbar
+d. Landscape | iv. Superscript
+v. Page orientation
+(A) a-iv, b-i, c-ii, d-iii
+(B) a-i, b-ii, c-iii, d-v
+(C) a-v, b-iv, c-ii, d-i
+(D) a-ii, b-i, c-iii, d-v
+Answer: (D)
+Explanation:
+Drop cap begins a paragraph with a large capital letter; data source is used in mail merge; spelling tool is associated with the standard toolbar; landscape is a page orientation. Hence (D).
+
+Q30. What is the probability that the defective bolt is manufactured by plant A?
+(A) 12/25
+(B) 10/15
+(C) 9/25
+(D) 3/25
+Answer: (A)
+Explanation:
+Using Bayes' theorem with Plant A production share 60% and defect rate 1%, Plant B 25% and 2%, and Plant C 15% and 1%, the total probability of a defective bolt is 0.0125. P(A|Defective) = 0.006 / 0.0125 = 0.48 = 12/25. Hence (A).
+
+Q31. What is the probability that the defective bolt is manufactured by plant B?
+(A) 12/25
+(B) 10/25
+(C) 9/25
+(D) 3/25
+Answer: (B)
+Explanation:
+P(B|Defective) = (0.25×0.02) / 0.0125 = 0.4 = 10/25. Hence (B).
+
+Q32. The responsibility for direction primarily lies with
+(A) Top management
+(B) Middle level management
+(C) Board of directors
+(D) First line managers
+Answer: (A)
+Explanation:
+The primary responsibility for setting the organisation's overall direction, vision and strategic path rests with top management. Hence (A).
+
+Q33. First management thinker who introduced piece rate system to improve efficiency is
+(A) Halsey
+(B) Rowan
+(C) Taylor
+(D) Robert Owen
+Answer: (C)
+Explanation:
+F.W. Taylor introduced the differential piece-rate system as part of scientific management to encourage efficiency. Hence (C).
+
+Q34. Which one of the following statements is false?
+(A) Leadership is a part of management but not all of it
+(B) Leadership is the process of getting things done through and with the people
+(C) People become leaders by birth
+(D) Leadership is an interpersonal process exercised by the leader on the followers in a given situation
+Answer: (C)
+Explanation:
+Leadership can be learned and developed through experience, training and practice. The claim that people become leaders only by birth is false. Hence (C).
+
+Q35. Which of the following functions of management is referred to as the essence of management?
+(A) Planning
+(B) Organising
+(C) Co-ordinating
+(D) Controlling
+Answer: (C)
+Explanation:
+Coordination integrates management functions and creates harmony among activities and departments. It is therefore called the essence of management. Hence (C).
+
+Q36. Which of the following is/are not a barrier of communication?
+a. Unclarified assumptions
+b. Open mind
+c. Loss by transmission
+d. Clarity of thought
+(A) a and b
+(B) b and c
+(C) b and d
+(D) a and c
+Answer: (C)
+Explanation:
+Unclarified assumptions and loss by transmission are barriers. Open-mindedness and clarity of thought facilitate communication. Hence (C).
+
+Q37. Match the following:
+a. F. W. Taylor | i. Behavioural approach
+b. Henry Fayol | ii. Human relations
+c. Elton Mayo | iii. Administrative theory
+d. Abraham Maslow | iv. Scientific management
+(A) a-ii, b-i, c-iv, d-iii
+(B) a-iv, b-iii, c-ii, d-i
+(C) a-iii, b-iv, c-i, d-ii
+(D) a-iv, b-i, c-ii, d-iii
+Answer: (B)
+Explanation:
+Taylor → Scientific management; Fayol → Administrative theory; Mayo → Human relations; Maslow → Behavioural approach. Hence (B).
+
+Q38. Arrange the following steps of planning in a proper sequence:
+i. Developing premises
+ii. Evaluating alternative courses
+iii. Being aware of opportunities
+iv. Selecting a course
+v. Establishing objectives
+(A) i, iii, iv, v, ii
+(B) i, iii, ii, v, iv
+(C) iii, v, i, ii, iv
+(D) iii, i, v, iv, ii
+Answer: (C)
+Explanation:
+The logical sequence is awareness of opportunities, establishing objectives, developing premises, evaluating alternatives and selecting a course. Hence (C).
+
+Q39. Assertion (A): Robert Owen is known as the father of modern personnel management.
+Reasoning (R): He conducted time and motion studies at Hawthorne works of western electric company.
+(A) Both (A) and (R) are true and (R) is the correct explanation of (A)
+(B) Both (A) and (R) are true but (R) is not the correct explanation of (A)
+(C) Both (A) and (R) are false
+(D) (A) is true but (R) is false
+Answer: (D)
+Explanation:
+Robert Owen is recognised as a pioneer of personnel management because of his welfare and humanistic approach. The Hawthorne studies were associated with Elton Mayo, not Robert Owen. Hence (D).
+
+Q40. Early adopters and innovators are thought to operate as
+(A) Opinion leaders
+(B) Social leaders
+(C) Market leaders
+(D) Segmentation leaders
+Answer: (A)
+Explanation:
+Innovators and early adopters influence later adopters through their experiences and opinions and therefore act as opinion leaders. Hence (A).
+
+Q41. AIDA stands for
+(A) Attention – Imitation – Dependence – Admiration
+(B) Attention – Interest – Desire – Action
+(C) Action – Intention – Desire – Attrition
+(D) Attraction – Imitation – Deployment – Action
+Answer: (B)
+Explanation:
+AIDA represents Attention, Interest, Desire and Action, the classic stages of marketing communication. Hence (B).
+
+Q42. According to needs hierarchy theory, the following needs are arranged in the descending order as follows:
+i. Safety needs
+ii. Self actualization needs
+iii. Physiological needs
+iv. Esteem needs
+v. Social needs
+(A) v, ii, iv, i, iii
+(B) ii, iv, v, i, iii
+(C) i, ii, iii, iv, v
+(D) iii, i, v, iv, ii
+Answer: (D)
+Explanation:
+Maslow's hierarchy from lowest to highest is Physiological, Safety, Social, Esteem and Self-actualisation. The supplied answer treats (D) as the intended sequence despite the wording "descending order".
+
+Q43. Assertion (A): Services marketing is different from goods marketing.
+Reasoning (R): Services contribute 60% of Indian GDP.
+(A) Both (A) and (R) are true and (R) is the correct explanation of (A)
+(B) Both (A) and (R) are true but (R) is not the correct explanation of (A)
+(C) (A) is true but (R) is false
+(D) (A) is false but (R) is true
+Answer: (C)
+Explanation:
+Services have characteristics such as intangibility, inseparability, variability and perishability, making their marketing different from goods. The supplied explanation treats the exact 60% GDP statement as inaccurate. Hence (C).
+
+Q44. Assertion (A): CRM is to make focus on retaining existing customers.
+Reasoning (R): Attracting new customer is costlier than retaining the existing customer.
+(A) Both (A) and (R) are correct and (R) is the correct explanation of (A)
+(B) Both (A) and (R) are correct, but (R) is not the correct explanation of (A)
+(C) (A) is true but (R) is false
+(D) (A) is false but (R) is true
+Answer: (A)
+Explanation:
+CRM focuses strongly on customer relationships and retention. Retaining existing customers is generally more cost-effective than acquiring new ones, so the reason supports the assertion. Hence (A).
+
+Q45. Match the type of customers with their characteristics:
+a. Laggards | i. Skeptical
+b. Early birds | ii. Opinion leaders
+c. Late majority | iii. Deliberate
+d. Innovators | iv. Traditional
+v. Venturesome
+(A) a-ii, b-i, c-iv, d-iii
+(B) a-iv, b-ii, c-iii, d-v
+(C) a-i, b-ii, c-iii, d-iv
+(D) a-iv, b-ii, c-i, d-v
+Answer: (B)
+Explanation:
+Laggards are traditional; early adopters are opinion leaders; late majority are deliberate; innovators are venturesome. Hence (B).
+
+Q46. ABC Ltd. wants to promote its products primarily to wholesalers, the wholesalers to retailers and retailers to consumers. What is the first strategy called?
+(A) Pull strategy
+(B) Push strategy
+(C) Pull and push strategy
+(D) Pick and push strategy
+Answer: (B)
+Explanation:
+Promoting products down the distribution channel from manufacturer to wholesaler to retailer to consumer is a push strategy. Hence (B).
+
+Q47. Identify the strategy followed by ABC Ltd.: (aggressive sales promotion and advertising to build consumer demand)
+(A) Push strategy
+(B) Pick and pick strategy
+(C) Pull and pull strategy
+(D) Pull strategy
+Answer: (D)
+Explanation:
+Creating consumer demand directly through advertising and promotion so consumers seek the product is a pull strategy. Hence (D).
+
+Q48. Given the nominal rate of discount at 12% and the rate of inflation at 5%, the real rate of discount will be
+(A) 17%
+(B) 7%
+(C) 6.7%
+(D) 7.6%
+Answer: (C)
+Explanation:
+Using Fisher's equation, (1 + real) = 1.12 / 1.05 = 1.0667. Thus the real rate is approximately 6.7%. Hence (C).
+
+Q49. Gordon dividend model is based on
+(A) Constant growth rate in dividend
+(B) Increasing growth rate in dividend
+(C) Decreasing growth rate in dividend
+(D) None of the above
+Answer: (A)
+Explanation:
+The Gordon Growth Model assumes dividends grow at a constant rate indefinitely. Hence (A).
+
+Q50. The reciprocal of P/E ratio is called
+(A) Overall cost of capital (K₀)
+(B) Cost of debt (Kd)
+(C) Cost of Equity (Ke)
+(D) Cost of retained earnings (Kr)
+Answer: (C)
+Explanation:
+The reciprocal of P/E is EPS/Price, known as earnings yield and used as an estimate of cost of equity. Hence (C).
+
+Q51. In which order the following variables are to be considered while arriving at EVA?
+Variables: i. EBDIT, ii. Interest on debt (I), iii. Depreciation (D), iv. Taxes (T), v. Cost of equity (Ke)
+(A) EBDIT – I – T – D – Ke
+(B) EBDIT – T – I – D – Ke
+(C) EBDIT – D – T – I – Ke
+(D) EBDIT – D – I – T – Ke
+Answer: (C)
+Explanation:
+The supplied explanation sequences EBDIT, depreciation, taxes and then considers the cost of capital charge. Hence (C) is retained for the paper.
+
+Q52. Terminal value of a project is affected by
+i. Project life
+ii. Growth rate
+iii. Initial outlay
+iv. Incremental cash inflows or outflows
+(A) i, ii and iv
+(B) i, iii and iv
+(C) ii, iii and iv
+(D) i, ii, and iii
+Answer: (A)
+Explanation:
+Terminal value is affected by the forecast/project life, growth rate and future incremental cash flows. Initial outlay is an initial cash flow and does not directly determine terminal value. Hence (A).
+
+Q53. Which of the following statements is/are correct?
+i. As per NI approach, optimum capital structure means 100% debt capital.
+ii. Every (or any) Debt-equity mix is an optimum mix.
+iii. Tax-free zone company enjoys the benefit of Interest tax shield.
+iv. Interest tax shield is the side effect of mixing debt with equity.
+(A) i and ii only
+(B) iii and iv only
+(C) i, ii and iii
+(D) i, ii and iv
+Answer: (D)
+Explanation:
+Under NI approach, 100% debt is treated as optimum because debt is cheaper. Under NOI approach, any debt-equity mix is optimum. A tax-free company does not receive an interest tax shield, while the tax shield is a consequence of using debt. Hence (D).
+
+Q54. Assertion (A): The more the duration of the gross operating cycle, the more the amount of gross working capital requirement and vice-versa.
+Reasoning (R): The duration of the gross operating cycle is independent of the credit period granted by the supplier and therefore, the gross working capital remains unaffected.
+(A) (A) is correct and (R) is not correct
+(B) (A) is incorrect and (R) is correct
+(C) Both (A) and (R) are correct
+(D) Both (A) and (R) are incorrect
+Answer: (D)
+Explanation:
+The supplied explanation treats the assertion as not strictly correct and the reasoning as incorrect because supplier credit affects working capital considerations. Hence (D).
+
+Q55. Match the List – A with the List – B:
+a. Zero-coupon Bond | i. Cost of equity
+b. CAPM model | ii. Cost of retained earnings
+c. Opportunity cost of capital | iii. Nominal cost of capital
+d. Real cost of capital | iv. Initial outflow and terminal inflow
+(A) a-iv, b-i, c-ii, d-iii
+(B) a-i, b-ii, c-iii, d-iv
+(C) a-iv, b-i, c-iii, d-ii
+(D) a-ii, b-i, c-iv, d-iii
+Answer: (A)
+Explanation:
+Zero-coupon bonds involve an initial outflow and terminal inflow; CAPM estimates cost of equity; opportunity cost applies to retained earnings; real cost of capital is nominal cost adjusted for inflation. Hence (A).
+
+Q56. Which intervention method listed below is the most definitive of all third party interventions?
+(A) Fact finding
+(B) Mediation
+(C) Binding arbitration
+(D) Interest arbitration
+Answer: (C)
+Explanation:
+Binding arbitration produces a decision that the parties are required to accept, making it the most definitive of these interventions. Hence (C).
+
+Q57. Acts of misconduct that cause very little harm but if neglected can accumulate and result in serious problems for the organisation.
+(A) Minor infractions
+(B) Major infractions
+(C) Intolerable offences
+(D) Serious misconduct
+Answer: (A)
+Explanation:
+Minor infractions are small violations that can accumulate if ignored. Hence (A).
+
+Q58. Sending your employees to work on projects of another company while they continue to be on your rolls is called
+(A) Work sharing
+(B) Retrenchment
+(C) Benching
+(D) Loaning
+Answer: (D)
+Explanation:
+Loaning or secondment assigns employees to another company's work while they remain on the original company's rolls. Hence (D).
+
+Q59. Assertion (A): When people working in the company are valuable, rare and difficult to imitate, they can be a source of competitive advantage.
+Reasoning (R): People are a source of competitive advantage when their skills, knowledge and abilities are easily available to competitors.
+(A) Both (A) and (R) are true and (R) is the correct explanation of (A)
+(B) Both (A) and (R) are true and (R) is not the correct explanation of (A)
+(C) (A) is true but (R) is false
+(D) Both (A) and (R) are false
+Answer: (C)
+Explanation:
+The resource-based view states that valuable, rare and difficult-to-imitate resources can provide competitive advantage. If skills are easily available to competitors, they do not provide such an advantage. Hence (C).
+
+Q60. An interview during the course of which several interviewers take turns in interviewing the candidate is called
+(A) Structured interview
+(B) Unstructured interview
+(C) Panel interview
+(D) Group interview
+Answer: (C)
+Explanation:
+A panel interview involves multiple interviewers questioning one candidate. Hence (C).
+
+Q61. Which of the following are off-the-job training methods?
+a. Lecturing
+b. Apprenticeship
+c. In basket training
+d. Seminars
+(A) a and b
+(B) b and d
+(C) c and d
+(D) a and d
+Answer: (A)
+Explanation:
+The supplied answer treats lecturing and apprenticeship as the intended off-the-job pairing. Hence (A) is retained for the paper.
+
+Q62. Assertion (A): The use of information technology and internet by employees has raised concerns regarding the privacy of employee work activities.
+Reasoning (R): Information technology offers current and accurate data for the purposes of control and decision making.
+(A) Both (A) and (R) are correct but (R) is not the correct explanation of (A)
+(B) Both (A) and (R) are false
+(C) (A) is true but (R) is false
+(D) (R) is true but (A) is false
+Answer: (A)
+Explanation:
+IT monitoring can raise privacy concerns, while IT also supplies useful data for control and decision-making. The second statement does not explain the privacy concern. Hence (A).
+
+Q63. Assertion (A): Role playing is a technique that requires the trainee to assume different identities to learn how others feel under different circumstances.
+Reasoning (R): This is an opportunity for the participants to provide their ideas on a stated problem during a freewheeling group discussion.
+(A) (A) is true but (R) is false
+(B) Both (A) and (R) are false
+(C) Both (A) and (R) are true and (R) is the correct explanation of (A)
+(D) Both (A) and (R) are true but (R) is not the correct explanation of (A)
+Answer: (A)
+Explanation:
+Role playing requires participants to act out roles. The reason describes brainstorming or group discussion rather than role playing. Hence (A).
+
+Q64. Match the following:
+a. Time wage | i. Bonus
+b. Piece wage | ii. Minimum wage
+c. Balance wage | iii. Production
+d. Incentive wage | iv. Hours
+(A) a-ii, b-i, c-iv, d-iii
+(B) a-iv, b-iii, c-ii, d-i
+(C) a-iv, b-iii, c-i, d-ii
+(D) a-iii, b-iv, c-ii, d-i
+Answer: (B)
+Explanation:
+Time wage is based on hours; piece wage on production; balance wage ensures a minimum wage; incentive wage includes bonus. Hence (B).
+
+Q65. Match the following:
+a. Intelligence tests | i. Measures basic human nature
+b. Aptitude tests | ii. Measures the current proficiency
+c. Personality tests | iii. Measures an individual's potential to learn certain skills
+d. Achievement tests | iv. Measures mental ability
+(A) a-iv, b-iii, c-i, d-ii
+(B) a-ii, b-i, c-iv, d-iii
+(C) a-iv, b-ii, c-i, d-iii
+(D) a-iii, b-iv, c-ii, d-i
+Answer: (A)
+Explanation:
+Intelligence tests measure mental ability; aptitude tests potential to learn; personality tests basic characteristics; achievement tests current proficiency. Hence (A).
+
+Q66. In order to control credit.
+(A) CRR should be increased and bank rate should be decreased
+(B) CRR should be decreased and bank rate should be decreased
+(C) CRR should be increased and bank rate should be increased
+(D) CRR should be decreased and bank rate should be increased
+Answer: (C)
+Explanation:
+Increasing CRR reduces banks' lendable funds and increasing bank rate makes borrowing costlier. Both are contractionary credit-control measures. Hence (C).
+
+Q67. ‘Repo Rate’ refers to the rate at which
+(A) RBI borrows short term money from the market
+(B) Banks keep the money with RBI
+(C) Bills are discounted by RBI
+(D) Forex is purchased by RBI
+Answer: (B)
+Explanation:
+For this TrueRevise paper, the answer is retained as B as requested. Note that the standard modern definition of repo rate is the rate at which RBI lends short-term funds to banks against eligible securities; the wording of this historical question/key should therefore be treated as an exam-key item.
+
+Q68. The concept of mutual funds was started with unit schemes of Unit Trust of India during
+(A) 1964
+(B) 1974
+(C) 1984
+(D) 1994
+Answer: (A)
+Explanation:
+UTI was established in 1964 and launched its first unit scheme in the same year, marking the beginning of India's mutual fund industry. Hence (A).
+
+Q69. Which bank took over the entire undertaking of the ARDC?
+(A) RBI
+(B) NABARD
+(C) SBI
+(D) SEBI
+Answer: (B)
+Explanation:
+NABARD was established in 1982 and took over the functions of the Agricultural Refinance and Development Corporation. Hence (B).
+
+Q70. Match the following:
+New Bank of India | i. Punjab National Bank
+Bank of Madhura | ii. HDFC Bank
+Times Bank | iii. Oriental Bank
+Global Trust Bank | iv. ICICI Bank
+(A) a-ii, b-iii, c-i, d-iv
+(B) a-i, b-iii, c-ii, d-iv
+(C) a-iii, b-i, c-iv, d-ii
+(D) a-iv, b-i, c-iii, d-ii
+Answer: (B)
+Explanation:
+New Bank of India merged with Punjab National Bank; Bank of Madhura with Oriental Bank; Times Bank with HDFC Bank; Global Trust Bank with ICICI Bank. Hence (B).
+
+Q71. Which of the following is not a form of Foreign Direct Investment?
+(A) Purchase of existing assets in a foreign country
+(B) Purchase of foreign currency convertible bonds
+(C) Participation in a joint venture with a foreign firm
+(D) Transfer of human resources for equity in foreign companies
+Answer: (B)
+Explanation:
+FDI involves direct participation in foreign business operations. FCCBs are financial instruments and are generally treated as portfolio-type investment rather than direct investment. Hence (B).
+
+Q72. The rate at which demand for the foreign exchange and the supply of foreign exchange are equal, is called
+(A) Exchange rate
+(B) Payment rate
+(C) The equilibrium exchange rate
+(D) The BoP exchange rate
+Answer: (C)
+Explanation:
+The equilibrium exchange rate is the rate at which demand for foreign exchange equals supply. Hence (C).
+
+Q73. BRICS includes
+(A) Bhutan, Romania, Indonesia, Chile and South Korea
+(B) Brazil, Russia, Indonesia, Chile and Sudan
+(C) Brazil, Russia, India, China and South Africa
+(D) Britain, Russia, India, Chile and Sri Lanka
+Answer: (C)
+Explanation:
+BRICS originally represented Brazil, Russia, India, China and South Africa. Hence (C) for this historical question.
+
+Q74. Which of the following is the Central Institution of the International Monetary System?
+(A) Asian Development Bank
+(B) International Monetary Fund
+(C) Bank of International Settlements
+(D) World Trade Organization
+Answer: (C)
+Explanation:
+The supplied answer identifies the Bank for International Settlements as the central institution for international monetary cooperation. Hence (C) is retained.
+
+Q75. When the Balance of Payments shows either a surplus or a deficit, it is called
+(A) Cyclical disequilibrium
+(B) BoP disequilibrium
+(C) Structural disequilibrium
+(D) Development disequilibrium
+Answer: (B)
+Explanation:
+A surplus or deficit in the balance of payments represents BoP disequilibrium. Hence (B).
+
+Q76. Which of the following is included in current account of Balance of Payment?
+(A) International capital transfers
+(B) Foreign debts
+(C) Commodity imports and exports
+(D) Long term financial transactions
+Answer: (C)
+Explanation:
+The current account includes trade in goods and services, income and current transfers. Commodity imports and exports are therefore included. Hence (C).
+
+Q77. Unilateral payment received from abroad are considered as
+(A) Debits of capital account of balance of payment
+(B) Credits of current account of Balance of payment
+(C) Credits of unilateral transfers account
+(D) Debits of current account
+Answer: (C)
+Explanation:
+Unilateral payments received from abroad, such as remittances and gifts, are credits in the unilateral transfers account, which forms part of the current account. Hence (C).
+
+Q78. Arrange the following Regional Trade Blocs in sequence as per the year in which they came into being:
+1. EEC
+2. NAFTA
+3. ASEAN
+4. SAARC
+(A) 4, 1, 3, 2
+(B) 1, 3, 2, 4
+(C) 2, 3, 1, 4
+(D) 1, 4, 3, 2
+Answer: (B)
+Explanation:
+The supplied paper key is retained as (B). The chronology stated in the supplied explanation notes EEC (1957), ASEAN (1967), SAARC (1985), and NAFTA (1994), which would ordinarily suggest 1,3,4,2; however that sequence is not among the options. For this historical paper, the supplied answer is retained.
+
+Q79. Arrange the following stages of evolution of companies in internationalisation of their business:
+1. Multinational company
+2. Domestic company
+3. International company
+4. Transnational company
+5. Global company
+(A) 2, 3, 1, 5, 4
+(B) 2, 3, 1, 4, 5
+(C) 2, 1, 3, 4, 5
+(D) 4, 2, 1, 3, 5
+Answer: (A)
+Explanation:
+The supplied sequence is Domestic → International → Multinational → Global → Transnational. Hence (A).
+
+Q80. Match the following in List – I with those in List – II:
+a. Merchandise Exports | 1. Debit entry of current account
+b. Invisible imports | 2. Debit entry of capital account
+c. Capital outflow | 3. Credit entry of current account
+d. Dividends on investments made in abroad | 4. Credit entry of capital account
+(A) a-4, b-2, c-3, d-1
+(B) a-1, b-2, c-3, d-4
+(C) a-1, b-4, c-3, d-2
+(D) a-3, b-1, c-2, d-4
+Answer: (D)
+Explanation:
+Merchandise exports are a credit in the current account; invisible imports are debit entries in the current account; capital outflow is a debit in the capital account; dividends from abroad are treated as an inflow in the supplied matching. Hence (D).
+
+Q81. The first Indian to suggest a model for human resource valuation and accounting is
+(A) Das Gupta
+(B) Babatosh Banerjee
+(C) S. K. Chakraborty
+(D) None of these
+Answer: (D)
+Explanation:
+The supplied explanation identifies Dr. D. P. Saha as the first Indian to propose an HR valuation model, so none of the listed names is selected. Hence (D).
+
+Q82. The sensitivity of a stock's return to the changes in the market is measured by
+(A) Standard deviation
+(B) Beta
+(C) Alpha
+(D) Value-at-risk
+Answer: (B)
+Explanation:
+Beta measures a security's sensitivity to market movements and represents systematic risk. Hence (B).
+
+Q83. A short term lease, which is often cancellable, is known as
+(A) Financial Lease
+(B) Net Lease
+(C) Operating Lease
+(D) Leveraged Lease
+Answer: (C)
+Explanation:
+Operating leases are generally shorter and may be cancellable, unlike finance leases. Hence (C).
+
+Q84. Which of the following money market instruments would typically be used in international transactions?
+(A) Treasury Bills
+(B) Banker's Acceptances
+(C) Commercial papers
+(D) Negotiable CDs
+Answer: (B)
+Explanation:
+Banker's acceptances are time drafts accepted by banks and are widely used in international trade finance. Hence (B).
+
+Q85. Euro issues include
+(A) Foreign currency convertible bonds
+(B) Global depository receipts
+(C) American depository receipts
+(D) All the above
+Answer: (D)
+Explanation:
+The supplied answer treats FCCBs, GDRs and ADRs as instruments included under Euro issues. Hence (D).
+
+Q86. Which of the following methods are used for marketing new issues of securities?
+i. Listing of securities
+ii. Jobbers and Brokers
+iii. Private placement
+iv. Privileged subscriptions
+(A) i and ii
+(B) ii and iii
+(C) iii and iv
+(D) i, ii, iii and iv
+Answer: (D)
+Explanation:
+The supplied answer treats all four as methods used for marketing new issues. Hence (D).
+
+Q87. Assertion (A): Blue chip shares are listed on the stock exchange.
+Reasoning (R): Blue chip shares give consistent high dividends.
+(A) Both (A) and (R) are right
+(B) Both (A) and (R) are wrong
+(C) (A) is right but (R) is wrong
+(D) (A) is wrong but (R) is right
+Answer: (C)
+Explanation:
+Blue-chip shares are generally listed and represent established companies. The supplied explanation treats the claim of consistently high dividends as too strong, because dividends may be moderate. Hence (C).
+
+Q88. Match List – I with List – II
+a. Market risk | i. Marketability of security
+b. Interest risk | ii. Price volatility
+c. Business risk | iii. Bank Rate
+d. Liquidity risk | iv. Recession
+(A) a-i, b-iii, c-iv, d-ii
+(B) a-ii, b-iii, c-iv, d-i
+(C) a-i, b-iii, c-iii, d-iv
+(D) a-iv, b-iii, c-ii, d-i
+Answer: (B)
+Explanation:
+Market risk is associated with price volatility; interest risk with bank rate; business risk with recession; liquidity risk with marketability. Hence (B).
+
+Q89. The Bond is sold at par, if the rate of interest is
+(A) Equal to its YTM
+(B) More to its YTM
+(C) Less to its YTM
+(D) Zero
+Answer: (A)
+Explanation:
+A bond sells at par when its coupon/interest rate equals its yield to maturity. Hence (A).
+
+Q90. To levy income tax on a corporate assessee, the company's residential status is decided on the basis of
+(A) Company's management and control (domestic or foreign)
+(B) Nature of the company
+(C) Profits of the company
+(D) Ownership of the company
+Answer: (A)
+Explanation:
+For corporate assessees, residential status is determined by where the company's control and management is situated. Hence (A).
+
+Q91. Depreciation which remains unadjusted can be carried forward for a period of
+(A) 4 years
+(B) 8 years
+(C) 6 years
+(D) Till it is fully adjusted
+Answer: (B)
+Explanation:
+The supplied answer for this historical paper is 8 years. Although unabsorbed depreciation rules have changed and can be carried forward indefinitely under current provisions, this paper's supplied answer is retained. Hence (B).
+
+Q92. For a corporate assessee, the due date for filing an Income-tax return is
+(A) 30th September of every A.Y.
+(B) 30th June of every A.Y.
+(C) 30th November of the A.Y.
+(D) None of the above
+Answer: (A)
+Explanation:
+For companies required to get their accounts audited, the historical due date applicable in this paper's context was 30 September of the assessment year. Hence (A).
+
+Q93. Which of the following is/are treated as deemed profits under Section 41 of I.T. Tax?
+(A) Balancing charge
+(B) Profit on sale of assets used for scientific research
+(C) Bad debts allowed earlier but recovered now
+(D) All the above
+Answer: (D)
+Explanation:
+The supplied explanation identifies balancing charge, profit on sale of scientific-research assets and recovery of previously allowed bad debts as deemed profits under the cited provisions. Hence (D).
+
+Q94. Assume that the municipal value of a house property is Rs. 1,05,000, fair rent is Rs. 1,07,000, the standard rent is Rs. 1,35,000 and the actual rent is Rs. 97,000. The gross annual value of the house property will be
+(A) Rs. 1,07,000
+(B) Rs. 1,35,000
+(C) Rs. 97,000
+(D) None of these
+Answer: (A)
+Explanation:
+Expected rent is the higher of municipal value and fair rent, subject to standard rent. Here expected rent is Rs. 1,07,000 and actual rent is Rs. 97,000. Therefore GAV is Rs. 1,07,000. Hence (A).
+
+Q95. An American citizen came to India for the first time on May 28, 2017 and stayed upto December 5, 2017. His residential status will be
+(A) Resident
+(B) Resident but not ordinarily resident
+(C) Non-resident
+(D) Indeterminate
+Answer: (B)
+Explanation:
+The stay from May 28 to December 5 is 192 days, exceeding 182 days, satisfying the basic condition for resident status. As this is his first visit, the additional conditions for ordinarily resident are not satisfied. Hence Resident but Not Ordinarily Resident (B).
+
+Q96. All assessees are required to follow uniform previous for all sources of income w.e.f. the assessment year
+(A) 1989-90
+(B) 1999-2000
+(C) 2009-2010
+(D) 2013-2014
+Answer: (A)
+Explanation:
+A uniform previous year for all sources of income was made mandatory from Assessment Year 1989-90. Hence (A).
+
+Q97. Mr. A has invested Rs. 1,00,000 in 9% tax-free debentures of a company. Interest accrues on 1st January of every year. If the rate of deduction of tax at source is 10%, his taxable income for the previous year 2017-18 will be
+(A) Rs. 9,000
+(B) Rs. 10,000
+(C) Rs. 11,000
+(D) None of these
+Answer: (D)
+Explanation:
+Interest at 9% on Rs. 1,00,000 is Rs. 9,000. The supplied explanation treats the debentures as tax-free, so taxable income from this source is zero, which is not listed. Hence (D).
+
+Q98. Income earned and received outside India, from business controlled from outside India is not taxable in India when an assessee is
+i. Resident and ordinarily resident
+ii. Resident but not ordinarily resident
+iii. Non-resident in India
+(A) i and ii
+(B) ii and iii
+(C) i and iii
+(D) i, ii and iii
+Answer: (B)
+Explanation:
+The supplied explanation treats foreign income from a business controlled outside India as not taxable in India for a resident but not ordinarily resident and for a non-resident. Hence (B).
+
+Q99. Match the List – A with List – B
+a. Voluntary return | i. Section 139(5)
+b. Return of loss | ii. Section 139(4)
+c. Belated return | iii. Section 139(3)
+d. Revised return | iv. Section 139(1)
+(A) a-ii, b-iii, c-iv, d-i
+(B) a-iii, b-iv, c-i, d-ii
+(C) a-i, b-ii, c-iii, d-iv
+(D) a-iv, b-iii, c-ii, d-i
+Answer: (D)
+Explanation:
+Voluntary return → Section 139(1); return of loss → Section 139(3); belated return → Section 139(4); revised return → Section 139(5). Hence (D).
+
+Q100. Assertion (A): Both tax planning and tax avoidance are legal and aim at reducing tax liability.
+Reasoning (R): Tax planning follows the intent of the Income Tax Act, whereas the tax avoidance looks at the flaws in the law to serve the purpose.
+(A) Both (A) and (R) are correct
+(B) Both (A) and (R) are incorrect
+(C) (A) is correct and (R) is incorrect
+(D) (A) is incorrect and (R) is correct
+Answer: (A)
+Explanation:
+The supplied answer treats tax planning and tax avoidance as legal methods aimed at reducing tax liability, with tax planning following legislative intent and tax avoidance exploiting gaps or ambiguities. Hence (A).
