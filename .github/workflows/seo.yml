@@ -1,4 +1,4 @@
-name: SEO metadata
+name: TrueRevise SEO
 
 on:
   push:
@@ -13,45 +13,143 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Add lightweight SEO metadata
+
+      - name: Apply technical SEO metadata
         run: |
           python - <<'PY'
           from pathlib import Path
           import re
 
           public = {
-              'index.html': ('True Revise | UGC NET, TSPSC & Competitive Exam Mock Tests', 'True Revise helps students prepare for UGC NET, TSPSC and other competitive exams with daily live tests, mock exams, subject-wise practice and instant results.'),
-              'current-affairs.html': ('True Revise | Current Affairs for Competitive Exams', 'Exam-focused current affairs, important events, government schemes, awards, appointments and daily quiz preparation from True Revise.'),
+              "index.html": {
+                  "title": "True Revise | UGC NET, TSPSC & Competitive Exam Mock Tests",
+                  "description": "Prepare for UGC NET, TSPSC and other competitive exams with daily live tests, mock exams, subject-wise practice and instant results on True Revise.",
+                  "canonical": "https://truerevise.com/",
+                  "kind": "home",
+              },
+              "current-affairs.html": {
+                  "title": "Current Affairs for Competitive Exams | True Revise",
+                  "description": "Practice exam-focused current affairs covering important events, government schemes, awards, appointments and daily quiz preparation on True Revise.",
+                  "canonical": "https://truerevise.com/current-affairs.html",
+                  "kind": "current",
+              },
           }
+
           private = {
-              'admin.html','admin-dashboard.html','admin-pass-access.html','add-question.html','daily-live-admin.html','manage-exams.html','students.html','student-results.html','dashboard.html','profile.html','results.html','review.html','saved-questions.html','pass-access.html','premium-pass.html','login.html','register.html','forgot-password.html','verify-account.html','test.html','live-test.html','mock-test.html'
+              "admin.html", "admin-dashboard.html", "admin-pass-access.html", "add-question.html",
+              "daily-live-admin.html", "manage-exams.html", "students.html", "student-results.html",
+              "dashboard.html", "profile.html", "results.html", "review.html", "saved-questions.html",
+              "pass-access.html", "premium-pass.html", "login.html", "register.html", "forgot-password.html",
+              "verify-account.html", "test.html", "live-test.html", "mock-test.html"
           }
+
+          def remove_old_seo(text):
+              patterns = [
+                  r'<!-- TrueRevise SEO -->.*?(?=<style|</head>)',
+                  r'<meta\\s+name=["\\\']description["\\\'][^>]*>\\s*',
+                  r'<meta\\s+name=["\\\']robots["\\\'][^>]*>\\s*',
+                  r'<link\\s+rel=["\\\']canonical["\\\'][^>]*>\\s*',
+                  r'<meta\\s+property=["\\\']og:(?:type|url|title|description|site_name)["\\\'][^>]*>\\s*',
+                  r'<meta\\s+name=["\\\']twitter:(?:card|title|description|url)["\\\'][^>]*>\\s*',
+                  r'<script\\s+type=["\\\']application/ld\\+json["\\\']>.*?</script>\\s*',
+              ]
+              for pattern in patterns:
+                  text = re.sub(pattern, '', text, flags=re.I | re.S)
+              return text
+
+          def seo_block(meta):
+              title = meta["title"]
+              desc = meta["description"]
+              canonical = meta["canonical"]
+              if meta["kind"] == "home":
+                  structured = '''<script type="application/ld+json">{
+            "@context":"https://schema.org",
+            "@graph":[
+              {"@type":"WebSite","@id":"https://truerevise.com/#website","url":"https://truerevise.com/","name":"True Revise","description":"Online competitive exam preparation with mock tests, daily live tests and subject-wise practice."},
+              {"@type":"EducationalOrganization","@id":"https://truerevise.com/#organization","name":"True Revise","url":"https://truerevise.com/","description":"Online competitive exam practice platform for UGC NET, TSPSC and other competitive examinations."}
+            ]
+          }</script>'''
+              else:
+                  structured = '''<script type="application/ld+json">{
+            "@context":"https://schema.org",
+            "@type":"WebPage",
+            "name":"Current Affairs for Competitive Exams | True Revise",
+            "url":"https://truerevise.com/current-affairs.html",
+            "description":"Exam-focused current affairs and daily quiz preparation for competitive examinations.",
+            "isPartOf":{"@type":"WebSite","name":"True Revise","url":"https://truerevise.com/"},
+            "breadcrumb":{"@type":"BreadcrumbList","itemListElement":[
+              {"@type":"ListItem","position":1,"name":"True Revise","item":"https://truerevise.com/"},
+              {"@type":"ListItem","position":2,"name":"Current Affairs","item":"https://truerevise.com/current-affairs.html"}
+            ]}
+          }</script>'''
+              return f'''<!-- TrueRevise SEO -->
+          <meta name="description" content="{desc}">
+          <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+          <meta name="author" content="True Revise">
+          <link rel="canonical" href="{canonical}">
+          <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+          <link rel="manifest" href="/site.webmanifest">
+          <meta name="theme-color" content="#070b14">
+          <meta property="og:type" content="website">
+          <meta property="og:url" content="{canonical}">
+          <meta property="og:title" content="{title}">
+          <meta property="og:description" content="{desc}">
+          <meta property="og:site_name" content="True Revise">
+          <meta property="og:locale" content="en_IN">
+          <meta name="twitter:card" content="summary">
+          <meta name="twitter:title" content="{title}">
+          <meta name="twitter:description" content="{desc}">
+          {structured}
+          '''
 
           for path in Path('.').glob('*.html'):
               name = path.name
               text = path.read_text(encoding='utf-8')
-              if '<!-- TrueRevise SEO -->' in text:
-                  continue
               if name in public:
-                  title, desc = public[name]
-                  canonical = 'https://truerevise.com/' if name == 'index.html' else f'https://truerevise.com/{name}'
-                  block = f'''<!-- TrueRevise SEO -->\n<meta name="description" content="{desc}">\n<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">\n<link rel="canonical" href="{canonical}">\n<meta property="og:type" content="website">\n<meta property="og:url" content="{canonical}">\n<meta property="og:title" content="{title}">\n<meta property="og:description" content="{desc}">\n<meta property="og:site_name" content="True Revise">\n'''
-                  text = re.sub(r'<title>.*?</title>', f'<title>{title}</title>\n{block}', text, count=1, flags=re.S)
+                  text = remove_old_seo(text)
+                  title = public[name]["title"]
+                  text = re.sub(r'<title>.*?</title>', '', text, count=1, flags=re.I | re.S)
+                  block = seo_block(public[name])
+                  text = re.sub(r'<head>', '<head>\n' + block, text, count=1, flags=re.I)
+                  text = text.replace('</head>', '</head>', 1)
+                  text = re.sub(r'<title>.*?</title>', '', text, count=1, flags=re.I | re.S)
+                  text = re.sub(r'(<meta charset=[^>]+>)', r'\\1\n<title>' + title + '</title>', text, count=1, flags=re.I)
               elif name in private:
-                  block = '<!-- TrueRevise SEO -->\n<meta name="robots" content="noindex,nofollow">\n'
-                  text = text.replace('</head>', block + '</head>', 1)
+                  text = remove_old_seo(text)
+                  text = re.sub(r'<head>', '<head>\n<meta name="robots" content="noindex,nofollow,noarchive">\n<link rel="canonical" href="https://truerevise.com/' + name + '">', text, count=1, flags=re.I)
               else:
                   continue
               path.write_text(text, encoding='utf-8')
           PY
+
+      - name: Refresh sitemap
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from datetime import date
+          today = date.today().isoformat()
+          Path("sitemap.xml").write_text(f'''<?xml version="1.0" encoding="UTF-8"?>
+          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            <url>
+              <loc>https://truerevise.com/</loc>
+              <lastmod>{today}</lastmod>
+            </url>
+            <url>
+              <loc>https://truerevise.com/current-affairs.html</loc>
+              <lastmod>{today}</lastmod>
+            </url>
+          </urlset>
+          ''', encoding="utf-8")
+          PY
+
       - name: Commit SEO changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add '*.html'
+          git add '*.html' sitemap.xml
           if git diff --cached --quiet; then
             echo "No SEO changes needed"
           else
-            git commit -m "Apply SEO metadata to site pages"
+            git commit -m "Improve technical SEO and search metadata"
             git push
           fi
