@@ -3,21 +3,19 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn() { return request.auth != null; }
-    function isAdmin() {
-      return signedIn() && request.auth.token.email == 'kiransingh.smile@gmail.com';
+    function isAdmin() { return signedIn() && request.auth.token.email == 'kiransingh.smile@gmail.com'; }
+    function verificationSetting(field) {
+      return exists(/databases/$(database)/documents/appSettings/verification)
+        && get(/databases/$(database)/documents/appSettings/verification).data.get(field, false) == true;
     }
-    function authEmailVerified() {
-      return signedIn() && request.auth.token.email_verified == true;
-    }
-    function authPhoneVerified() {
-      return signedIn() && request.auth.token.phone_number != null;
-    }
+    function authEmailVerified() { return signedIn() && request.auth.token.email_verified == true; }
+    function authPhoneVerified() { return signedIn() && request.auth.token.phone_number != null; }
     function verifiedUser() {
-      return authEmailVerified() && authPhoneVerified();
+      return signedIn()
+        && (!verificationSetting('emailVerificationRequired') || authEmailVerified())
+        && (!verificationSetting('mobileVerificationRequired') || authPhoneVerified());
     }
-    function studentDoc() {
-      return get(/databases/$(database)/documents/students/$(request.auth.uid));
-    }
+    function studentDoc() { return get(/databases/$(database)/documents/students/$(request.auth.uid)); }
     function hasActivePass() {
       return signedIn()
         && studentDoc().data.get('premiumUntil', null) != null
@@ -26,8 +24,11 @@ service cloud.firestore {
     function isFreeExam(examName) {
       return get(/databases/$(database)/documents/passSettings/main).data.freeExams.hasAny([examName]);
     }
-    function canAccessExam(examName) {
-      return isAdmin() || (verifiedUser() && (hasActivePass() || isFreeExam(examName)));
+    function canAccessExam(examName) { return isAdmin() || (verifiedUser() && (hasActivePass() || isFreeExam(examName))); }
+
+    match /appSettings/verification {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
     }
 
     match /passSettings/{settingId} {
@@ -35,23 +36,16 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
-    // Exam metadata can be browsed by verified students, including free users.
-    // This does NOT expose the question bank.
     match /exams/{examId} {
       allow read: if isAdmin() || verifiedUser();
       allow create, update, delete: if isAdmin();
     }
 
-    // Actual questions remain protected. A free student can only read questions
-    // belonging to exams marked free in passSettings; premium students can read
-    // questions for all exams while their pass is active.
     match /questions/{questionId} {
       allow read: if canAccessExam(resource.data.exam);
       allow create, update, delete: if isAdmin();
     }
 
-    // Daily Live Test metadata is public so the homepage can show active tests.
-    // Students still need to be verified to read protected questions/submit.
     match /dailyLiveTests/{testId} {
       allow read: if true;
       allow create, update, delete: if isAdmin();
@@ -68,22 +62,28 @@ service cloud.firestore {
     }
 
     match /students/{studentId} {
-      allow read: if isAdmin() || (verifiedUser() && request.auth.uid == studentId);
-      allow create: if verifiedUser() && request.auth.uid == studentId;
-      allow update: if isAdmin() || (
-        verifiedUser()
+      allow read: if isAdmin() || (signedIn() && request.auth.uid == studentId);
+      allow create: if signedIn()
         && request.auth.uid == studentId
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','photoURL','displayName','emailVerified','phoneVerified','verifiedAt'])
-      ) || (
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.mobile is string
+        && request.resource.data.mobile.matches('^\\+91[6-9][0-9]{9}$');
+      allow update: if isAdmin() || (
         signedIn()
         && request.auth.uid == studentId
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['emailVerified','phoneVerified','verifiedAt'])
-        && request.resource.data.emailVerified == true
-        && request.resource.data.phoneVerified == true
-        && authEmailVerified()
-        && authPhoneVerified()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','photoURL','displayName','emailVerified','phoneVerified','verifiedAt','updatedAt'])
       );
       allow delete: if isAdmin();
+    }
+
+    match /mobileRegistry/{mobileId} {
+      allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create: if signedIn()
+        && !exists(/databases/$(database)/documents/mobileRegistry/$(mobileId))
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.mobile == mobileId
+        && mobileId.matches('^\\+91[6-9][0-9]{9}$');
+      allow update, delete: if isAdmin();
     }
 
     match /results/{resultId} {
