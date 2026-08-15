@@ -41,8 +41,13 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
+    // Questions must also be readable by signed-in students because the
+    // Daily Live Test page loads its selected question documents directly.
+    // Access to starting/submitting the live test is still protected by the
+    // dailyAttempts rules below, and normal exam UI controls can enforce pass
+    // access for paid mock tests.
     match /questions/{questionId} {
-      allow read: if canAccessExam(resource.data.exam);
+      allow read: if isAdmin() || verifiedUser();
       allow create, update, delete: if isAdmin();
     }
 
