@@ -46,12 +46,15 @@ jobs:
           def remove_old_seo(text):
               patterns = [
                   r'<!-- TrueRevise SEO -->.*?(?=<style|</head>)',
-                  r'<meta\\s+name=["\\\']description["\\\'][^>]*>\\s*',
-                  r'<meta\\s+name=["\\\']robots["\\\'][^>]*>\\s*',
-                  r'<link\\s+rel=["\\\']canonical["\\\'][^>]*>\\s*',
-                  r'<meta\\s+property=["\\\']og:(?:type|url|title|description|site_name)["\\\'][^>]*>\\s*',
-                  r'<meta\\s+name=["\\\']twitter:(?:card|title|description|url)["\\\'][^>]*>\\s*',
-                  r'<script\\s+type=["\\\']application/ld\\+json["\\\']>.*?</script>\\s*',
+                  r'<meta\s+name=["\']description["\'][^>]*>\s*',
+                  r'<meta\s+name=["\']robots["\'][^>]*>\s*',
+                  r'<meta\s+name=["\']author["\'][^>]*>\s*',
+                  r'<link\s+rel=["\']canonical["\'][^>]*>\s*',
+                  r'<link\s+rel=["\']icon["\'][^>]*>\s*',
+                  r'<link\s+rel=["\']manifest["\'][^>]*>\s*',
+                  r'<meta\s+property=["\']og:(?:type|url|title|description|site_name|locale)["\'][^>]*>\s*',
+                  r'<meta\s+name=["\']twitter:(?:card|title|description|url)["\'][^>]*>\s*',
+                  r'<script\s+type=["\']application/ld\+json["\']>.*?</script>\s*',
               ]
               for pattern in patterns:
                   text = re.sub(pattern, '', text, flags=re.I | re.S)
@@ -111,11 +114,10 @@ jobs:
                   text = re.sub(r'<title>.*?</title>', '', text, count=1, flags=re.I | re.S)
                   block = seo_block(public[name])
                   text = re.sub(r'<head>', '<head>\n' + block, text, count=1, flags=re.I)
-                  text = text.replace('</head>', '</head>', 1)
-                  text = re.sub(r'<title>.*?</title>', '', text, count=1, flags=re.I | re.S)
-                  text = re.sub(r'(<meta charset=[^>]+>)', r'\\1\n<title>' + title + '</title>', text, count=1, flags=re.I)
+                  text = re.sub(r'(<meta charset=[^>]+>)', r'\1\n<title>' + title + '</title>', text, count=1, flags=re.I)
               elif name in private:
                   text = remove_old_seo(text)
+                  text = re.sub(r'<title>.*?</title>', '', text, count=1, flags=re.I | re.S)
                   text = re.sub(r'<head>', '<head>\n<meta name="robots" content="noindex,nofollow,noarchive">\n<link rel="canonical" href="https://truerevise.com/' + name + '">', text, count=1, flags=re.I)
               else:
                   continue
@@ -130,14 +132,8 @@ jobs:
           today = date.today().isoformat()
           Path("sitemap.xml").write_text(f'''<?xml version="1.0" encoding="UTF-8"?>
           <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-            <url>
-              <loc>https://truerevise.com/</loc>
-              <lastmod>{today}</lastmod>
-            </url>
-            <url>
-              <loc>https://truerevise.com/current-affairs.html</loc>
-              <lastmod>{today}</lastmod>
-            </url>
+            <url><loc>https://truerevise.com/</loc><lastmod>{today}</lastmod></url>
+            <url><loc>https://truerevise.com/current-affairs.html</loc><lastmod>{today}</lastmod></url>
           </urlset>
           ''', encoding="utf-8")
           PY
