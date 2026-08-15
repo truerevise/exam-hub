@@ -50,8 +50,11 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
+    // Daily Live Test metadata must be publicly readable so the homepage can
+    // display currently available tests before a student signs in. Question
+    // documents remain protected by the questions rule above.
     match /dailyLiveTests/{testId} {
-      allow read: if isAdmin() || verifiedUser();
+      allow read: if true;
       allow create, update, delete: if isAdmin();
     }
 
