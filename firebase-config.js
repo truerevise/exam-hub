@@ -19,21 +19,38 @@ export const auth = getAuth(app);
 // login.html and verify-account.html on mobile browsers.
 export const authReady = setPersistence(auth, browserLocalPersistence).catch(() => {});
 
-// On the public home page, show the dashboard instead of "Student Login"
-// when a student is already authenticated. This also handles returning to
-// the home page with the browser Back button after login.
+// Keep the public-home navigation in sync with the Firebase session.
+// This is intentionally resilient to module timing and browser Back/cache
+// behaviour: it checks immediately, on auth changes, and after DOM loading.
+const syncStudentNavigation = user => {
+  if (!(location.pathname.endsWith('/') || location.pathname.endsWith('/index.html'))) return;
+  const link = document.querySelector('.login-link');
+  if (!link) return;
+
+  if (user) {
+    link.textContent = 'Dashboard';
+    link.href = 'dashboard.html';
+    link.setAttribute('aria-label', 'Student Dashboard');
+  } else {
+    link.textContent = 'Student Login';
+    link.href = 'login.html';
+    link.removeAttribute('aria-label');
+  }
+};
+
 if (location.pathname.endsWith('/') || location.pathname.endsWith('/index.html')) {
-  onAuthStateChanged(auth, user => {
-    const link = document.querySelector('.login-link');
-    if (!link) return;
-    if (user) {
-      link.textContent = 'Dashboard';
-      link.href = 'dashboard.html';
-      link.setAttribute('aria-label', 'Student Dashboard');
-    } else {
-      link.textContent = 'Student Login';
-      link.href = 'login.html';
-      link.removeAttribute('aria-label');
-    }
-  });
+  // Handle an already-restored Firebase session.
+  syncStudentNavigation(auth.currentUser);
+
+  // Handle Firebase restoring the session asynchronously.
+  onAuthStateChanged(auth, syncStudentNavigation);
+
+  // Handle module/DOM timing and browser Back navigation.
+  const syncAfterDom = () => syncStudentNavigation(auth.currentUser);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncAfterDom, { once: true });
+  } else {
+    syncAfterDom();
+  }
+  window.addEventListener('pageshow', syncAfterDom);
 }
