@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
-import { getFirestore, collection, getDocs, query, where, orderBy, limit, Timestamp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -43,10 +43,10 @@ if (isHome()) {
   else syncAfterDom();
   window.addEventListener('pageshow', syncAfterDom);
 
-  // Fast path for the Daily Live Tests section. The old homepage query reads
-  // up to 10 historical documents and filters them in the browser. This query
-  // asks Firestore for only tests published during the last 24 hours and
-  // returns at most 3 records, greatly reducing reads and response size.
+  // Fast and compatible Daily Live Tests query.
+  // Do not use a Timestamp range filter here because existing publishedAt
+  // values may use different Firestore-compatible formats. Fetch only the
+  // newest few records, then apply the 24-hour check in the browser.
   const liveList = document.getElementById('liveList');
   if (liveList) {
     const esc = s => String(s ?? '').replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]));
@@ -54,21 +54,24 @@ if (isHome()) {
       const now = Date.now();
       const live = docs.map(d => {
         const data = d.data ? d.data() : d;
-        const start = data.publishedAt?.seconds ? data.publishedAt.seconds * 1000 : Number(data.publishedAt || 0);
+        const raw = data.publishedAt;
+        const start = raw?.seconds ? raw.seconds * 1000 : (raw?.toMillis ? raw.toMillis() : Date.parse(raw || 0));
         return { id: d.id || data.id, ...data, _start: start };
       }).filter(t => t._start && now >= t._start && now < t._start + 86400000);
+
       if (!live.length) {
         liveList.innerHTML = '<div class="empty-live">No live test is available right now. Check back soon.</div>';
         return;
       }
+
       liveList.innerHTML = live.map(t => `<article class="live-card"><span class="live-status">● LIVE NOW</span><h3>${esc(t.title || 'Daily Live Test')}</h3><p>${t.questionIds?.length || 0} questions • Available for 24 hours</p><button class="attempt" onclick="goLogin('live-test.html?id=${encodeURIComponent(t.id)}')">Attempt Exam →</button></article>`).join('');
     };
-    const liveQuery = query(
-      collection(db, 'dailyLiveTests'),
-      where('publishedAt', '>=', Timestamp.fromMillis(Date.now() - 86400000)),
-      orderBy('publishedAt', 'desc'),
-      limit(3)
-    );
-    getDocs(liveQuery).then(snap => renderLive(snap.docs)).catch(() => {});
+
+    getDocs(query(collection(db, 'dailyLiveTests'), orderBy('publishedAt', 'desc'), limit(10)))
+      .then(snap => renderLive(snap.docs))
+      .catch(error => {
+        console.error('Daily Live Tests failed to load:', error);
+        liveList.innerHTML = '<div class="empty-live">Unable to load live tests. Please refresh once.</div>';
+      });
   }
 }
