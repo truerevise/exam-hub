@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<link rel="canonical" href="https://truerevise.com/bulk-import-questions.html">
+<title>Bulk Import Questions | True Revise Admin</title>
+<meta name="theme-color" content="#080b12">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#080b12;color:#eef2ff;font-family:Inter,system-ui,Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:18px}.back{color:#8fb5ff;text-decoration:none}.title{font-size:28px;font-weight:800;margin:8px 0 4px}.sub{color:#9aa7bd;margin:0 0 18px}.card{background:#111722;border:1px solid #273244;border-radius:18px;padding:18px;margin:14px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{margin-bottom:12px}.field label{display:block;color:#aab6cc;font-size:13px;font-weight:800;margin-bottom:6px}.field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid #34415b;border-radius:10px;background:#0d1422;color:#fff;outline:none}.field textarea{min-height:300px;resize:vertical}.hint{font-size:12px;color:#71809a;line-height:1.5}.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:10px;padding:12px 17px;background:#2563eb;color:#fff;font-weight:800;cursor:pointer}.secondary{background:#182238;border:1px solid #31405d}.danger{background:#7f1d1d}.msg{margin-top:12px;color:#7ee2a9;min-height:22px}.error{color:#ff9aa7}.table-wrap{overflow:auto;border:1px solid #273244;border-radius:12px}.table{width:100%;border-collapse:collapse;min-width:900px}.table th,.table td{padding:10px;border-bottom:1px solid #273244;text-align:left;vertical-align:top}.table th{color:#9eb6ff;background:#0d1422;position:sticky;top:0}.status-ok{color:#7ee2a9}.status-warn{color:#ffd166}.status-error{color:#ff9aa7}.pill{display:inline-block;padding:3px 8px;border-radius:999px;background:#182238;border:1px solid #31405d;font-size:11px;margin:2px}.stat{display:flex;gap:10px;flex-wrap:wrap}.stat span{padding:8px 10px;background:#0d1422;border:1px solid #273244;border-radius:10px;font-size:13px}@media(max-width:700px){.grid{grid-template-columns:1fr}.wrap{padding:12px}.title{font-size:24px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<a class="back" href="admin-dashboard.html">← Admin Dashboard</a>
+<div class="title">📥 Bulk Import Questions</div>
+<p class="sub">Paste a complete previous-year paper, preview the parsed questions, then import them into Firebase.</p>
+
+<section class="card">
+<h3>1. Paper Details</h3>
+<div class="grid">
+<div class="field"><label>Exam *</label><input id="exam" value="Telangana SET"></div>
+<div class="field"><label>Subject *</label><input id="subject" value="Commerce Paper 2"></div>
+<div class="field"><label>Paper Title</label><input id="paperTitle" value="[Eng] Previous Year Paper of 2018 TG SET"></div>
+<div class="field"><label>Year</label><input id="year" value="2018"></div>
+<div class="field"><label>Marks per Question</label><input id="marks" type="number" value="2" min="0"></div>
+<div class="field"><label>Negative Marks</label><input id="negative" type="number" value="0" min="0" step="0.25"></div>
+</div>
+</section>
+
+<section class="card">
+<h3>2. Paste Question Text</h3>
+<p class="hint">Supported format: Q1./Q2. headings, (A)–(D) options, Answer: (B), and Explanation:. The importer preserves your question, options and explanation. Tags are generated from the question text.</p>
+<div class="field"><textarea id="source" placeholder="Paste the complete question paper text here..."></textarea></div>
+<div class="actions"><button class="btn" id="parse">🔍 Parse & Preview</button><button class="btn secondary" id="clear">Clear</button></div>
+<div id="msg" class="msg"></div>
+</section>
+
+<section class="card" id="previewCard" hidden>
+<h3>3. Preview</h3>
+<div class="stat" id="stats"></div>
+<div class="table-wrap"><table class="table"><thead><tr><th>Q.No</th><th>Question</th><th>Options</th><th>Key</th><th>Tags</th><th>Status</th></tr></thead><tbody id="preview"></tbody></table></div>
+<div class="actions" style="margin-top:14px"><button class="btn" id="import">✅ Import All Valid Questions</button><button class="btn danger" id="cancel">Cancel Preview</button></div>
+<div id="importMsg" class="msg"></div>
+</section>
+</main>
+<script type="module">
+import {auth,db} from './firebase-config.js';
+import {onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
+import {addDoc,collection,serverTimestamp} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
+const ADMIN='kiransingh.smile@gmail.com'; const $=id=>document.getElementById(id); let parsed=[];
+onAuthStateChanged(auth,u=>{if(!u||u.email?.toLowerCase()!==ADMIN.toLowerCase()) location.replace('admin.html')});
+function clean(s){return s.replace(/\r/g,'').trim();}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+function tagsFor(q){
+ const text=q.toLowerCase();
+ const map={
+  globalisation:['globalisation','globalization','international-business'], economics:['economics','demand','supply','inflation','exchange-rate','national-income','money-market'],
+  accounting:['accounting','ledger','journal','depreciation','partnership','shares','capital','cost-accounting','financial-accounting'],
+  taxation:['income-tax','tax','taxation','residential-status','return-of-income'],
+  finance:['financial-management','capital-structure','dividend','EVA','working-capital','bond','beta','capital-budgeting'],
+  banking:['banking','RBI','repo-rate','CRR','NABARD','mutual-fund','money-market'],
+  marketing:['marketing','CRM','AIDA','consumer','push-strategy','pull-strategy'],
+  management:['management','leadership','planning','coordination','communication','Taylor','Fayol','Mayo'],
+  humanresources:['human-resource','HR','training','interview','wage','personnel'],
+  statistics:['statistics','probability','hypothesis','sample','mean','Bayes'],
+  international:['foreign-exchange','balance-of-payment','BRICS','FDI','regional-trade','international'],
+  tally:['Tally','voucher','Day book'],
+  computer:['computer','Word','mailing-list','landscape','toolbar']
+ };
+ const out=[]; for(const [tag,words] of Object.entries(map)) if(words.some(w=>text.includes(w.toLowerCase()))) out.push(tag.replace('humanresources','human-resources'));
+ return [...new Set(out)].slice(0,8);
+}
+function parseAnswer(raw){
+ const m=raw.match(/Answer\s*:\s*(?:\(([^)]+)\)|([^\n]+))/i); if(!m) return '';
+ return (m[1]||m[2]).trim().toUpperCase();
+}
+function parse(text){
+ text=clean(text); const starts=[...text.matchAll(/(?:^|\n)\s*Q\s*(\d+)\s*[.):-]\s*/gi)]; const out=[];
+ for(let i=0;i<starts.length;i++){
+  const n=Number(starts[i][1]); const body=text.slice(starts[i].index+(starts[i][0].startsWith('\n')?1:0)+starts[i][0].length, i+1<starts.length?starts[i+1].index:text.length).trim();
+  const marks=[...body.matchAll(/(?:^|\n)\s*\(([ABCD])\)\s*/g)];
+  if(marks.length<4){out.push({n,valid:false,error:'Could not find all four options',question:body,options:{A:'',B:'',C:'',D:''},answer:'',explanation:'',tags:tagsFor(body)});continue;}
+  const options={}; for(let j=0;j<4;j++){const letter=marks[j][1]; const from=marks[j].index+marks[j][0].length; const to=j+1<marks.length?marks[j+1].index:body.search(/\n\s*(?:Answer\s*:|Explanation\s*:)/i); options[letter]=clean(body.slice(from,to<0?body.length:to));}
+  const ansMatch=body.match(/(?:^|\n)\s*Answer\s*:\s*(.*?)(?=\n\s*Explanation\s*:|$)/is); const answer=parseAnswer(ansMatch?ansMatch[0]:'');
+  const exMatch=body.match(/(?:^|\n)\s*Explanation\s*:\s*([\s\S]*)$/i); const explanation=exMatch?clean(exMatch[1]):'';
+  const question=clean(body.slice(0,marks[0].index));
+  const valid=!!question&&Object.values(options).every(Boolean)&&!!answer;
+  let key=answer; if(/ALL|ALL OF THE ABOVE|ALL ARE CORRECT/i.test(answer)) key='ALL'; else if(/DELETED|DROPPED|ALL AWARDED/i.test(answer)) key='DELETED'; else {const found=answer.match(/[ABCD]/g); key=found?.length>1?'MULTIPLE':(found?.[0]||'');}
+  out.push({n,question,options,answer:key,explanation,tags:tagsFor(question+' '+explanation),valid:valid&&['A','B','C','D','ALL','MULTIPLE','DELETED'].includes(key),error:valid?'':'Missing question/options/answer'});
+ }
+ return out;
+}
+function render(){
+ $('preview').innerHTML=parsed.map(x=>`<tr><td>${x.n}</td><td>${escapeHtml(x.question).slice(0,700)}${x.question.length>700?'…':''}</td><td>${['A','B','C','D'].map(k=>`<div><b>${k}</b> ${escapeHtml(x.options[k]).slice(0,180)}</div>`).join('')}</td><td><b>${escapeHtml(x.answer||'—')}</b></td><td>${x.tags.map(t=>`<span class="pill">${escapeHtml(t)}</span>`).join('')}</td><td class="${x.valid?'status-ok':'status-error'}">${x.valid?'✓ Ready':escapeHtml(x.error||'Invalid')}</td></tr>`).join('');
+ const ok=parsed.filter(x=>x.valid).length,bad=parsed.length-ok; $('stats').innerHTML=`<span>Total: <b>${parsed.length}</b></span><span>Ready: <b>${ok}</b></span><span>Needs review: <b>${bad}</b></span>`; $('previewCard').hidden=!parsed.length;
+}
+$('parse').onclick=()=>{const text=$('source').value;if(!text.trim()){ $('msg').className='msg error';$('msg').textContent='Paste the question text first.';return;} parsed=parse(text); render(); $('msg').className='msg'; $('msg').textContent=`Parsed ${parsed.length} question(s). Review the preview before importing.`;};
+$('clear').onclick=()=>{$('source').value='';parsed=[];$('previewCard').hidden=true;$('msg').textContent='';}; $('cancel').onclick=()=>{$('previewCard').hidden=true;parsed=[];};
+$('import').onclick=async()=>{const valid=parsed.filter(x=>x.valid); if(!valid.length){$('importMsg').className='msg error';$('importMsg').textContent='There are no valid questions to import.';return;} if(!confirm(`Import ${valid.length} question(s) into Firebase?`))return; const base={exam:$('exam').value.trim(),subject:$('subject').value.trim(),paperTitle:$('paperTitle').value.trim(),year:Number($('year').value)||null,marks:Number($('marks').value)||0,negativeMarks:Number($('negative').value)||0}; if(!base.exam||!base.subject){$('importMsg').className='msg error';$('importMsg').textContent='Exam and Subject are required.';return;} $('import').disabled=true; let count=0; try{for(const x of valid){await addDoc(collection(db,'questions'),{...base,questionNumber:x.n,question:x.question,options:x.options,correctAnswer:x.answer,answerType:['A','B','C','D'].includes(x.answer)?'single':x.answer==='ALL'?'all':x.answer==='MULTIPLE'?'multiple':'deleted_or_all_awarded',explanation:x.explanation,answerSource:'bulk-import',tags:x.tags,createdAt:serverTimestamp()});count++;} $('importMsg').className='msg';$('importMsg').textContent=`✓ Successfully imported ${count} question(s). ${parsed.length-count} question(s) were skipped because they need review.`;}catch(e){console.error(e);$('importMsg').className='msg error';$('importMsg').textContent=`Imported ${count} before an error occurred. Check Firestore permissions and review the Question Bank.`;}finally{$('import').disabled=false;}};
+</script>
+</body></html>
