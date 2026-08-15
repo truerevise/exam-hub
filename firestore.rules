@@ -52,7 +52,14 @@ service cloud.firestore {
     }
 
     match /dailyAttempts/{attemptId} {
-      allow read: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid);
+      // A user must be able to check a non-existent attempt before starting
+      // their first attempt. The previous rule evaluated resource.data on a
+      // missing document and caused "Missing or insufficient permissions".
+      allow read: if isAdmin() || (
+        verifiedUser()
+        && (!exists(/databases/$(database)/documents/dailyAttempts/$(attemptId))
+            || resource.data.uid == request.auth.uid)
+      );
       allow create: if verifiedUser()
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.liveTestId is string
@@ -95,7 +102,7 @@ service cloud.firestore {
     match /savedQuestions/{savedId} {
       allow read: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid);
       allow create: if verifiedUser() && request.resource.data.uid == request.auth.uid;
-      allow update: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid && request.resource.data.uid == request.auth.uid);
+      allow update: if isAdmin() || (verifiedUser() && request.auth.uid == request.resource.data.uid && request.resource.data.uid == request.auth.uid);
       allow delete: if isAdmin() || (verifiedUser() && request.auth.uid == request.resource.data.uid);
     }
 
