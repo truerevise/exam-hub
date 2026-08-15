@@ -20,7 +20,7 @@
 <label for="confirmPassword">Confirm Password</label><input id="confirmPassword" type="password" placeholder="Re-enter your password" autocomplete="new-password">
 <button id="registerBtn" type="button">Create Account</button>
 <p id="message" class="message"></p>
-<p class="note">After registration, you must verify your email and mobile number with OTP. Do not enter another person's details.</p>
+<p class="note">One email address and one mobile number can belong to only one Exam Hub account. Your email and mobile must be verified before your account is activated.</p>
 <div class="links"><a href="login.html">Already have an account? Login</a></div>
 </div>
 <script type="module">
@@ -28,20 +28,26 @@ import { auth } from "./firebase-config.js";
 import { createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 const $=id=>document.getElementById(id);
 $("registerBtn").addEventListener("click",async()=>{
- const name=$("name").value.trim(),email=$("email").value.trim(),password=$("password").value,confirm=$("confirmPassword").value,message=$("message"),btn=$("registerBtn");
+ const name=$("name").value.trim(),email=$("email").value.trim().toLowerCase(),password=$("password").value,confirm=$("confirmPassword").value,message=$("message"),btn=$("registerBtn");
  message.style.color="#fca5a5";message.textContent="";
  if(!name||!email||!password||!confirm){message.textContent="Please complete all fields.";return;}
  if(password!==confirm){message.textContent="Passwords do not match.";return;}
  if(name.length<2){message.textContent="Please enter your full name.";return;}
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){message.textContent="Please enter a valid email address.";return;}
  if(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&]).{8,}$/.test(password)){message.textContent="Password must contain uppercase, lowercase, number, special character and be at least 8 characters.";return;}
  btn.disabled=true;btn.textContent="Creating account…";
  try{
+   // Firebase Authentication enforces email uniqueness. A second account cannot
+   // be created with an email that is already registered in this Firebase project.
    const cred=await createUserWithEmailAndPassword(auth,email,password);
    await sendEmailVerification(cred.user);
    localStorage.setItem(`examHubPendingName_${cred.user.uid}`,name);
    location.href="verify-account.html";
  }catch(error){
-   message.textContent=error.code==="auth/email-already-in-use"?"This email is already registered. Please login.":(error.message||"Unable to create account.");
+   const duplicateEmailCodes=new Set(['auth/email-already-in-use','auth/account-exists-with-different-credential']);
+   message.textContent=duplicateEmailCodes.has(error.code)
+     ?"This email is already registered. Please login with the existing account."
+     :(error.code==='auth/invalid-email'?"Please enter a valid email address.":(error.message||"Unable to create account."));
    btn.disabled=false;btn.textContent="Create Account";
  }
 });
