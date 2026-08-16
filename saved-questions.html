@@ -1,18 +1,30 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta name="robots" content="noindex,nofollow,noarchive">
 <link rel="canonical" href="https://truerevise.com/saved-questions.html">
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <link rel="stylesheet" href="css/style.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
-.page{max-width:760px;margin:28px auto;padding:0 16px}.top{display:flex;align-items:center;gap:12px;margin-bottom:22px}.top a{display:inline-flex;text-decoration:none;color:inherit}.empty{background:#fff;border-radius:16px;padding:42px 22px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.08)}.empty .material-icons{font-size:58px;color:#0d6efd}.empty h2{margin:15px 0 8px}.empty p{color:#666;line-height:1.6}.btn{display:inline-block;margin-top:12px;padding:11px 18px;background:#0d6efd;color:#fff;text-decoration:none;border-radius:8px}
+.page{max-width:900px;margin:28px auto;padding:0 16px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}.heading{display:flex;align-items:center;gap:10px}.top a{display:inline-flex;text-decoration:none;color:inherit}.meta{color:#9aa5b5;font-size:12px}.empty,.q{background:#111722;border:1px solid #273244;border-radius:16px;padding:22px;box-shadow:0 8px 24px rgba(0,0,0,.18)}.empty{text-align:center;padding:48px 22px}.empty .material-icons{font-size:58px;color:#7ea2ff}.empty h2{margin:15px 0 8px}.empty p{color:#9aa5b5;line-height:1.6}.btn{display:inline-flex;align-items:center;gap:7px;margin-top:12px;padding:11px 18px;background:#2563eb;color:#fff;text-decoration:none;border-radius:9px;font-weight:800;border:0}.q{margin-bottom:14px}.q-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.q h2{font-size:17px;line-height:1.55;margin:0}.remove{border:1px solid #5b2633;background:#351d28;color:#fda4af;border-radius:9px;padding:8px 10px;font-weight:800;cursor:pointer;white-space:nowrap}.options{margin:14px 0;padding:12px;border-radius:11px;background:#0d1422;line-height:1.8}.answer{color:#7ee2a9;font-weight:800}.explanation{margin-top:8px;color:#c1cad8;line-height:1.55;font-size:13px}.filters{margin-bottom:14px}.filters input{width:100%;padding:12px;border-radius:10px;border:1px solid #34415b;background:#0d1422;color:#fff;outline:none}.tag{display:inline-block;margin:6px 6px 0 0;padding:4px 8px;border-radius:999px;background:#182742;border:1px solid #30476e;color:#9eb9ef;font-size:11px}@media(max-width:600px){.page{margin:18px auto;padding:0 12px}.q-head{align-items:flex-start}.q h2{font-size:15px}.remove{padding:7px 8px;font-size:11px}}
 </style>
 </head>
 <body>
-<header><div class="header-inner"><div class="brand"><a class="icon-btn" href="dashboard.html" aria-label="Back"><span class="material-icons">arrow_back</span></a><div class="logo">Exam Hub</div></div><div class="header-actions"><a class="icon-btn" href="profile.html" aria-label="Profile"><span class="material-icons">account_circle</span></a></div></div></header>
-<main class="page"><div class="top"><span class="material-icons">bookmark</span><h1>Saved Questions</h1></div><section class="empty"><span class="material-icons">bookmark_border</span><h2>No Saved Questions Yet</h2><p>Questions that you bookmark while taking a mock test will appear here.</p><a class="btn" href="mock-test.html">Go to Mock Tests</a></section></main>
-</body>
-</html>
+<header><div class="header-inner"><div class="brand"><a class="icon-btn" href="dashboard.html" aria-label="Back"><span class="material-icons">arrow_back</span></a><div class="logo">True Revise</div></div><div class="header-actions"><a class="icon-btn" href="profile.html" aria-label="Profile"><span class="material-icons">account_circle</span></a></div></div></header>
+<main class="page">
+<div class="top"><div class="heading"><span class="material-icons">bookmark</span><div><h1 style="margin:0">Saved Questions</h1><div id="count" class="meta">Loading...</div></div></div><a class="btn" href="mock-test.html"><span class="material-icons" style="font-size:18px">quiz</span>Practice</a></div>
+<div class="filters"><input id="search" type="search" placeholder="Search saved questions, exams or subjects..."></div>
+<div id="list"><section class="empty"><span class="material-icons">hourglass_empty</span><h2>Loading saved questions…</h2></section></div>
+</main>
+<script type="module">
+import{auth,db}from'./firebase-config.js';
+import{onAuthStateChanged}from'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
+import{collection,query,where,getDocs,deleteDoc,doc}from'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
+const $=id=>document.getElementById(id);let all=[];
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+function render(){const term=$('search').value.trim().toLowerCase();const rows=all.filter(q=>`${q.question||''} ${q.exam||''} ${q.subject||''} ${(q.tags||[]).join(' ')}`.toLowerCase().includes(term));$('count').textContent=`${rows.length} saved question${rows.length===1?'':'s'}`;if(!rows.length){$('list').innerHTML='<section class="empty"><span class="material-icons">bookmark_border</span><h2>'+ (all.length?'No matching saved questions':'No Saved Questions Yet') +'</h2><p>'+ (all.length?'Try a different search.':'Tap the bookmark on any question while practising and it will appear here.') +'</p><a class="btn" href="mock-test.html">Go to Mock Tests</a></section>';return}$('list').innerHTML=rows.map((q,i)=>{const o=q.options||{};const tags=(q.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('');return `<article class="q"><div class="q-head"><div><h2>${i+1}. ${esc(q.question||'Question unavailable')}</h2><div class="meta">${esc(q.exam||'Exam')} • ${esc(q.subject||'Subject')}</div>${tags}</div><button class="remove" data-id="${esc(q.id)}">🔖 Remove</button></div><div class="options"><div>A. ${esc(o.A??q.optionA)}</div><div>B. ${esc(o.B??q.optionB)}</div><div>C. ${esc(o.C??q.optionC)}</div><div>D. ${esc(o.D??q.optionD)}</div></div><div class="answer">Correct: ${esc(q.correctAnswer??q.answer??'—')}</div><div class="explanation">${esc(q.explanation||'No explanation added.')}</div></article>`}).join('');document.querySelectorAll('.remove').forEach(b=>b.onclick=async()=>{const id=b.dataset.id;if(!id)return;if(!confirm('Remove this question from Saved Questions?'))return;try{await deleteDoc(doc(db,'savedQuestions',id));all=all.filter(q=>q.id!==id);render()}catch(e){console.error(e);alert('Could not remove the saved question. Please try again.')}})}
+async function load(){try{const snap=await getDocs(query(collection(db,'savedQuestions'),where('uid','==',auth.currentUser.uid)));all=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>{const ta=a.savedAt?.seconds?a.savedAt.seconds:0,tb=b.savedAt?.seconds?b.savedAt.seconds:0;return tb-ta});render()}catch(e){console.error(e);$('count').textContent='Unable to load';$('list').innerHTML='<section class="empty"><span class="material-icons">error_outline</span><h2>Could not load saved questions</h2><p>Please refresh and try again. If this continues, check your Firestore rules.</p></section>'}}
+onAuthStateChanged(auth,u=>{if(!u){location.href='login.html?next='+encodeURIComponent(location.href);return}load()});$('search').oninput=render;
+</script>
+</body></html>
