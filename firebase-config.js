@@ -14,11 +14,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
-
 export const authReady = setPersistence(auth, browserLocalPersistence).catch(() => {});
 
 const isHome = () => location.pathname.endsWith('/') || location.pathname.endsWith('/index.html');
-
 const syncStudentNavigation = user => {
   if (!isHome()) return;
   const link = document.querySelector('.login-link');
@@ -42,8 +40,6 @@ if (isHome()) {
   else syncAfterDom();
   window.addEventListener('pageshow', syncAfterDom);
 
-  // Daily Live Tests are published by daily-live-test.html into the
-  // dailyLiveTests collection. The public homepage must use the same source.
   const liveList = document.getElementById('liveList');
   if (liveList) {
     const esc = s => String(s ?? '').replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]));
@@ -62,15 +58,12 @@ if (isHome()) {
         const start = toMillis(data.publishedAt);
         return { id: d.id || data.id, ...data, _start: start, _end: start + 86400000 };
       }).filter(t => t._start && now >= t._start && now < t._end);
-
       if (!live.length) {
         liveList.innerHTML = '<div class="empty-live">No live test is available right now. Check back soon.</div>';
         return;
       }
-
-      liveList.innerHTML = live.map(t => `<article class="live-card"><span class="live-status">● LIVE NOW</span><h3>${esc(t.title || 'Daily Live Test')}</h3><p>${t.questionIds?.length || 0} questions • Available for 24 hours</p><button class="attempt" onclick="goLogin('live-test.html?id=${encodeURIComponent(t.id)}')">Attempt Exam →</button></article>`).join('');
+      liveList.innerHTML = live.map(t => `<article class="live-card"><span class="live-status">● LIVE NOW</span><h3>${esc(t.title || 'Daily Live Test')}</h3><p>${t.questionIds?.length || 0} questions • Available for 24 hours</p><button class="attempt" onclick="location.href='live-test.html?id=${encodeURIComponent(t.id)}'">Attempt Exam →</button></article>`).join('');
     };
-
     getDocs(query(collection(db, 'dailyLiveTests'), orderBy('publishedAt', 'desc'), limit(10)))
       .then(snap => renderLive(snap.docs))
       .catch(error => {
