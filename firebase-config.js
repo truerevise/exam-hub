@@ -105,6 +105,124 @@ async function applyHomepageSettings() {
   }
 }
 
+/*
+ * Shared mobile enhancement.
+ * The homepage and dashboard use page-specific inline styles, so these rules
+ * are injected from the shared module with !important where necessary.
+ * This keeps both pages genuinely phone-first without changing their desktop design.
+ */
+const mobileStyle = document.createElement('style');
+mobileStyle.id = 'true-revise-mobile';
+mobileStyle.textContent = `
+@media (max-width: 600px) {
+  html { width:100%; overflow-x:hidden !important; }
+  body { width:100%; max-width:100vw; overflow-x:hidden !important; }
+
+  /* Homepage */
+  body:has(.hero-grid) { padding-bottom:78px !important; }
+  body:has(.hero-grid) .wrap { width:calc(100% - 24px) !important; max-width:100% !important; }
+  body:has(.hero-grid) header { position:sticky !important; top:0 !important; }
+  body:has(.hero-grid) .nav { height:58px !important; min-height:58px !important; }
+  body:has(.hero-grid) .brand { min-width:0 !important; font-size:17px !important; white-space:nowrap !important; }
+  body:has(.hero-grid) .brand .logo { width:34px !important; height:34px !important; flex:0 0 34px !important; }
+  body:has(.hero-grid) .links { gap:5px !important; }
+  body:has(.hero-grid) .links a:not(.login-link) { display:none !important; }
+  body:has(.hero-grid) .login-link { display:inline-flex !important; padding:8px 10px !important; font-size:10px !important; white-space:nowrap !important; }
+  body:has(.hero-grid) .hero { padding:25px 0 14px !important; }
+  body:has(.hero-grid) .hero-grid { display:flex !important; flex-direction:column !important; gap:18px !important; align-items:stretch !important; }
+  body:has(.hero-grid) .hero-grid > div { width:100% !important; min-width:0 !important; }
+  body:has(.hero-grid) .badge { max-width:100% !important; font-size:9px !important; padding:7px 9px !important; white-space:normal !important; line-height:1.3 !important; }
+  body:has(.hero-grid) h1 { font-size:clamp(36px,11vw,46px) !important; line-height:1 !important; letter-spacing:-2.2px !important; margin:14px 0 !important; overflow-wrap:anywhere !important; }
+  body:has(.hero-grid) .lead { font-size:13.5px !important; line-height:1.6 !important; margin-bottom:16px !important; }
+  body:has(.hero-grid) .actions { display:grid !important; grid-template-columns:1fr !important; gap:8px !important; width:100% !important; }
+  body:has(.hero-grid) .actions .btn { width:100% !important; min-height:48px !important; }
+  body:has(.hero-grid) .hero-card { padding:15px !important; border-radius:18px !important; }
+  body:has(.hero-grid) .hero-card-top { align-items:flex-start !important; }
+  body:has(.hero-grid) .mini-label { font-size:9px !important; line-height:1.3 !important; }
+  body:has(.hero-grid) .score { font-size:34px !important; margin:12px 0 2px !important; }
+  body:has(.hero-grid) .score small { display:block !important; font-size:10px !important; line-height:1.4 !important; margin-top:2px !important; }
+  body:has(.hero-grid) .stats { grid-template-columns:1fr 1fr !important; gap:7px !important; }
+  body:has(.hero-grid) .stat { padding:9px !important; min-width:0 !important; }
+  body:has(.hero-grid) .stat strong { font-size:13px !important; }
+  body:has(.hero-grid) .stat small { font-size:9px !important; }
+  body:has(.hero-grid) .section { padding:25px 0 !important; }
+  body:has(.hero-grid) .section-head { display:flex !important; flex-direction:column !important; align-items:flex-start !important; gap:5px !important; margin-bottom:12px !important; }
+  body:has(.hero-grid) .section-head h2 { font-size:20px !important; }
+  body:has(.hero-grid) .section-head p { font-size:11px !important; line-height:1.45 !important; }
+  body:has(.hero-grid) .view { font-size:10px !important; }
+  body:has(.hero-grid) .live-wrap { border-radius:18px !important; }
+  body:has(.hero-grid) .live-panel { padding:13px !important; border-radius:17px !important; }
+  body:has(.hero-grid) .live-top { flex-direction:column !important; align-items:flex-start !important; gap:6px !important; }
+  body:has(.hero-grid) .live-list { grid-template-columns:1fr !important; gap:9px !important; }
+  body:has(.hero-grid) .live-card { padding:14px !important; border-radius:14px !important; }
+  body:has(.hero-grid) .live-card h3 { font-size:15px !important; }
+  body:has(.hero-grid) .live-card p { font-size:10.5px !important; }
+  body:has(.hero-grid) .attempt { min-height:44px !important; }
+  body:has(.hero-grid) .exams { grid-template-columns:1fr 1fr !important; gap:9px !important; }
+  body:has(.hero-grid) .exam-card { padding:14px 11px !important; border-radius:15px !important; min-width:0 !important; }
+  body:has(.hero-grid) .exam-card h3 { font-size:15px !important; }
+  body:has(.hero-grid) .exam-card p { font-size:10.5px !important; line-height:1.45 !important; }
+  body:has(.hero-grid) .exam-action { min-height:41px !important; font-size:11px !important; }
+  body:has(.hero-grid) .pass { grid-template-columns:1fr !important; gap:14px !important; padding:16px !important; border-radius:18px !important; }
+  body:has(.hero-grid) .pass h2 { font-size:19px !important; line-height:1.2 !important; }
+  body:has(.hero-grid) .pass p { font-size:11px !important; line-height:1.55 !important; }
+  body:has(.hero-grid) .benefits { grid-template-columns:1fr !important; gap:6px !important; }
+  body:has(.hero-grid) .benefit { font-size:10.5px !important; }
+  body:has(.hero-grid) .pass-box { padding:14px !important; }
+  body:has(.hero-grid) .pass-box strong { font-size:21px !important; }
+  body:has(.hero-grid) .features { grid-template-columns:1fr !important; gap:8px !important; }
+  body:has(.hero-grid) .feature { padding:14px !important; }
+  body:has(.hero-grid) .cta { flex-direction:column !important; align-items:stretch !important; padding:18px !important; gap:12px !important; margin-bottom:18px !important; }
+  body:has(.hero-grid) .cta h2 { font-size:18px !important; }
+  body:has(.hero-grid) .cta p { font-size:11px !important; }
+  body:has(.hero-grid) .cta .btn { width:100% !important; }
+  body:has(.hero-grid) footer { padding:18px 0 90px !important; }
+  body:has(.hero-grid) .foot { flex-direction:column !important; gap:5px !important; font-size:10px !important; }
+  body:has(.hero-grid) .mobile-nav { left:7px !important; right:7px !important; bottom:7px !important; height:60px !important; border-radius:16px !important; }
+
+  /* Student dashboard */
+  body:has(.drawer-nav) { padding-bottom:18px !important; }
+  body:has(.drawer-nav) header { padding:9px 10px !important; }
+  body:has(.drawer-nav) .header-inner { width:100% !important; gap:6px !important; }
+  body:has(.drawer-nav) .brand { min-width:0 !important; gap:7px !important; }
+  body:has(.drawer-nav) .brand .icon-btn { width:38px !important; height:38px !important; }
+  body:has(.drawer-nav) .logo { font-size:17px !important; white-space:nowrap !important; }
+  body:has(.drawer-nav) .header-actions { gap:0 !important; }
+  body:has(.drawer-nav) .header-actions .nav-link { width:38px !important; height:38px !important; }
+  body:has(.drawer-nav) .container { width:100% !important; max-width:none !important; padding:14px 10px 35px !important; }
+  body:has(.drawer-nav) .hero { padding:18px 15px !important; margin-bottom:14px !important; border-radius:18px !important; }
+  body:has(.drawer-nav) .hero h1 { font-size:23px !important; line-height:1.15 !important; margin-bottom:6px !important; }
+  body:has(.drawer-nav) .hero p { font-size:12px !important; line-height:1.5 !important; }
+  body:has(.drawer-nav) .hero:after { right:6px !important; bottom:-10px !important; font-size:58px !important; }
+  body:has(.drawer-nav) .search-box { margin:0 0 20px !important; padding:10px 12px !important; border-radius:12px !important; }
+  body:has(.drawer-nav) .search-box input { font-size:14px !important; padding:3px 0 !important; }
+  body:has(.drawer-nav) .section-title { font-size:18px !important; margin:20px 0 10px !important; }
+  body:has(.drawer-nav) .live-grid { grid-template-columns:1fr !important; gap:9px !important; }
+  body:has(.drawer-nav) .live-card { padding:14px !important; border-radius:14px !important; margin-bottom:0 !important; }
+  body:has(.drawer-nav) .live-card h3 { font-size:15px !important; }
+  body:has(.drawer-nav) .live-card p { font-size:11px !important; margin-bottom:10px !important; }
+  body:has(.drawer-nav) .exam-grid { grid-template-columns:1fr 1fr !important; gap:8px !important; }
+  body:has(.drawer-nav) .exam-grid .card { padding:14px 8px !important; border-radius:14px !important; margin:0 !important; }
+  body:has(.drawer-nav) .exam-icon { font-size:25px !important; margin-bottom:7px !important; }
+  body:has(.drawer-nav) .exam-grid .card h3 { font-size:13px !important; min-height:32px !important; margin-bottom:9px !important; }
+  body:has(.drawer-nav) .exam-grid .card button { padding:9px 6px !important; font-size:11px !important; }
+  body:has(.drawer-nav) .info-row { padding:14px !important; gap:10px !important; }
+  body:has(.drawer-nav) .info-row h3 { font-size:15px !important; }
+  body:has(.drawer-nav) .info-row p { font-size:11px !important; line-height:1.45 !important; margin-bottom:9px !important; }
+  body:has(.drawer-nav) .info-row > .material-icons { font-size:30px !important; }
+  body:has(.drawer-nav) .info-row button { font-size:11px !important; padding:10px !important; }
+  body:has(.drawer-nav) .drawer { width:min(290px,84vw) !important; }
+}
+
+@media (max-width:380px) {
+  body:has(.hero-grid) .wrap { width:calc(100% - 18px) !important; }
+  body:has(.hero-grid) h1 { font-size:34px !important; }
+  body:has(.hero-grid) .exams { grid-template-columns:1fr !important; }
+  body:has(.drawer-nav) .exam-grid { grid-template-columns:1fr !important; }
+}
+`;
+if (!document.getElementById('true-revise-mobile')) document.head.appendChild(mobileStyle);
+
 if (isHome()) {
   syncStudentNavigation(auth.currentUser);
   onAuthStateChanged(auth, syncStudentNavigation);
