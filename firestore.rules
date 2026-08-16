@@ -5,8 +5,8 @@ service cloud.firestore {
     function signedIn() { return request.auth != null; }
     function isAdmin() { return signedIn() && request.auth.token.email == 'kiransingh.smile@gmail.com'; }
     function verificationSetting(field) {
-      return exists(/databases/$(database)/documents/appSettings/verification)
-        && get(/databases/$(database)/documents/appSettings/verification).data.get(field, false) == true;
+      return exists(/databases/$(database)/documents/appSettings/site)
+        && get(/databases/$(database)/documents/appSettings/site).data.get(field, false) == true;
     }
     function authEmailVerified() { return signedIn() && request.auth.token.email_verified == true; }
     function authPhoneVerified() { return signedIn() && request.auth.token.phone_number != null; }
@@ -76,5 +76,7 @@ service cloud.firestore {
     match /auditLogs/{logId} { allow read: if isAdmin(); allow create: if isAdmin(); allow update, delete: if false; }
     match /savedQuestions/{savedId} { allow read: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid); allow create: if verifiedUser() && request.resource.data.uid == request.auth.uid; allow update: if isAdmin() || (verifiedUser() && request.auth.uid == request.resource.data.uid && request.resource.data.uid == request.auth.uid); allow delete: if isAdmin() || (verifiedUser() && request.auth.uid == resource.data.uid); }
     match /students/{studentId}/savedQuestions/{savedId} { allow read, write: if isAdmin() || (verifiedUser() && request.auth.uid == studentId); }
+    match /adminUsers/{adminId} { allow read, create, update, delete: if isAdmin(); }
+    match /paymentOrders/{orderId} { allow read: if isAdmin(); allow update: if isAdmin(); allow create, delete: if false; }
   }
 }
