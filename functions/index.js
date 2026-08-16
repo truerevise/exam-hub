@@ -13,7 +13,7 @@ const RAZORPAY_KEY_SECRET = defineSecret('RAZORPAY_KEY_SECRET');
 const RAZORPAY_WEBHOOK_SECRET = defineSecret('RAZORPAY_WEBHOOK_SECRET');
 
 const functionsSecrets = [RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET];
-const SITE_ORIGIN = 'https://truerevise.github.io';
+const SITE_ORIGINS = ['https://truerevise.com', 'https://www.truerevise.com', 'https://truerevise.github.io'];
 
 function razorpayClient() {
   return new Razorpay({
@@ -35,7 +35,7 @@ async function getPassSettings() {
   return { price, validityDays };
 }
 
-exports.createPremiumOrder = onCall({ secrets: functionsSecrets, cors: [SITE_ORIGIN] }, async (request) => {
+exports.createPremiumOrder = onCall({ secrets: functionsSecrets, cors: SITE_ORIGINS }, async (request) => {
   if (!request.auth) throw new HttpsError('unauthenticated', 'Please sign in first.');
 
   const { price, validityDays } = await getPassSettings();
@@ -71,7 +71,7 @@ exports.createPremiumOrder = onCall({ secrets: functionsSecrets, cors: [SITE_ORI
   };
 });
 
-exports.verifyPremiumPayment = onCall({ secrets: functionsSecrets, cors: [SITE_ORIGIN] }, async (request) => {
+exports.verifyPremiumPayment = onCall({ secrets: functionsSecrets, cors: SITE_ORIGINS }, async (request) => {
   if (!request.auth) throw new HttpsError('unauthenticated', 'Please sign in first.');
 
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = request.data || {};
