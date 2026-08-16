@@ -26,6 +26,17 @@ service cloud.firestore {
     }
     function canAccessExam(examName) { return isAdmin() || (verifiedUser() && (hasActivePass() || isFreeExam(examName))); }
 
+    function liveAttemptLimit(testId) {
+      let accessPath = /databases/$(database)/documents/dailyLiveAccess/$(testId);
+      let access = exists(accessPath) ? get(accessPath).data : {};
+      let userPath = /databases/$(database)/documents/dailyLiveAccess/$(testId)/users/$(request.auth.uid);
+      let userLimit = exists(userPath) ? get(userPath).data.get('attempts', 0) : 0;
+      let group = studentDoc().data.get('group', '');
+      let groups = access.get('groupAttempts', {});
+      let groupLimit = groups.get(group, 0);
+      return userLimit > 0 ? userLimit : (groupLimit > 0 ? groupLimit : access.get('allAttempts', 1));
+    }
+
     match /appSettings/verification {
       allow read: if true;
       allow create, update, delete: if isAdmin();
@@ -51,18 +62,32 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
+    match /dailyLiveAccess/{testId} {
+      allow read: if signedIn();
+      allow create, update, delete: if isAdmin();
+
+      match /users/{studentId} {
+        allow read: if isAdmin() || (signedIn() && request.auth.uid == studentId);
+        allow create, update, delete: if isAdmin();
+      }
+    }
+
     match /dailyAttempts/{attemptId} {
-      allow read: if isAdmin() || (
-        verifiedUser()
-        && (!exists(/databases/$(database)/documents/dailyAttempts/$(attemptId))
-            || resource.data.uid == request.auth.uid)
-      );
+      allow read: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid);
       allow create: if verifiedUser()
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.liveTestId is string
-        && attemptId == request.auth.uid + '_' + request.resource.data.liveTestId
-        && !exists(/databases/$(database)/documents/dailyAttempts/$(attemptId));
-      allow update, delete: if isAdmin();
+        && request.resource.data.attemptsUsed == 1
+        && request.resource.data.attemptsUsed <= liveAttemptLimit(request.resource.data.liveTestId)
+        && attemptId == request.auth.uid + '_' + request.resource.data.liveTestId;
+      allow update: if verifiedUser()
+        && resource.data.uid == request.auth.uid
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.liveTestId == resource.data.liveTestId
+        && request.resource.data.attemptsUsed == resource.data.attemptsUsed + 1
+        && request.resource.data.attemptsUsed <= liveAttemptLimit(resource.data.liveTestId)
+        && attemptId == request.auth.uid + '_' + resource.data.liveTestId;
+      allow delete: if isAdmin();
     }
 
     match /students/{studentId} {
@@ -92,27 +117,34 @@ service cloud.firestore {
 
     match /results/{resultId} {
       allow read: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid);
-      allow create: if verifiedUser() && request.resource.data.uid == request.auth.uid;
+      allow create: if verifiedUser()
+        && request.resource.data.uid == request.auth.uid
+        && (!request.resource.data.get('isDailyLive', false)
+            || (request.resource.data.liveTestId is string
+                && request.resource.data.attemptNo is int
+                && getAfter(/databases/$(database)/documents/dailyAttempts/$(request.auth.uid + '_' + request.resource.data.liveTestId)).data.attemptsUsed == request.resource.data.attemptNo));
       allow update, delete: if isAdmin();
     }
 
-    // One public-safe leaderboard row per student per Daily Live Test.
-    // Only the owner can create their own row; students can read rows so rank
-    // can be calculated without exposing private result/solution documents.
     match /dailyLiveLeaderboard/{entryId} {
       allow read: if signedIn();
       allow create: if verifiedUser()
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.liveTestId is string
         && entryId == request.auth.uid + '_' + request.resource.data.liveTestId;
-      allow update, delete: if isAdmin();
+      allow update: if verifiedUser()
+        && resource.data.uid == request.auth.uid
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.liveTestId == resource.data.liveTestId
+        && request.resource.data.score >= resource.data.score;
+      allow delete: if isAdmin();
     }
 
     match /savedQuestions/{savedId} {
       allow read: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid);
       allow create: if verifiedUser() && request.resource.data.uid == request.auth.uid;
       allow update: if isAdmin() || (verifiedUser() && request.auth.uid == request.resource.data.uid && request.resource.data.uid == request.auth.uid);
-      allow delete: if isAdmin() || (verifiedUser() && request.auth.uid == request.resource.data.uid);
+      allow delete: if isAdmin() || (verifiedUser() && request.auth.uid == resource.data.uid);
     }
 
     match /students/{studentId}/savedQuestions/{savedId} {
