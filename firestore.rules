@@ -41,11 +41,6 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
-    // Questions must also be readable by signed-in students because the
-    // Daily Live Test page loads its selected question documents directly.
-    // Access to starting/submitting the live test is still protected by the
-    // dailyAttempts rules below, and normal exam UI controls can enforce pass
-    // access for paid mock tests.
     match /questions/{questionId} {
       allow read: if isAdmin() || verifiedUser();
       allow create, update, delete: if isAdmin();
@@ -57,9 +52,6 @@ service cloud.firestore {
     }
 
     match /dailyAttempts/{attemptId} {
-      // A user must be able to check a non-existent attempt before starting
-      // their first attempt. The previous rule evaluated resource.data on a
-      // missing document and caused "Missing or insufficient permissions".
       allow read: if isAdmin() || (
         verifiedUser()
         && (!exists(/databases/$(database)/documents/dailyAttempts/$(attemptId))
@@ -101,6 +93,18 @@ service cloud.firestore {
     match /results/{resultId} {
       allow read: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid);
       allow create: if verifiedUser() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    // One public-safe leaderboard row per student per Daily Live Test.
+    // Only the owner can create their own row; students can read rows so rank
+    // can be calculated without exposing private result/solution documents.
+    match /dailyLiveLeaderboard/{entryId} {
+      allow read: if signedIn();
+      allow create: if verifiedUser()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.liveTestId is string
+        && entryId == request.auth.uid + '_' + request.resource.data.liveTestId;
       allow update, delete: if isAdmin();
     }
 
