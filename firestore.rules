@@ -33,7 +33,7 @@ service cloud.firestore {
     }
 
     match /appSettings/{settingId} {
-      allow read: if settingId == 'site' || isAdmin();
+      allow read: if settingId in ['site', 'homepage', 'verification'] || isAdmin();
       allow create, update, delete: if isAdmin();
     }
     match /passSettings/{settingId} { allow read: if isAdmin() || verifiedUser(); allow create, update, delete: if isAdmin(); }
