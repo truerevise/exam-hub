@@ -17,15 +17,10 @@ service cloud.firestore {
     }
     function studentDoc() { return get(/databases/$(database)/documents/students/$(request.auth.uid)); }
     function hasActivePass() {
-      return signedIn()
-        && studentDoc().data.get('premiumUntil', null) != null
-        && studentDoc().data.premiumUntil > request.time;
+      return signedIn() && studentDoc().data.get('premiumUntil', null) != null && studentDoc().data.premiumUntil > request.time;
     }
-    function isFreeExam(examName) {
-      return get(/databases/$(database)/documents/passSettings/main).data.freeExams.hasAny([examName]);
-    }
+    function isFreeExam(examName) { return get(/databases/$(database)/documents/passSettings/main).data.freeExams.hasAny([examName]); }
     function canAccessExam(examName) { return isAdmin() || (verifiedUser() && (hasActivePass() || isFreeExam(examName))); }
-
     function liveAttemptLimit(testId) {
       let accessPath = /databases/$(database)/documents/dailyLiveAccess/$(testId);
       let access = exists(accessPath) ? get(accessPath).data : {};
@@ -37,118 +32,49 @@ service cloud.firestore {
       return userLimit > 0 ? userLimit : (groupLimit > 0 ? groupLimit : access.get('allAttempts', 1));
     }
 
-    match /appSettings/verification {
-      allow read: if true;
+    match /appSettings/{settingId} {
+      allow read: if settingId == 'site' || isAdmin();
       allow create, update, delete: if isAdmin();
     }
-
-    match /passSettings/{settingId} {
-      allow read: if isAdmin() || verifiedUser();
-      allow create, update, delete: if isAdmin();
-    }
-
-    match /exams/{examId} {
-      allow read: if isAdmin() || verifiedUser();
-      allow create, update, delete: if isAdmin();
-    }
-
-    match /questions/{questionId} {
-      allow read: if isAdmin() || verifiedUser();
-      allow create, update, delete: if isAdmin();
-    }
-
-    match /dailyLiveTests/{testId} {
-      allow read: if true;
-      allow create, update, delete: if isAdmin();
-    }
-
+    match /passSettings/{settingId} { allow read: if isAdmin() || verifiedUser(); allow create, update, delete: if isAdmin(); }
+    match /exams/{examId} { allow read: if isAdmin() || verifiedUser(); allow create, update, delete: if isAdmin(); }
+    match /questions/{questionId} { allow read: if isAdmin() || verifiedUser(); allow create, update, delete: if isAdmin(); }
+    match /dailyLiveTests/{testId} { allow read: if true; allow create, update, delete: if isAdmin(); }
     match /dailyLiveAccess/{testId} {
-      allow read: if signedIn();
-      allow create, update, delete: if isAdmin();
-
-      match /users/{studentId} {
-        allow read: if isAdmin() || (signedIn() && request.auth.uid == studentId);
-        allow create, update, delete: if isAdmin();
-      }
+      allow read: if signedIn(); allow create, update, delete: if isAdmin();
+      match /users/{studentId} { allow read: if isAdmin() || (signedIn() && request.auth.uid == studentId); allow create, update, delete: if isAdmin(); }
     }
-
     match /dailyAttempts/{attemptId} {
       allow read: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid);
-      allow create: if verifiedUser()
-        && request.resource.data.uid == request.auth.uid
-        && request.resource.data.liveTestId is string
-        && request.resource.data.attemptsUsed == 1
-        && request.resource.data.attemptsUsed <= liveAttemptLimit(request.resource.data.liveTestId)
-        && attemptId == request.auth.uid + '_' + request.resource.data.liveTestId;
-      allow update: if verifiedUser()
-        && resource.data.uid == request.auth.uid
-        && request.resource.data.uid == resource.data.uid
-        && request.resource.data.liveTestId == resource.data.liveTestId
-        && request.resource.data.attemptsUsed == resource.data.attemptsUsed + 1
-        && request.resource.data.attemptsUsed <= liveAttemptLimit(resource.data.liveTestId)
-        && attemptId == request.auth.uid + '_' + resource.data.liveTestId;
+      allow create: if verifiedUser() && request.resource.data.uid == request.auth.uid && request.resource.data.liveTestId is string && request.resource.data.attemptsUsed == 1 && request.resource.data.attemptsUsed <= liveAttemptLimit(request.resource.data.liveTestId) && attemptId == request.auth.uid + '_' + request.resource.data.liveTestId;
+      allow update: if verifiedUser() && resource.data.uid == request.auth.uid && request.resource.data.uid == resource.data.uid && request.resource.data.liveTestId == resource.data.liveTestId && request.resource.data.attemptsUsed == resource.data.attemptsUsed + 1 && request.resource.data.attemptsUsed <= liveAttemptLimit(resource.data.liveTestId) && attemptId == request.auth.uid + '_' + resource.data.liveTestId;
       allow delete: if isAdmin();
     }
-
     match /students/{studentId} {
       allow read: if isAdmin() || (signedIn() && request.auth.uid == studentId);
-      allow create: if signedIn()
-        && request.auth.uid == studentId
-        && request.resource.data.email == request.auth.token.email
-        && request.resource.data.mobile is string
-        && request.resource.data.mobile.matches('^\\+91[6-9][0-9]{9}$');
-      allow update: if isAdmin() || (
-        signedIn()
-        && request.auth.uid == studentId
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','photoURL','displayName','emailVerified','phoneVerified','verifiedAt','updatedAt'])
-      );
+      allow create: if signedIn() && request.auth.uid == studentId && request.resource.data.email == request.auth.token.email && request.resource.data.mobile is string && request.resource.data.mobile.matches('^\\+91[6-9][0-9]{9}$');
+      allow update: if isAdmin() || (signedIn() && request.auth.uid == studentId && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','photoURL','displayName','emailVerified','phoneVerified','verifiedAt','updatedAt']));
       allow delete: if isAdmin();
     }
-
     match /mobileRegistry/{mobileId} {
       allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
-      allow create: if signedIn()
-        && !exists(/databases/$(database)/documents/mobileRegistry/$(mobileId))
-        && request.resource.data.uid == request.auth.uid
-        && request.resource.data.mobile == mobileId
-        && mobileId.matches('^\\+91[6-9][0-9]{9}$');
+      allow create: if signedIn() && !exists(/databases/$(database)/documents/mobileRegistry/$(mobileId)) && request.resource.data.uid == request.auth.uid && request.resource.data.mobile == mobileId && mobileId.matches('^\\+91[6-9][0-9]{9}$');
       allow update, delete: if isAdmin();
     }
-
     match /results/{resultId} {
       allow read: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid);
-      allow create: if verifiedUser()
-        && request.resource.data.uid == request.auth.uid
-        && (!request.resource.data.get('isDailyLive', false)
-            || (request.resource.data.liveTestId is string
-                && request.resource.data.attemptNo is int
-                && getAfter(/databases/$(database)/documents/dailyAttempts/$(request.auth.uid + '_' + request.resource.data.liveTestId)).data.attemptsUsed == request.resource.data.attemptNo));
+      allow create: if verifiedUser() && request.resource.data.uid == request.auth.uid && (!request.resource.data.get('isDailyLive', false) || (request.resource.data.liveTestId is string && request.resource.data.attemptNo is int && getAfter(/databases/$(database)/documents/dailyAttempts/$(request.auth.uid + '_' + request.resource.data.liveTestId)).data.attemptsUsed == request.resource.data.attemptNo));
       allow update, delete: if isAdmin();
     }
-
     match /dailyLiveLeaderboard/{entryId} {
       allow read: if signedIn();
-      allow create: if verifiedUser()
-        && request.resource.data.uid == request.auth.uid
-        && request.resource.data.liveTestId is string
-        && entryId == request.auth.uid + '_' + request.resource.data.liveTestId;
-      allow update: if verifiedUser()
-        && resource.data.uid == request.auth.uid
-        && request.resource.data.uid == request.auth.uid
-        && request.resource.data.liveTestId == resource.data.liveTestId
-        && request.resource.data.score >= resource.data.score;
+      allow create: if verifiedUser() && request.resource.data.uid == request.auth.uid && request.resource.data.liveTestId is string && entryId == request.auth.uid + '_' + request.resource.data.liveTestId;
+      allow update: if verifiedUser() && resource.data.uid == request.auth.uid && request.resource.data.uid == request.auth.uid && request.resource.data.liveTestId == resource.data.liveTestId && request.resource.data.score >= resource.data.score;
       allow delete: if isAdmin();
     }
-
-    match /savedQuestions/{savedId} {
-      allow read: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid);
-      allow create: if verifiedUser() && request.resource.data.uid == request.auth.uid;
-      allow update: if isAdmin() || (verifiedUser() && request.auth.uid == request.resource.data.uid && request.resource.data.uid == request.auth.uid);
-      allow delete: if isAdmin() || (verifiedUser() && request.auth.uid == resource.data.uid);
-    }
-
-    match /students/{studentId}/savedQuestions/{savedId} {
-      allow read, write: if isAdmin() || (verifiedUser() && request.auth.uid == studentId);
-    }
+    match /notifications/{notificationId} { allow read: if signedIn(); allow create, update, delete: if isAdmin(); }
+    match /auditLogs/{logId} { allow read: if isAdmin(); allow create: if isAdmin(); allow update, delete: if false; }
+    match /savedQuestions/{savedId} { allow read: if isAdmin() || (verifiedUser() && resource.data.uid == request.auth.uid); allow create: if verifiedUser() && request.resource.data.uid == request.auth.uid; allow update: if isAdmin() || (verifiedUser() && request.auth.uid == request.resource.data.uid && request.resource.data.uid == request.auth.uid); allow delete: if isAdmin() || (verifiedUser() && request.auth.uid == resource.data.uid); }
+    match /students/{studentId}/savedQuestions/{savedId} { allow read, write: if isAdmin() || (verifiedUser() && request.auth.uid == studentId); }
   }
 }
