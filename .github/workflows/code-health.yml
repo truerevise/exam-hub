@@ -1,0 +1,53 @@
+name: Code health
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check JavaScript syntax
+        shell: bash
+        run: |
+          set -e
+          for f in $(find . -type f -name '*.js' -not -path './.git/*'); do
+            echo "Checking $f"
+            node --check "$f"
+          done
+      - name: Check inline JavaScript in HTML
+        shell: bash
+        run: |
+          set -e
+          python - <<'PY'
+          from pathlib import Path
+          import re, subprocess, tempfile
+          for path in Path('.').glob('*.html'):
+              text = path.read_text(encoding='utf-8')
+              scripts = re.findall(r'<script(?![^>]*src=)[^>]*>(.*?)</script>', text, flags=re.I|re.S)
+              for i, code in enumerate(scripts, 1):
+                  if not code.strip():
+                      continue
+                  with tempfile.NamedTemporaryFile('w', suffix='.js', delete=False, encoding='utf-8') as f:
+                      f.write(code)
+                      temp = f.name
+                  try:
+                      subprocess.run(['node','--check',temp], check=True)
+                  except subprocess.CalledProcessError:
+                      raise SystemExit(f'Inline JavaScript syntax error: {path} script #{i}')
+          print('Inline JavaScript syntax checks passed.')
+          PY
+      - name: Check critical files exist
+        shell: bash
+        run: |
+          set -e
+          for f in index.html firebase-config.js firestore.rules support.html add-question.html test.html dashboard.html; do
+            test -f "$f" || { echo "Missing critical file: $f"; exit 1; }
+          done
+          echo 'Critical file check passed.'
