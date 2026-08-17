@@ -17,7 +17,7 @@ jobs:
         shell: bash
         run: |
           set -e
-          for f in $(find . -type f -name '*.js' -not -path './.git/*'); do
+          find . -type f -name '*.js' -not -path './.git/*' -print0 | while IFS= read -r -d '' f; do
             echo "Checking $f"
             node --check "$f"
           done
@@ -28,18 +28,21 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           import re, subprocess, tempfile
+          pattern = re.compile(r'<script(?P<attrs>[^>]*)>(?P<code>.*?)</script>', re.I|re.S)
           for path in Path('.').glob('*.html'):
               text = path.read_text(encoding='utf-8')
-              scripts = re.findall(r'<script(?![^>]*src=)[^>]*>(.*?)</script>', text, flags=re.I|re.S)
-              for i, code in enumerate(scripts, 1):
-                  if not code.strip():
+              for i, match in enumerate(pattern.finditer(text), 1):
+                  attrs = match.group('attrs').lower()
+                  code = match.group('code')
+                  if 'src=' in attrs or 'application/ld+json' in attrs or not code.strip():
                       continue
                   with tempfile.NamedTemporaryFile('w', suffix='.js', delete=False, encoding='utf-8') as f:
                       f.write(code)
                       temp = f.name
-                  try:
-                      subprocess.run(['node','--check',temp], check=True)
-                  except subprocess.CalledProcessError:
+                  result = subprocess.run(['node','--check',temp], text=True, capture_output=True)
+                  if result.returncode:
+                      print(result.stdout)
+                      print(result.stderr)
                       raise SystemExit(f'Inline JavaScript syntax error: {path} script #{i}')
           print('Inline JavaScript syntax checks passed.')
           PY
