@@ -1,0 +1,49 @@
+/* True Revise mobile home-page fix */
+@media (max-width: 600px){
+  html,body{width:100%;max-width:100%;overflow-x:hidden}
+  body{font-size:14px}
+  .wrap{width:calc(100% - 24px)!important;max-width:none!important;margin:0 auto!important}
+  header{width:100%;overflow:hidden}
+  .nav{height:60px!important;min-height:60px!important;padding:0 2px!important}
+  .brand{min-width:0;font-size:17px!important;gap:7px!important;white-space:nowrap}
+  .logo{width:35px!important;height:35px!important;min-width:35px!important;border-radius:10px!important}
+  .links{min-width:0;gap:4px!important}
+  .links a{font-size:11px!important;padding:7px 8px!important;white-space:nowrap}
+  .hero{padding:26px 0 18px!important}
+  .hero-grid{display:flex!important;flex-direction:column!important;gap:20px!important;align-items:stretch!important}
+  .hero-grid>*{width:100%!important;min-width:0!important}
+  .hero h1{font-size:clamp(36px,11vw,48px)!important;line-height:1!important;letter-spacing:-2.5px!important;word-break:normal!important}
+  .lead{font-size:14px!important;line-height:1.6!important}
+  .actions{display:grid!important;grid-template-columns:1fr!important;width:100%!important}
+  .btn{width:100%!important;min-width:0!important;min-height:50px!important}
+  .hero-card{width:100%!important;max-width:none!important;padding:16px!important;border-radius:18px!important}
+  .score{font-size:36px!important}
+  .stats{grid-template-columns:1fr 1fr!important}
+  .stat{min-width:0!important;padding:10px!important}
+  .section{padding:27px 0!important}
+  .section-head{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:7px!important}
+  .section-head h2{font-size:21px!important}
+  .view{font-size:11px!important}
+  .live-wrap,.live-panel{width:100%!important;max-width:none!important}
+  .live-panel{padding:14px!important}
+  .live-list{grid-template-columns:1fr!important}
+  .live-card{min-width:0!important;padding:14px!important}
+  .live-card h3{font-size:15px!important;overflow-wrap:anywhere}
+  .exams,.features{grid-template-columns:1fr!important;width:100%!important}
+  .exam-card,.feature{min-width:0!important;width:100%!important}
+  .exam-card{padding:16px!important}
+  .pass{grid-template-columns:1fr!important;width:100%!important;padding:18px!important}
+  .benefits{grid-template-columns:1fr!important}
+  .pass-box{width:100%!important;min-width:0!important}
+  .cta{display:flex!important;flex-direction:column!important;align-items:stretch!important;width:100%!important;padding:19px!important}
+  .cta .btn{width:100%!important}
+  .foot{display:flex!important;flex-direction:column!important;gap:8px!important}
+  .mobile-nav{display:flex!important}
+}
+@media (min-width:601px) and (max-width:900px){
+  .wrap{width:calc(100% - 40px)!important}
+  .hero-grid{grid-template-columns:1fr!important}
+  .live-list{grid-template-columns:1fr 1fr!important}
+  .exams,.features{grid-template-columns:1fr 1fr!important}
+  .pass{grid-template-columns:1fr!important}
+}
