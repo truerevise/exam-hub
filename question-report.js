@@ -1,10 +1,11 @@
 import { auth, db } from './firebase-config.js';
-import { addDoc, collection, doc, getDoc, serverTimestamp, setDoc } from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
+import { addDoc, collection, doc, getDoc, getDocs, query, where, serverTimestamp, setDoc } from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
 import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
 
 const $ = (id) => document.getElementById(id);
 const REPORTS = 'questionReports';
 let currentUser = null;
+let questionMediaToken = 0;
 
 onAuthStateChanged(auth, (u) => {
   currentUser = u;
@@ -100,6 +101,37 @@ async function submitReport(reason) {
   }
 }
 
+async function loadQuestionImage() {
+  const questionEl = $('question') || $('q');
+  if (!questionEl) return;
+  const context = getPageContext();
+  if (!context.exam || !context.subject) return;
+  const q = getCurrentQuestion();
+  if (!q) return;
+  const token = ++questionMediaToken;
+  const old = $('questionMedia');
+  if (old) old.remove();
+  try {
+    const snap = await getDocs(query(collection(db, 'questions'), where('exam', '==', context.exam), where('subject', '==', context.subject)));
+    if (token !== questionMediaToken) return;
+    const match = snap.docs.find(d => String(d.data().question || '').trim() === q.text.trim());
+    const src = match?.data()?.questionImage || '';
+    if (!src || token !== questionMediaToken) return;
+    const wrap = document.createElement('div');
+    wrap.id = 'questionMedia';
+    wrap.className = 'question-media-wrap';
+    const img = document.createElement('img');
+    img.className = 'question-media-image';
+    img.src = src;
+    img.alt = 'Question diagram';
+    img.loading = 'lazy';
+    wrap.appendChild(img);
+    questionEl.insertAdjacentElement('afterend', wrap);
+  } catch (e) {
+    console.warn('Question image could not be loaded:', e.message);
+  }
+}
+
 function injectStyles() {
   if ($('questionReportStyles')) return;
   const s = document.createElement('style');
@@ -116,7 +148,9 @@ function injectStyles() {
     .question-report-toast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,18px);opacity:0;pointer-events:none;background:#163a2e;border:1px solid #2f8f6d;color:#eafff6;padding:11px 15px;border-radius:12px;z-index:200;font-weight:800;font-size:13px;box-shadow:0 14px 35px #0008;transition:.2s ease;max-width:min(92vw,430px);text-align:center}
     .question-report-toast.error{background:#3a1b1b;border-color:#9b4a4a;color:#ffecec}
     .question-report-toast.show{opacity:1;transform:translate(-50%,0)}
-    @media(max-width:520px){.question-report-btn{padding:8px 9px;font-size:12px}.question-report-menu{width:225px}.question-report-menu button{padding:11px 10px}}
+    .question-media-wrap{margin:10px 0 18px;padding:10px;border-radius:12px;background:#0d1422;border:1px solid #303b4b;text-align:center}
+    .question-media-image{display:block;max-width:100%;max-height:420px;width:auto;height:auto;margin:auto;object-fit:contain;border-radius:8px;background:#fff;padding:8px}
+    @media(max-width:520px){.question-report-btn{padding:8px 9px;font-size:12px}.question-report-menu{width:225px}.question-report-menu button{padding:11px 10px}.question-media-image{max-height:300px}}
   `;
   document.head.appendChild(s);
 }
@@ -125,34 +159,43 @@ function init() {
   if ($('questionReportRoot')) return;
   const save = $('saveBtn');
   const question = $('question') || $('q');
-  if (!save || !question) return;
+  if (!question) return;
   injectStyles();
 
-  const wrap = document.createElement('div');
-  wrap.id = 'questionReportRoot';
-  wrap.className = 'question-report-wrap';
-  wrap.innerHTML = `
-    <button type="button" class="question-report-btn" aria-label="Report question" title="Report this question">⚑</button>
-    <div class="question-report-menu" role="menu">
-      <div class="question-report-label">Report this question</div>
-      <button type="button" data-reason="No correct answer">⚠️ No correct answer</button>
-      <button type="button" data-reason="Question wording/frame is wrong">📝 Question wording/frame is wrong</button>
-      <button type="button" data-reason="Wrong or missing option">❌ Wrong or missing option</button>
-      <button type="button" data-reason="Other issue">💬 Other issue</button>
-    </div>`;
-  save.parentNode.insertBefore(wrap, save.nextSibling);
+  if (save) {
+    const wrap = document.createElement('div');
+    wrap.id = 'questionReportRoot';
+    wrap.className = 'question-report-wrap';
+    wrap.innerHTML = `
+      <button type="button" class="question-report-btn" aria-label="Report question" title="Report this question">⚑</button>
+      <div class="question-report-menu" role="menu">
+        <div class="question-report-label">Report this question</div>
+        <button type="button" data-reason="No correct answer">⚠️ No correct answer</button>
+        <button type="button" data-reason="Question wording/frame is wrong">📝 Question wording/frame is wrong</button>
+        <button type="button" data-reason="Wrong or missing option">❌ Wrong or missing option</button>
+        <button type="button" data-reason="Other issue">💬 Other issue</button>
+      </div>`;
+    save.parentNode.insertBefore(wrap, save.nextSibling);
 
-  const btn = wrap.querySelector('.question-report-btn');
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    wrap.classList.toggle('open');
+    const btn = wrap.querySelector('.question-report-btn');
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      wrap.classList.toggle('open');
+    });
+    wrap.querySelectorAll('[data-reason]').forEach((b) => b.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      wrap.classList.remove('open');
+      await submitReport(b.dataset.reason);
+    }));
+    document.addEventListener('click', () => wrap.classList.remove('open'));
+  }
+
+  const observer = new MutationObserver(() => {
+    clearTimeout(init.mediaTimer);
+    init.mediaTimer = setTimeout(loadQuestionImage, 80);
   });
-  wrap.querySelectorAll('[data-reason]').forEach((b) => b.addEventListener('click', async (e) => {
-    e.stopPropagation();
-    wrap.classList.remove('open');
-    await submitReport(b.dataset.reason);
-  }));
-  document.addEventListener('click', () => wrap.classList.remove('open'));
+  observer.observe(question, { childList: true, characterData: true, subtree: true });
+  loadQuestionImage();
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
