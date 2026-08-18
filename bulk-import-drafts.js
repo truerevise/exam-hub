@@ -41,7 +41,7 @@ async function saveDraft(){
     await setDoc(draftRef(),snapshotForm());
     hasDraft=true;
     btn.textContent='Load Draft';
-    status('✓ Draft saved. Your loaded questions are safely stored and can be loaded later.');
+    status('✓ Draft saved. Click Load Draft next time to restore these questions.');
   }catch(e){
     console.error(e);
     status('Could not save draft. Check Firestore permissions.',true);
@@ -59,7 +59,6 @@ async function loadDraft(){
     }
     const d=snap.data();
     setValue('marks',d.marks);setValue('negative',d.negative);setValue('previousExam',d.previousExam);setValue('tags',d.tags);setValue('source',d.source);
-    // Exam and subject may not yet be populated by the choices loader. Retry briefly until options exist.
     const applySelect=(id,value)=>{const el=$(id);if(!el||!value)return false;const exists=[...el.options].some(o=>o.value===value);if(exists){el.value=value;el.dispatchEvent(new Event('change',{bubbles:true}));return true;}return false;};
     let appliedExam=applySelect('exam',d.exam),appliedSubject=applySelect('subject',d.subject);
     if(!appliedExam||!appliedSubject){
@@ -71,44 +70,59 @@ async function loadDraft(){
         if((appliedExam&&appliedSubject)||tries>=30)clearInterval(timer);
       },200);
     }
-    hasDraft=true;btn.textContent='Save Draft';status('✓ Draft loaded. Your questions are ready to preview/import.');
-    try{window.parsed=[]; if(typeof window.renderPreview==='function')window.renderPreview();}catch(e){}
+    hasDraft=true;btn.textContent='Save Draft';
+    status('✓ Draft loaded. Preview and import the restored questions.');
+    // Automatically rebuild the preview from the restored question text.
+    setTimeout(()=>{$('preview')?.click();},350);
   }catch(e){
     console.error(e);status('Could not load draft. Check Firestore permissions.',true);btn.textContent='Load Draft';
   }finally{btn.disabled=false;}
 }
 
 async function removeDraft(){
-  try{await deleteDoc(draftRef());hasDraft=false;const btn=$('draftButton');if(btn)btn.textContent='Save Draft';}catch(e){console.warn('Draft cleanup failed:',e);}
+  try{
+    await deleteDoc(draftRef());
+    hasDraft=false;
+    const btn=$('draftButton');
+    if(btn){btn.textContent='Save Draft';btn.style.display='inline-block';}
+  }catch(e){console.warn('Draft cleanup failed:',e);}
 }
 
 function installButton(){
   const actions=$('importBtn')?.parentElement;
-  if(!actions||$('draftButton'))return;
-  const btn=document.createElement('button');
-  btn.id='draftButton';btn.type='button';btn.className='btn secondary';btn.textContent=hasDraft?'Load Draft':'Save Draft';
+  if(!actions)return;
+  let btn=$('draftButton');
+  if(!btn){
+    btn=document.createElement('button');
+    btn.id='draftButton';btn.type='button';btn.className='btn secondary';
+    actions.appendChild(btn);
+  }
+  btn.style.display='inline-block';
+  btn.style.padding='8px 11px';
+  btn.style.fontSize='12px';
+  btn.style.minHeight='36px';
+  btn.textContent=hasDraft?'Load Draft':'Save Draft';
   btn.title='Save the current bulk-import questions as a draft. When a draft exists, this button loads it.';
-  btn.style.cssText='padding:8px 11px;font-size:12px;min-height:36px';
-  actions.appendChild(btn);
-  btn.addEventListener('click',()=>hasDraft?loadDraft():saveDraft());
+  if(btn.dataset.draftListener!=='1'){
+    btn.dataset.draftListener='1';
+    btn.addEventListener('click',()=>hasDraft?loadDraft():saveDraft());
+  }
 }
 
 async function detectDraft(){
   if(!authed)return;
   try{hasDraft=(await getDoc(draftRef())).exists();}catch(e){console.warn('Draft check failed:',e);}
   installButton();
-  const btn=$('draftButton');if(btn)btn.textContent=hasDraft?'Load Draft':'Save Draft';
 }
 
 function hookPublishCleanup(){
   const btn=$('importBtn');
   if(!btn||btn.dataset.draftHooked)return;
-  btn.dataset.draftHooked='1';
   const original=btn.onclick;
   if(typeof original!=='function')return;
+  btn.dataset.draftHooked='1';
   btn.onclick=async function(...args){
     const result=await original.apply(this,args);
-    // The existing importer writes the success message only after all batches commit.
     const text=$('status')?.textContent||'';
     if(text.includes('Successfully imported all')){
       await removeDraft();
@@ -124,6 +138,7 @@ onAuthStateChanged(auth,async u=>{
   installButton();
   hookPublishCleanup();
   await detectDraft();
+  hookPublishCleanup();
 });
 
 window.addEventListener('load',()=>{
