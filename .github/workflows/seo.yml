@@ -22,7 +22,7 @@ jobs:
           from html import unescape
 
           private = {
-              "admin.html", "admin-dashboard.html", "admin-pass-access.html", "add-question.html",
+              "admin.html", "admin-dashboard.html", "admin-pass-access.html", "add-question.html", "bulk-import.html", "bulk-import-questions.html", "edit-question.html",
               "admin-analytics.html", "admin-audit.html", "admin-control-center.html",
               "admin-exam-manager.html", "admin-homepage-manager.html", "admin-live-access.html",
               "admin-notifications.html", "admin-pass-access.html", "admin-payments.html",
@@ -130,7 +130,7 @@ jobs:
           from html import escape
 
           private = {
-              "admin.html", "admin-dashboard.html", "admin-pass-access.html", "add-question.html",
+              "admin.html", "admin-dashboard.html", "admin-pass-access.html", "add-question.html", "bulk-import.html", "bulk-import-questions.html", "edit-question.html",
               "admin-analytics.html", "admin-audit.html", "admin-control-center.html",
               "admin-exam-manager.html", "admin-homepage-manager.html", "admin-live-access.html",
               "admin-notifications.html", "admin-pass-access.html", "admin-payments.html",
