@@ -45,8 +45,33 @@ $('addExam').onclick=()=>showNew('exam');
 $('addSubject').onclick=()=>showNew('subject');
 $('saveExam').onclick=()=>saveChoice('exam');
 $('saveSubject').onclick=()=>saveChoice('subject');
-
+$('toggleIndividual').onclick=()=>{const box=$('individualForm'),show=box.style.display!=='block';box.style.display=show?'block':'none';$('toggleIndividual').textContent=show?'Hide Individual Question Form':'Show Individual Question Form';};
 function setStatus(text,error=false){$('status').className='status'+(error?' error':'');$('status').textContent=text;}
+function setIndividualStatus(text,error=false){$('individualStatus').className='status'+(error?' error':'');$('individualStatus').textContent=text;}
+
+async function nextQuestionNumber(exam,subject){
+  const snap=await getDocs(collection(db,'questions'));
+  let max=0;
+  snap.docs.forEach(d=>{const q=d.data();if(String(q.exam||'').trim()===exam&&String(q.subject||'').trim()===subject){const n=Number(q.questionNumber);if(Number.isFinite(n)&&n>max)max=n;}});
+  return max+1;
+}
+$('addIndividual').onclick=async()=>{
+  if(!authed)return;
+  const exam=$('exam').value.trim(),subject=$('subject').value.trim(),question=$('individualQuestion').value.trim(),A=$('individualA').value.trim(),B=$('individualB').value.trim(),C=$('individualC').value.trim(),D=$('individualD').value.trim(),correctAnswer=$('individualAnswer').value,explanation=$('individualExplanation').value.trim(),previousExam=$('previousExam').value.trim(),tags=$('tags').value.split(',').map(x=>x.trim().toLowerCase()).filter(Boolean),marks=Number($('marks').value)||0,negativeMarks=Number($('negative').value)||0;
+  if(!exam||!subject){setIndividualStatus('Select an Exam and Subject first.',true);return;}
+  if(!question||!A||!B||!C||!D||!correctAnswer){setIndividualStatus('Question, all four options and the correct answer are required.',true);return;}
+  const btn=$('addIndividual');btn.disabled=true;btn.textContent='Adding…';
+  try{
+    const questionNumber=await nextQuestionNumber(exam,subject);
+    const ref=doc(collection(db,'questions'));
+    await setDoc(ref,{exam,subject,previousExam,tags,marks,negativeMarks,questionNumber,question,options:{A,B,C,D},correctAnswer,answerType:'single',explanation,answerSource:'individual-bulk-page',createdAt:serverTimestamp()});
+    await setDoc(doc(db,'exams',examDocId(exam)),{name:exam,title:exam,subject,updatedAt:serverTimestamp(),createdBy:ADMIN},{merge:true});
+    await setDoc(doc(db,'subjects',subjectDocId(subject)),{name:subject,updatedAt:serverTimestamp(),createdBy:ADMIN},{merge:true});
+    setIndividualStatus(`✓ Question ${questionNumber} added to ${exam} → ${subject}.`);
+    $('individualQuestion').value='';$('individualA').value='';$('individualB').value='';$('individualC').value='';$('individualD').value='';$('individualAnswer').value='';$('individualExplanation').value='';
+  }catch(e){console.error(e);setIndividualStatus('Could not add question. Check Firestore permissions and try again.',true);}finally{btn.disabled=false;btn.textContent='Add Question to Series';}
+};
+
 function parseQuestions(text){
   const normalized=normalize(text),re=/^\s*(?:Q(?:uestion)?\s*)0*(\d{1,3})\s*[.):-]\s*/gim,starts=[...normalized.matchAll(re)],out=[];
   for(let i=0;i<starts.length;i++){
