@@ -61,42 +61,31 @@ service cloud.firestore {
       allow read: if settingId in ['site', 'homepage', 'verification'] || hasPermission('settings');
       allow create, update, delete: if hasPermission('settings');
     }
-
     match /passSettings/{settingId} {
       allow read: if hasPermission('premium') || (verifiedUser() && settingId == 'main');
       allow create, update, delete: if hasPermission('premium');
     }
-
     match /exams/{examId} {
       allow read: if hasPermission('exams') || (verifiedUser() && canAccessExam(resource.data.name));
       allow create, update, delete: if hasPermission('exams');
     }
-
-    // Question documents intentionally remain admin-only unless the question is:
-    // 1) part of a currently active Daily Live Test, or
-    // 2) attached to an explicitly free exam, or
-    // 3) attached to a Premium exam and the student has an active Premium Pass.
-    // Daily access is controlled by dailyQuestionAccess/{questionId} and expires automatically.
     match /questions/{questionId} {
+      // A currently active Daily Live Test grants question access to signed-in students.
+      // Premium/free exam access still requires the normal verifiedUser() checks.
       allow get: if hasPermission('questions')
-        || (verifiedUser() && (
-          dailyQuestionAccess(questionId)
-          || canAccessExam(resource.data.get('exam', ''))
-        ));
+        || (signedIn() && dailyQuestionAccess(questionId))
+        || (verifiedUser() && canAccessExam(resource.data.get('exam', '')));
       allow list: if hasPermission('questions');
       allow create, update, delete: if hasPermission('questions');
     }
-
     match /dailyQuestionAccess/{questionId} {
       allow read: if hasPermission('liveTests') || (verifiedUser() && resource.data.get('expiresAt', timestamp.date(1970, 1, 1)) > request.time);
       allow create, update, delete: if hasPermission('liveTests');
     }
-
     match /dailyLiveTests/{testId} {
       allow read: if true;
       allow create, update, delete: if hasPermission('liveTests');
     }
-
     match /dailyLiveAccess/{testId} {
       allow read: if signedIn();
       allow create, update, delete: if hasPermission('liveTests');
@@ -105,7 +94,6 @@ service cloud.firestore {
         allow create, update, delete: if hasPermission('liveTests');
       }
     }
-
     match /dailyAttempts/{attemptId} {
       allow read: if hasPermission('results') || (verifiedUser() && resource.data.uid == request.auth.uid);
       allow create: if verifiedUser()
@@ -123,7 +111,6 @@ service cloud.firestore {
         && attemptId == request.auth.uid + '_' + resource.data.liveTestId;
       allow delete: if hasPermission('results') || superAdmin();
     }
-
     match /students/{studentId} {
       allow read: if hasPermission('students') || (signedIn() && request.auth.uid == studentId);
       allow create: if signedIn()
@@ -136,7 +123,6 @@ service cloud.firestore {
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','photoURL','displayName','emailVerified','phoneVerified','verifiedAt','updatedAt']));
       allow delete: if hasPermission('students');
     }
-
     match /mobileRegistry/{mobileId} {
       allow read: if hasPermission('students') || (signedIn() && resource.data.uid == request.auth.uid);
       allow create: if signedIn()
@@ -146,7 +132,6 @@ service cloud.firestore {
         && mobileId.matches('^\\+91[6-9][0-9]{9}$');
       allow update, delete: if hasPermission('students');
     }
-
     match /results/{resultId} {
       allow read: if hasPermission('results') || (verifiedUser() && resource.data.uid == request.auth.uid);
       allow create: if verifiedUser()
@@ -157,7 +142,6 @@ service cloud.firestore {
             && getAfter(/databases/$(database)/documents/dailyAttempts/$(request.auth.uid + '_' + request.resource.data.liveTestId)).data.attemptsUsed == request.resource.data.attemptNo));
       allow update, delete: if hasPermission('results');
     }
-
     match /dailyLiveLeaderboard/{entryId} {
       allow read: if signedIn();
       allow create: if verifiedUser()
@@ -171,40 +155,32 @@ service cloud.firestore {
         && request.resource.data.score >= resource.data.score;
       allow delete: if hasPermission('results');
     }
-
     match /notifications/{notificationId} {
       allow read: if signedIn();
       allow create, update, delete: if hasPermission('settings');
     }
-
     match /auditLogs/{logId} {
       allow read: if hasPermission('audit') || superAdmin();
       allow create: if hasPermission('audit') || superAdmin();
       allow update, delete: if false;
     }
-
     match /savedQuestions/{savedId} {
       allow read: if hasPermission('questions') || (verifiedUser() && resource.data.uid == request.auth.uid);
       allow create: if verifiedUser() && request.resource.data.uid == request.auth.uid;
-      allow update: if hasPermission('questions') || (verifiedUser() && request.auth.uid == request.resource.data.uid && request.resource.data.uid == request.auth.uid);
+      allow update: if hasPermission('questions') || (verifiedUser() && request.auth.uid == resource.data.uid && request.resource.data.uid == request.auth.uid);
       allow delete: if hasPermission('questions') || (verifiedUser() && request.auth.uid == resource.data.uid);
     }
-
     match /students/{studentId}/savedQuestions/{savedId} {
       allow read, write: if hasPermission('questions') || (verifiedUser() && request.auth.uid == studentId);
     }
-
-    // Only the super admin can change the administrator directory/permissions.
     match /adminUsers/{adminId} {
       allow read, create, update, delete: if superAdmin();
     }
-
     match /paymentOrders/{orderId} {
       allow read: if hasPermission('payments');
       allow update: if hasPermission('payments');
       allow create, delete: if false;
     }
-
     match /questionReports/{reportId} {
       allow read, update, delete: if hasPermission('questions');
       allow create: if verifiedUser() && request.resource.data.uid == request.auth.uid;
