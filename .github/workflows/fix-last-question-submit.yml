@@ -1,0 +1,50 @@
+name: Fix last question submit button
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  fix-submit:
+    if: "!contains(github.event.head_commit.message, '[skip submit-fix]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fix live test submit button
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('live-test.html')
+          s = p.read_text(encoding='utf-8')
+          old_css = '#submit{display:none!important}'
+          new_css = '#submit{display:none}'
+          old_js = "$ ('submit').style.display='block'".replace(' ', '')
+          new_js = "$ ('submit').style.display=i===qs.length-1?'block':'none'".replace(' ', '')
+          if old_css not in s:
+              raise SystemExit('Expected submit CSS not found')
+          if old_js not in s:
+              raise SystemExit('Expected submit JS not found')
+          s = s.replace(old_css, new_css, 1)
+          s = s.replace(old_js, new_js, 1)
+          p.write_text(s, encoding='utf-8')
+          print('live-test.html fixed')
+          PY
+
+      - name: Commit and push
+        shell: bash
+        run: |
+          if git diff --quiet -- live-test.html; then
+            echo 'No change needed.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add live-test.html
+          git commit -m 'Show submit button only on last question [skip submit-fix]'
+          git push
