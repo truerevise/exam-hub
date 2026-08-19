@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Fix live test submit button
+      - name: Check live test submit button
         shell: bash
         run: |
           python - <<'PY'
@@ -23,20 +23,17 @@ jobs:
           p = Path('live-test.html')
           s = p.read_text(encoding='utf-8')
           old_css = '#submit{display:none!important}'
-          new_css = '#submit{display:none}'
           old_js = "$ ('submit').style.display='block'".replace(' ', '')
-          new_js = "$ ('submit').style.display=i===qs.length-1?'block':'none'".replace(' ', '')
-          if old_css not in s:
-              raise SystemExit('Expected submit CSS not found')
-          if old_js not in s:
-              raise SystemExit('Expected submit JS not found')
-          s = s.replace(old_css, new_css, 1)
-          s = s.replace(old_js, new_js, 1)
+          if old_css not in s or old_js not in s:
+              print('Submit button is already fixed. Nothing to do.')
+              raise SystemExit(0)
+          s = s.replace(old_css, '#submit{display:none}', 1)
+          s = s.replace(old_js, "$ ('submit').style.display=i===qs.length-1?'block':'none'".replace(' ', ''), 1)
           p.write_text(s, encoding='utf-8')
           print('live-test.html fixed')
           PY
 
-      - name: Commit and push
+      - name: Commit and push if changed
         shell: bash
         run: |
           if git diff --quiet -- live-test.html; then
