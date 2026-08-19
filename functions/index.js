@@ -14,15 +14,6 @@ const RAZORPAY_WEBHOOK_SECRET = defineSecret('RAZORPAY_WEBHOOK_SECRET');
 
 const functionsSecrets = [RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET];
 
-// The callable payment functions are invoked from the public True Revise site.
-// Keep CORS enabled for the site origins so the browser can complete the
-// callable preflight and then send the actual POST request.
-const SITE_ORIGINS = [
-  'https://truerevise.com',
-  'https://www.truerevise.com',
-  'https://truerevise.github.io'
-];
-
 function razorpayClient() {
   return new Razorpay({
     key_id: RAZORPAY_KEY_ID.value(),
@@ -43,10 +34,16 @@ async function getPassSettings() {
   return { price, validityDays };
 }
 
-exports.createPremiumOrder = onCall({
+// Callable functions already enforce Firebase Auth before creating an order.
+// Allow the public True Revise web client to complete the browser preflight.
+// This fixes the situation where OPTIONS succeeds but the browser never sends
+// the actual POST to the callable endpoint.
+const callableOptions = {
   secrets: functionsSecrets,
-  cors: SITE_ORIGINS
-}, async (request) => {
+  cors: true
+};
+
+exports.createPremiumOrder = onCall(callableOptions, async (request) => {
   if (!request.auth) throw new HttpsError('unauthenticated', 'Please sign in first.');
 
   const { price, validityDays } = await getPassSettings();
@@ -82,10 +79,7 @@ exports.createPremiumOrder = onCall({
   };
 });
 
-exports.verifyPremiumPayment = onCall({
-  secrets: functionsSecrets,
-  cors: SITE_ORIGINS
-}, async (request) => {
+exports.verifyPremiumPayment = onCall(callableOptions, async (request) => {
   if (!request.auth) throw new HttpsError('unauthenticated', 'Please sign in first.');
 
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = request.data || {};
