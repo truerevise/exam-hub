@@ -32,4 +32,4 @@ jobs:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
       - name: Deploy Firebase Functions
-        run: firebase deploy --only functions --project exam-hub
+  run: firebase deploy --only functions --project exam-hub-db0eb
