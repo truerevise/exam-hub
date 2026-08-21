@@ -38,13 +38,13 @@
 </div>
 </section>
 <section class="card">
-<div class="field"><label>Paste Questions for Bulk Import</label><textarea id="source" placeholder="Paste Q1. ... through Q100. ... here."></textarea><div class="help"><b>Accepted format:</b> Q1. / Q1) / Q1: / Question 1. — followed by (A), (B), (C), (D), Answer: and Explanation:. You can paste all questions at once.</div></div>
+<div class="field"><label>Paste Questions for Bulk Import</label><textarea id="source" placeholder="Paste Q1. ... through Q100. ... here."></textarea><div class="help"><b>Accepted format:</b> Q1. / Q1) / Q1: / Question 1. — followed by (A), (B), (C), (D), Answer: and Explanation:. <b>Optional per-question tags:</b> add a line such as <code>Tags: english, grammar, tense</code>. If a question has no Tags line, the global Tags field above is used.</div></div>
 <div class="actions"><button class="btn" id="preview">Preview & Validate</button><button class="btn secondary" id="clear">Clear</button><button class="btn secondary draft-btn" id="draftButton" type="button">Save Draft</button><button class="btn secondary" onclick="location.href='question-bank.html'">Question Bank</button></div>
 <div id="status" class="status"></div>
 </section>
 <section class="card" id="previewCard" style="display:none"><div class="summary" id="summary"></div><div class="sequence" id="sequenceWarning"></div><div class="preview"><div class="row headrow"><div>#</div><div>Question + Options</div><div>Answer</div><div>Status</div></div><div id="rows"></div></div><div class="actions"><button class="btn" id="importBtn">Import All Questions</button></div><div class="note" style="margin-top:9px">Save Draft stores the current loaded questions and settings. When a draft exists, the button becomes Load Draft. A successful publish removes the draft automatically.</div></section>
 </main>
-<script type="module" src="./bulk-import.js?v=11"></script>
+<script type="module" src="./bulk-import.js?v=12"></script>
 <script type="module" src="./bulk-import-images.js?v=4"></script>
 <script type="module" src="./bulk-import-drafts.js?v=3"></script>
 </body>
