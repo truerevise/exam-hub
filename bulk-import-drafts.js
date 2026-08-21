@@ -17,7 +17,7 @@ async function saveDraft(){
   const source=$('source')?.value?.trim()||'';
   if(!source){status('Paste or enter the questions before saving the draft.',true);return;}
   const btn=$('draftButton');btn.disabled=true;btn.textContent='Saving…';
-  try{await setDoc(draftRef(),snapshotForm());hasDraft=true;btn.textContent='Load Draft';status('✓ Draft saved. Click Load Draft next time to restore these questions.');}
+  try{await setDoc(draftRef(),snapshotForm());hasDraft=true;btn.textContent='Save Draft';status('✓ Current data saved as the draft. The previous draft was replaced.');}
   catch(e){console.error(e);status('Could not save draft. Check Firestore permissions.',true);}
   finally{btn.disabled=false;}
 }
@@ -35,7 +35,7 @@ async function loadDraft(){
     if(!appliedExam||!appliedSubject){let tries=0;const timer=setInterval(()=>{tries++;if(!appliedExam)appliedExam=applySelect('exam',d.exam);if(!appliedSubject)appliedSubject=applySelect('subject',d.subject);if((appliedExam&&appliedSubject)||tries>=30)clearInterval(timer);},200);}
     hasDraft=true;btn.textContent='Save Draft';status('✓ Draft loaded. Preview and import the restored questions.');
     setTimeout(()=>{$('preview')?.click();},350);
-  }catch(e){console.error(e);status('Could not load draft. Check Firestore permissions.',true);btn.textContent='Load Draft';}
+  }catch(e){console.error(e);status('Could not load draft. Check Firestore permissions.',true);btn.textContent='Save Draft';}
   finally{btn.disabled=false;}
 }
 
@@ -45,9 +45,9 @@ function installButton(){
   const btn=$('draftButton');
   if(!btn)return;
   btn.style.display='inline-block';btn.style.padding='8px 11px';btn.style.fontSize='12px';btn.style.minHeight='36px';
-  btn.textContent=hasDraft?'Load Draft':'Save Draft';
-  btn.title='Save the current bulk-import questions as a draft. When a draft exists, this button loads it.';
-  if(btn.dataset.draftListener!=='1'){btn.dataset.draftListener='1';btn.addEventListener('click',()=>hasDraft?loadDraft():saveDraft());}
+  btn.textContent='Save Draft';
+  btn.title='Save the current bulk-import questions and settings. Saving again replaces the previous draft.';
+  if(btn.dataset.draftListener!=='1'){btn.dataset.draftListener='1';btn.addEventListener('click',saveDraft);}
 }
 
 async function detectDraft(){if(!authed)return;try{hasDraft=(await getDoc(draftRef())).exists();}catch(e){console.warn('Draft check failed:',e);}installButton();}
