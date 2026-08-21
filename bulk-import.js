@@ -77,20 +77,26 @@ function parseQuestions(text){
   for(let i=0;i<starts.length;i++){
     const start=starts[i].index,end=i+1<starts.length?starts[i+1].index:normalized.length,num=Number(starts[i][1]);let block=normalized.slice(start,end).trim();
     block=block.replace(/^\s*(?:Q(?:uestion)?\s*)0*\d{1,3}\s*[.):-]\s*/i,'').trim();
+
+    // Optional per-question tags. If omitted, the global Tags field is used at import time.
+    const tm=block.match(/(?:^|\n)\s*Tags?\s*:\s*([^\n]*)/i);
+    const questionTags=tm?tm[1].split(',').map(x=>x.trim().toLowerCase()).filter(Boolean):[];
+    if(tm)block=(block.slice(0,tm.index)+block.slice(tm.index+tm[0].length)).trim();
+
     const em=block.match(/(?:^|\n)\s*Explanation\s*:\s*([\s\S]*)$/i),explanation=em?em[1].trim():'';if(em)block=block.slice(0,em.index).trim();
     const am=block.match(/(?:^|\n)\s*Answer\s*:\s*\(?\s*(A|B|C|D|ALL|MULTIPLE|DELETED)\s*\)?/i),correctAnswer=am?am[1].toUpperCase():'';if(am)block=block.slice(0,am.index).trim();
     const reOpt=/(?:^|\n)\s*\(([ABCD])\)\s*/gi,os=[...block.matchAll(reOpt)],options={A:'',B:'',C:'',D:''};let question=block;
     if(os.length>=4){question=block.slice(0,os[0].index).trim();for(let j=0;j<os.length;j++){const k=os[j][1].toUpperCase(),from=os[j].index+os[j][0].length,to=j+1<os.length?os[j+1].index:block.length;if(!options[k])options[k]=block.slice(from,to).trim();}}
     question=question.replace(/^[:\-\s]+/,'').trim();Object.keys(options).forEach(k=>options[k]=options[k].trim());
     const errors=[];if(!question)errors.push('missing question');for(const k of ['A','B','C','D'])if(!options[k])errors.push('missing '+k);if(!correctAnswer)errors.push('missing answer');
-    out.push({num,question,options,correctAnswer,explanation,errors});
+    out.push({num,question,options,correctAnswer,explanation,tags:questionTags,errors});
   }return out;
 }
 function sequenceIssues(items){const nums=items.map(q=>q.num),duplicates=[...new Set(nums.filter((n,i)=>nums.indexOf(n)!==i))],missing=[];for(let n=1;n<=100;n++)if(!nums.includes(n))missing.push(n);return{duplicates,missing,outOfRange:nums.filter(n=>n<1||n>100)};}
 function renderPreview(){
   const seq=sequenceIssues(parsed),valid=parsed.filter(q=>!q.errors.length).length,ok=parsed.length===100&&!seq.duplicates.length&&!seq.missing.length&&!seq.outOfRange.length;
   $('summary').innerHTML=`<span class="pill">Detected: ${parsed.length}</span><span class="pill">Valid: ${valid}</span><span class="pill">Errors: ${parsed.length-valid}</span><span class="pill">Sequence: ${ok?'1–100 ✓':'Needs review'}</span>`;
-  $('rows').innerHTML=parsed.length?parsed.map(q=>`<div class="row"><div>Q${q.num}</div><div><b>${esc(q.question)}</b><div class="small-options">${['A','B','C','D'].map(k=>`<div><b>(${k})</b> ${esc(q.options[k])}</div>`).join('')}</div></div><div>${esc(q.correctAnswer||'—')}</div><div class="${q.errors.length?'bad':'ok'}">${q.errors.length?esc(q.errors.join(', ')):'Ready'}</div></div>`).join(''):'<div class="row"><div>—</div><div>No questions detected.</div><div>—</div><div class="bad">Invalid</div></div>';
+  $('rows').innerHTML=parsed.length?parsed.map(q=>`<div class="row"><div>Q${q.num}</div><div><b>${esc(q.question)}</b><div class="small-options">${['A','B','C','D'].map(k=>`<div><b>(${k})</b> ${esc(q.options[k])}</div>`).join('')}${q.tags.length?`<div class="small-options"><b>Tags:</b> ${esc(q.tags.join(', '))}</div>`:''}</div></div><div>${esc(q.correctAnswer||'—')}</div><div class="${q.errors.length?'bad':'ok'}">${q.errors.length?esc(q.errors.join(', ')):'Ready'}</div></div>`).join(''):'<div class="row"><div>—</div><div>No questions detected.</div><div>—</div><div class="bad">Invalid</div></div>';
   $('previewCard').style.display='block';
   const w=[];if(seq.duplicates.length)w.push(`duplicate numbers: ${seq.duplicates.join(', ')}`);if(seq.missing.length)w.push(`missing numbers: ${seq.missing.slice(0,20).join(', ')}${seq.missing.length>20?'…':''}`);if(seq.outOfRange.length)w.push(`out-of-range numbers: ${seq.outOfRange.join(', ')}`);$('sequenceWarning').textContent=w.length?w.join(' | '):'✓ Questions are in the correct Q1–Q100 sequence.';
 }
@@ -101,7 +107,7 @@ $('importBtn').onclick=async()=>{
   if(!authed)return;
   const valid=parsed.filter(q=>!q.errors.length),seq=sequenceIssues(parsed),ok=parsed.length===100&&!seq.duplicates.length&&!seq.missing.length&&!seq.outOfRange.length;
   if(valid.length!==parsed.length||!ok){setStatus('Fix validation/sequence errors before importing.',true);return;}
-  const exam=$('exam').value.trim(),subject=$('subject').value.trim(),previousExam=$('previousExam').value.trim(),tags=$('tags').value.split(',').map(x=>x.trim().toLowerCase()).filter(Boolean),marks=Number($('marks').value)||0,negativeMarks=Number($('negative').value)||0;
+  const exam=$('exam').value.trim(),subject=$('subject').value.trim(),previousExam=$('previousExam').value.trim(),globalTags=$('tags').value.split(',').map(x=>x.trim().toLowerCase()).filter(Boolean),marks=Number($('marks').value)||0,negativeMarks=Number($('negative').value)||0;
   if(!exam||!subject){setStatus('Exam and Subject are required.',true);return;}
   if(!confirm(`Import all ${valid.length} questions into ${exam} → ${subject}?`))return;
   const btn=$('importBtn');btn.disabled=true;btn.textContent='Importing…';
@@ -109,7 +115,7 @@ $('importBtn').onclick=async()=>{
     for(let i=0;i<valid.length;i+=400){
       const batch=writeBatch(db);
       if(i===0)batch.set(doc(db,'exams',examDocId(exam)),{name:exam,title:exam,subject,updatedAt:serverTimestamp(),createdBy:ADMIN},{merge:true});
-      for(const q of valid.slice(i,i+400)){const ref=doc(collection(db,'questions'));batch.set(ref,{exam,subject,previousExam,tags,marks,negativeMarks,questionNumber:q.num,question:q.question,options:q.options,correctAnswer:q.correctAnswer,answerType:['A','B','C','D'].includes(q.correctAnswer)?'single':q.correctAnswer==='ALL'?'all':q.correctAnswer==='MULTIPLE'?'multiple':'deleted_or_all_awarded',explanation:q.explanation,answerSource:'bulk-import',createdAt:serverTimestamp()});}
+      for(const q of valid.slice(i,i+400)){const ref=doc(collection(db,'questions'));const tags=q.tags.length?q.tags:globalTags;batch.set(ref,{exam,subject,previousExam,tags,marks,negativeMarks,questionNumber:q.num,question:q.question,options:q.options,correctAnswer:q.correctAnswer,answerType:['A','B','C','D'].includes(q.correctAnswer)?'single':q.correctAnswer==='ALL'?'all':q.correctAnswer==='MULTIPLE'?'multiple':'deleted_or_all_awarded',explanation:q.explanation,answerSource:'bulk-import',createdAt:serverTimestamp()});}
       await batch.commit();
     }
     await setDoc(doc(db,'subjects',subjectDocId(subject)),{name:subject,updatedAt:serverTimestamp(),createdBy:ADMIN},{merge:true});
