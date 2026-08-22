@@ -12,7 +12,7 @@ service firebase.storage {
           'commercewithkiransingh@gmail.com',
           'kiransingh.smile@gmail.com'
         ]
-        && request.resource.size <= 5 * 1024 * 1024
+        && request.resource.size <= 10 * 1024 * 1024
         && request.resource.contentType.matches('image/.*');
       allow delete: if request.auth != null
         && request.auth.token.email in [
