@@ -25,3 +25,5 @@ service firebase.storage {
     }
   }
 }
+
+// Deployment marker: 2026-08-22 storage upload fix verification
