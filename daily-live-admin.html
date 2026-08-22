@@ -1,4 +1,193 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow,noarchive">
-<link rel="canonical" href="https://truerevise.com/daily-live-admin.html">
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;background:#080d18;color:#eef2ff;font-family:Inter,Arial,sans-serif}.wrap{max-width:1050px;margin:auto;padding:18px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}.top a{color:#78aaff;text-decoration:none}.card{background:#101827;border:1px solid #263149;border-radius:16px;padding:18px;margin-bottom:16px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field label{display:block;color:#9aa7bd;font-size:12px;margin:8px 0 6px}.field input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #34415b;border-radius:10px;background:#0b1220;color:#fff}.question-list{max-height:520px;overflow:auto;border:1px solid #263149;border-radius:12px}.q{display:flex;gap:10px;padding:13px;border-bottom:1px solid #202b3e}.q:last-child{border-bottom:0}.q-text{flex:1}.muted{color:#8f9bb5;font-size:13px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}button{border:0;border-radius:10px;padding:11px 16px;background:#2563eb;color:#fff;font-weight:700;cursor:pointer}button.secondary{background:#182238;color:#a9c4ff;border:1px solid #31405d}.msg{margin-top:10px;font-weight:700}.live{border:1px solid #2c3950;border-radius:12px;padding:14px;margin-top:10px}.badge{display:inline-block;background:#123522;color:#86efac;border-radius:20px;padding:4px 8px;font-size:12px;font-weight:700}.expired{background:#3a1820;color:#ff9eac}.search{width:100%;box-sizing:border-box;padding:11px;border:1px solid #34415b;border-radius:10px;background:#0b1220;color:#fff;margin:10px 0}@media(max-width:700px){.grid{grid-template-columns:1fr}.wrap{padding:12px}}</style></head><body><div class="wrap"><div class="top"><a href="admin-dashboard.html">← Admin Dashboard</a><button id="logout">Logout</button></div><div class="card"><h1>⚡ Daily Live Test</h1><p class="muted">Choose questions, publish a live test, and make selected question documents temporarily accessible to students until the test expires.</p><div class="grid"><div class="field"><label>Test Title</label><input id="title" placeholder="e.g. TG SET Commerce Live 1"></div><div class="field"><label>Exam</label><input id="exam" placeholder="e.g. Telangana SET"></div><div class="field"><label>Test Duration (minutes)</label><input id="duration" type="number" min="1" max="300" value="30"></div></div><div class="actions"><button id="selectAll" class="secondary">Select All</button><button id="clearAll" class="secondary">Clear All</button><button id="publish">🚀 Publish Live Test</button><button class="secondary" onclick="location.href='admin-live-access.html'">🎯 Manage Attempts</button></div><div id="msg" class="msg"></div></div><div class="card"><h2>Choose Questions</h2><input id="search" class="search" placeholder="Search questions, exam, subject or topic..."><div id="questions" class="question-list">Loading questions...</div></div><div class="card"><h2>Published Tests</h2><div id="published">Loading...</div></div></div><script type="module">import{auth,db}from'./firebase-config.js';import{onAuthStateChanged,signOut}from'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';import{collection,getDocs,addDoc,serverTimestamp,Timestamp,writeBatch,doc}from'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';const ADMIN='kiransingh.smile@gmail.com',$=id=>document.getElementById(id);let questions=[];function isSuperAdmin(u){return !!u&&String(u.email||'').toLowerCase()===ADMIN.toLowerCase()}function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}onAuthStateChanged(auth,u=>{if(!u||!isSuperAdmin(u)){location.replace('admin.html');return}load()});async function load(){await loadQuestions();await loadPublished()}async function loadQuestions(){try{const s=await getDocs(collection(db,'questions'));questions=s.docs.map(d=>({id:d.id,...d.data()}));renderQuestions()}catch(e){console.error('Daily Live Test question load failed:',e);$('questions').innerHTML='<div class="q">Unable to load questions. Check Firestore permissions.</div>'}}function renderQuestions(){const q=$('search').value.toLowerCase().trim();const list=questions.filter(x=>`${x.question||''} ${x.exam||''} ${x.subject||''} ${x.topic||''}`.toLowerCase().includes(q));$('questions').innerHTML=list.length?list.map(x=>`<label class="q"><input type="checkbox" value="${x.id}"><span class="q-text"><b>${esc(x.question||'Question')}</b><br><span class="muted">${esc(x.exam||'')} • ${esc(x.subject||'')}${x.topic?' • '+esc(x.topic):''}</span></span></label>`).join(''):'<div class="q">No questions found.</div>'}$('search').oninput=renderQuestions;$('selectAll').onclick=()=>document.querySelectorAll('#questions input').forEach(x=>x.checked=true);$('clearAll').onclick=()=>document.querySelectorAll('#questions input').forEach(x=>x.checked=false);$('publish').onclick=async()=>{const title=$('title').value.trim(),exam=$('exam').value.trim(),ids=[...document.querySelectorAll('#questions input:checked')].map(x=>x.value),minutes=Number($('duration').value)||30;if(!title){$('msg').textContent='Enter a test title.';return}if(!ids.length){$('msg').textContent='Select at least one question.';return}if(minutes<1||minutes>300){$('msg').textContent='Duration must be between 1 and 300 minutes.';return}const now=new Date(),end=new Date(now.getTime()+86400000);try{const testRef=doc(collection(db,'dailyLiveTests'));const batch=writeBatch(db);batch.set(testRef,{title,exam,questionIds:ids,publishedAt:Timestamp.fromDate(now),startAt:Timestamp.fromDate(now),endAt:Timestamp.fromDate(end),durationMinutes:minutes,createdAt:serverTimestamp(),active:true});ids.forEach(qid=>batch.set(doc(db,'dailyQuestionAccess',qid),{questionId:qid,testId:testRef.id,expiresAt:Timestamp.fromDate(end),createdAt:serverTimestamp()},{merge:true}));await batch.commit();$('msg').textContent=`Published successfully. Live for 24 hours until ${end.toLocaleString()}.`;$('title').value='';document.querySelectorAll('#questions input').forEach(x=>x.checked=false);loadPublished()}catch(e){console.error(e);$('msg').textContent='Could not publish. Check Firestore permissions.'}};async function loadPublished(){try{const s=await getDocs(collection(db,'dailyLiveTests'));const data=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));$('published').innerHTML=data.length?data.map(x=>{const end=x.endAt?.toDate?.()||new Date(x.endAt);const live=end>new Date();return `<div class="live"><b>${esc(x.title)}</b><br><span class="muted">${esc(x.exam||'')} • ${x.questionIds?.length||0} questions • ${x.durationMinutes||'-'} minutes</span><br><span class="badge ${live?'':'expired'}">${live?'LIVE • ends '+end.toLocaleString():'EXPIRED'}</span><br><a href="live-test.html?id=${encodeURIComponent(x.id)}">Student View</a> · <a href="admin-live-access.html">Manage Attempts</a></div>`}).join(''):'<div class="muted">No Daily Live Tests published yet.</div>'}catch(e){console.error('Daily Live Test published load failed:',e);$('published').innerHTML='<div class="muted">Unable to load published tests.</div>'}}$('logout').onclick=async()=>{await signOut(auth);location.replace('admin.html')};</script></body></html>
+<title>Daily Live Tests - Admin</title>
+<style>
+body{margin:0;background:#f5f7fb;color:#172033;font-family:Inter,Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:18px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.top a{color:#2563eb;text-decoration:none}.card{background:#fff;border:1px solid #e5e9f2;border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 2px 8px rgba(15,23,42,.04)}h1,h2{margin:0 0 12px}.muted{color:#667085;font-size:13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field label{display:block;font-size:12px;color:#667085;margin-bottom:6px}.field input,.search{width:100%;box-sizing:border-box;padding:11px;border:1px solid #d8dee9;border-radius:9px;background:#fff;color:#172033}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}button{border:0;border-radius:9px;padding:11px 15px;background:#2563eb;color:#fff;font-weight:700;cursor:pointer}button.secondary{background:#fff;color:#344054;border:1px solid #d0d5dd}.status{margin-top:10px;font-weight:600}.question-list{max-height:520px;overflow:auto;border:1px solid #e4e7ec;border-radius:10px;margin-top:10px}.q{display:flex;gap:10px;padding:12px;border-bottom:1px solid #edf0f4}.q:last-child{border-bottom:0}.q-text{flex:1}.live{border:1px solid #e4e7ec;border-radius:10px;padding:13px;margin-top:10px}.badge{display:inline-block;padding:4px 8px;border-radius:20px;background:#ecfdf3;color:#027a48;font-size:12px;font-weight:700}.expired{background:#fef3f2;color:#b42318}.error{color:#b42318;background:#fef3f2;border:1px solid #fecdca;border-radius:9px;padding:10px;margin-top:10px;font-size:13px}@media(max-width:700px){.grid{grid-template-columns:1fr}.wrap{padding:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="admin-dashboard.html">← Admin Dashboard</a>
+    <button id="logout">Logout</button>
+  </div>
+
+  <div class="card">
+    <h1>⚡ Daily Live Tests</h1>
+    <p class="muted">Create a professional 24-hour test from your existing Question Bank.</p>
+    <div class="grid">
+      <div class="field"><label>TEST TITLE</label><input id="title" placeholder="Daily Commerce Test - Day 01"></div>
+      <div class="field"><label>EXAM / CATEGORY</label><input id="exam" placeholder="UGC NET Commerce"></div>
+      <div class="field"><label>TEST DURATION (MINUTES)</label><input id="duration" type="number" min="1" max="300" value="30"></div>
+    </div>
+    <div class="actions">
+      <button id="selectAll" class="secondary">Select All</button>
+      <button id="clearAll" class="secondary">Clear All</button>
+      <button id="publish">🚀 Publish Live Test</button>
+      <button id="manage" class="secondary">🎯 Manage Attempts</button>
+    </div>
+    <div id="msg" class="status"></div>
+  </div>
+
+  <div class="card">
+    <h2>Choose Questions</h2>
+    <p class="muted">Select only the questions you want students to receive.</p>
+    <input id="search" class="search" placeholder="Search question, exam, subject or topic...">
+    <div id="questions" class="question-list"><div class="q">Loading Question Bank...</div></div>
+  </div>
+
+  <div class="card">
+    <h2>Published Tests</h2>
+    <div id="published"><div class="muted">Loading...</div></div>
+  </div>
+</div>
+
+<script type="module">
+import {auth, db} from './firebase-config.js?v=20260823';
+import {onAuthStateChanged, signOut} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
+import {collection, getDocs, Timestamp, serverTimestamp, writeBatch, doc} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
+
+const SUPER_ADMINS = new Set([
+  'commercewithkiransingh@gmail.com',
+  'kiransingh.smile@gmail.com'
+]);
+const $ = id => document.getElementById(id);
+let questions = [];
+
+function esc(value){
+  return String(value ?? '').replace(/[&<>"']/g, ch => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+  }[ch]));
+}
+
+function showError(target, message){
+  $(target).innerHTML = '<div class="error">'+esc(message)+'</div>';
+}
+
+function renderQuestions(){
+  const term = $('search').value.toLowerCase().trim();
+  const filtered = questions.filter(q => {
+    const text = [q.question,q.exam,q.subject,q.topic,q.category,q.questionText].filter(Boolean).join(' ').toLowerCase();
+    return text.includes(term);
+  });
+  if(!filtered.length){
+    $('questions').innerHTML = '<div class="q">No questions found.</div>';
+    return;
+  }
+  $('questions').innerHTML = filtered.map(q => `
+    <label class="q">
+      <input type="checkbox" value="${esc(q.id)}">
+      <span class="q-text">
+        <b>${esc(q.question || q.questionText || 'Question')}</b><br>
+        <span class="muted">${esc(q.exam || q.category || '')}${q.subject ? ' • '+esc(q.subject) : ''}${q.topic ? ' • '+esc(q.topic) : ''}</span>
+      </span>
+    </label>
+  `).join('');
+}
+
+async function loadQuestions(){
+  $('questions').innerHTML = '<div class="q">Loading Question Bank...</div>';
+  try{
+    const snap = await getDocs(collection(db,'questions'));
+    questions = snap.docs.map(d => ({id:d.id,...d.data()}));
+    renderQuestions();
+    $('msg').textContent = `Question Bank loaded: ${questions.length} questions.`;
+  }catch(error){
+    console.error('Daily Live Test question load failed:', error);
+    showError('questions', `Question Bank could not be loaded. Firebase error: ${error.code || error.message || 'unknown error'}`);
+  }
+}
+
+async function loadPublished(){
+  $('published').innerHTML = '<div class="muted">Loading...</div>';
+  try{
+    const snap = await getDocs(collection(db,'dailyLiveTests'));
+    const data = snap.docs.map(d => ({id:d.id,...d.data()})).sort((a,b) => {
+      const at = a.createdAt?.seconds || a.publishedAt?.seconds || 0;
+      const bt = b.createdAt?.seconds || b.publishedAt?.seconds || 0;
+      return bt-at;
+    });
+    if(!data.length){
+      $('published').innerHTML = '<div class="muted">No Daily Live Tests published yet.</div>';
+      return;
+    }
+    $('published').innerHTML = data.map(t => {
+      const end = t.endAt?.toDate ? t.endAt.toDate() : new Date(t.endAt || 0);
+      const live = end > new Date();
+      return `<div class="live">
+        <b>${esc(t.title || 'Untitled Test')}</b><br>
+        <span class="muted">${esc(t.exam || '')} • ${(t.questionIds || []).length} questions • ${esc(t.durationMinutes || '-')} minutes</span><br>
+        <span class="badge ${live ? '' : 'expired'}">${live ? 'LIVE • ends '+end.toLocaleString() : 'EXPIRED'}</span><br><br>
+        <a href="daily-live-test.html?id=${encodeURIComponent(t.id)}">Student View</a> ·
+        <a href="admin-live-access.html">Manage Attempts</a>
+      </div>`;
+    }).join('');
+  }catch(error){
+    console.error('Daily Live Test published load failed:', error);
+    showError('published', `Published Tests could not be loaded. Firebase error: ${error.code || error.message || 'unknown error'}`);
+  }
+}
+
+async function publish(){
+  const title = $('title').value.trim();
+  const exam = $('exam').value.trim();
+  const duration = Number($('duration').value) || 30;
+  const ids = [...document.querySelectorAll('#questions input[type="checkbox"]:checked')].map(x => x.value);
+  if(!title){$('msg').textContent='Enter a test title.';return;}
+  if(!ids.length){$('msg').textContent='Select at least one question.';return;}
+  if(duration < 1 || duration > 300){$('msg').textContent='Duration must be between 1 and 300 minutes.';return;}
+  $('msg').textContent='Publishing...';
+  try{
+    const now = new Date();
+    const end = new Date(now.getTime()+24*60*60*1000);
+    const testRef = doc(collection(db,'dailyLiveTests'));
+    const batch = writeBatch(db);
+    batch.set(testRef, {
+      title, exam, questionIds: ids,
+      publishedAt: Timestamp.fromDate(now),
+      startAt: Timestamp.fromDate(now),
+      endAt: Timestamp.fromDate(end),
+      durationMinutes: duration,
+      createdAt: serverTimestamp(),
+      active: true
+    });
+    ids.forEach(qid => batch.set(doc(db,'dailyQuestionAccess',qid), {
+      questionId: qid, testId: testRef.id,
+      expiresAt: Timestamp.fromDate(end),
+      createdAt: serverTimestamp()
+    }, {merge:true}));
+    await batch.commit();
+    $('msg').textContent='Published successfully. Live for 24 hours.';
+    $('title').value='';
+    document.querySelectorAll('#questions input[type="checkbox"]').forEach(x => x.checked=false);
+    await loadPublished();
+  }catch(error){
+    console.error('Publish failed:',error);
+    $('msg').textContent=`Could not publish. Firebase error: ${error.code || error.message || 'unknown error'}`;
+  }
+}
+
+$('search').addEventListener('input',renderQuestions);
+$('selectAll').onclick=()=>document.querySelectorAll('#questions input[type="checkbox"]').forEach(x=>x.checked=true);
+$('clearAll').onclick=()=>document.querySelectorAll('#questions input[type="checkbox"]').forEach(x=>x.checked=false);
+$('publish').onclick=publish;
+$('manage').onclick=()=>location.href='admin-live-access.html';
+$('logout').onclick=async()=>{await signOut(auth);location.replace('admin.html');};
+
+onAuthStateChanged(auth, async user => {
+  if(!user){location.replace('admin.html');return;}
+  const email = String(user.email || '').toLowerCase();
+  if(!SUPER_ADMINS.has(email)){
+    location.replace('admin.html');
+    return;
+  }
+  $('msg').textContent='Admin verified. Loading Question Bank...';
+  await Promise.all([loadQuestions(),loadPublished()]);
+});
+</script>
+</body>
+</html>
