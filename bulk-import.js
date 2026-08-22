@@ -2,13 +2,15 @@ import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
 import { collection, getDocs, writeBatch, doc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
 
-const ADMIN='kiransingh.smile@gmail.com';
+const SUPER_ADMINS=['commercewithkiransingh@gmail.com','kiransingh.smile@gmail.com'];
 const $=id=>document.getElementById(id);
 let parsed=[];
 let authed=false;
 
+function isSuperAdmin(u){return !!(u?.email&&SUPER_ADMINS.includes(u.email.toLowerCase()));}
+
 onAuthStateChanged(auth,async u=>{
-  if(u?.email?.toLowerCase()!==ADMIN.toLowerCase()){location.replace('admin.html');return;}
+  if(!isSuperAdmin(u)){location.replace('admin.html');return;}
   authed=true;
   await loadChoices();
 });
@@ -36,8 +38,8 @@ async function saveChoice(type){
   const input=$(type==='exam'?'newExam':'newSubject'),name=input.value.trim();
   if(!name){setStatus(`Enter a ${type} name first.`,true);return;}
   try{
-    if(type==='exam') await setDoc(doc(db,'exams',examDocId(name)),{name,title:name,status:'draft',enabled:true,createdBy:ADMIN,updatedAt:serverTimestamp()},{merge:true});
-    else await setDoc(doc(db,'subjects',subjectDocId(name)),{name,createdBy:ADMIN,updatedAt:serverTimestamp()},{merge:true});
+    if(type==='exam') await setDoc(doc(db,'exams',examDocId(name)),{name,title:name,status:'draft',enabled:true,createdBy:auth.currentUser?.email||'',updatedAt:serverTimestamp()},{merge:true});
+    else await setDoc(doc(db,'subjects',subjectDocId(name)),{name,createdBy:auth.currentUser?.email||'',updatedAt:serverTimestamp()},{merge:true});
     const select=$(type==='exam'?'exam':'subject');if(![...select.options].some(o=>o.value===name)){const o=document.createElement('option');o.value=name;o.textContent=name;select.appendChild(o);}select.value=name;input.value='';$(type==='exam'?'newExamBox':'newSubjectBox').style.display='none';setStatus(`✓ ${type[0].toUpperCase()+type.slice(1)} added successfully.`);if(type==='exam')$('previousExam').value=name;
   }catch(e){setStatus(`Could not save ${type}: ${e.message}`,true);}
 }
@@ -65,8 +67,8 @@ $('addIndividual').onclick=async()=>{
     const questionNumber=await nextQuestionNumber(exam,subject);
     const ref=doc(collection(db,'questions'));
     await setDoc(ref,{exam,subject,previousExam,tags,marks,negativeMarks,questionNumber,question,options:{A,B,C,D},correctAnswer,answerType:'single',explanation,answerSource:'individual-bulk-page',createdAt:serverTimestamp()});
-    await setDoc(doc(db,'exams',examDocId(exam)),{name:exam,title:exam,subject,updatedAt:serverTimestamp(),createdBy:ADMIN},{merge:true});
-    await setDoc(doc(db,'subjects',subjectDocId(subject)),{name:subject,updatedAt:serverTimestamp(),createdBy:ADMIN},{merge:true});
+    await setDoc(doc(db,'exams',examDocId(exam)),{name:exam,title:exam,subject,updatedAt:serverTimestamp(),createdBy:auth.currentUser?.email||''},{merge:true});
+    await setDoc(doc(db,'subjects',subjectDocId(subject)),{name:subject,updatedAt:serverTimestamp(),createdBy:auth.currentUser?.email||''},{merge:true});
     setIndividualStatus(`✓ Question ${questionNumber} added to ${exam} → ${subject}.`);
     $('individualQuestion').value='';$('individualA').value='';$('individualB').value='';$('individualC').value='';$('individualD').value='';$('individualAnswer').value='';$('individualExplanation').value='';
   }catch(e){console.error(e);setIndividualStatus('Could not add question. Check Firestore permissions and try again.',true);}finally{btn.disabled=false;btn.textContent='Add Question to Series';}
@@ -77,12 +79,7 @@ function parseQuestions(text){
   for(let i=0;i<starts.length;i++){
     const start=starts[i].index,end=i+1<starts.length?starts[i+1].index:normalized.length,num=Number(starts[i][1]);let block=normalized.slice(start,end).trim();
     block=block.replace(/^\s*(?:Q(?:uestion)?\s*)0*\d{1,3}\s*[.):-]\s*/i,'').trim();
-
-    // Optional per-question tags. If omitted, the global Tags field is used at import time.
-    const tm=block.match(/(?:^|\n)\s*Tags?\s*:\s*([^\n]*)/i);
-    const questionTags=tm?tm[1].split(',').map(x=>x.trim().toLowerCase()).filter(Boolean):[];
-    if(tm)block=(block.slice(0,tm.index)+block.slice(tm.index+tm[0].length)).trim();
-
+    const tm=block.match(/(?:^|\n)\s*Tags?\s*:\s*([^\n]*)/i);const questionTags=tm?tm[1].split(',').map(x=>x.trim().toLowerCase()).filter(Boolean):[];if(tm)block=(block.slice(0,tm.index)+block.slice(tm.index+tm[0].length)).trim();
     const em=block.match(/(?:^|\n)\s*Explanation\s*:\s*([\s\S]*)$/i),explanation=em?em[1].trim():'';if(em)block=block.slice(0,em.index).trim();
     const am=block.match(/(?:^|\n)\s*Answer\s*:\s*\(?\s*(A|B|C|D|ALL|MULTIPLE|DELETED)\s*\)?/i),correctAnswer=am?am[1].toUpperCase():'';if(am)block=block.slice(0,am.index).trim();
     const reOpt=/(?:^|\n)\s*\(([ABCD])\)\s*/gi,os=[...block.matchAll(reOpt)],options={A:'',B:'',C:'',D:''};let question=block;
@@ -93,32 +90,7 @@ function parseQuestions(text){
   }return out;
 }
 function sequenceIssues(items){const nums=items.map(q=>q.num),duplicates=[...new Set(nums.filter((n,i)=>nums.indexOf(n)!==i))],missing=[];for(let n=1;n<=100;n++)if(!nums.includes(n))missing.push(n);return{duplicates,missing,outOfRange:nums.filter(n=>n<1||n>100)};}
-function renderPreview(){
-  const seq=sequenceIssues(parsed),valid=parsed.filter(q=>!q.errors.length).length,ok=parsed.length===100&&!seq.duplicates.length&&!seq.missing.length&&!seq.outOfRange.length;
-  $('summary').innerHTML=`<span class="pill">Detected: ${parsed.length}</span><span class="pill">Valid: ${valid}</span><span class="pill">Errors: ${parsed.length-valid}</span><span class="pill">Sequence: ${ok?'1–100 ✓':'Needs review'}</span>`;
-  $('rows').innerHTML=parsed.length?parsed.map(q=>`<div class="row"><div>Q${q.num}</div><div><b>${esc(q.question)}</b><div class="small-options">${['A','B','C','D'].map(k=>`<div><b>(${k})</b> ${esc(q.options[k])}</div>`).join('')}${q.tags.length?`<div class="small-options"><b>Tags:</b> ${esc(q.tags.join(', '))}</div>`:''}</div></div><div>${esc(q.correctAnswer||'—')}</div><div class="${q.errors.length?'bad':'ok'}">${q.errors.length?esc(q.errors.join(', ')):'Ready'}</div></div>`).join(''):'<div class="row"><div>—</div><div>No questions detected.</div><div>—</div><div class="bad">Invalid</div></div>';
-  $('previewCard').style.display='block';
-  const w=[];if(seq.duplicates.length)w.push(`duplicate numbers: ${seq.duplicates.join(', ')}`);if(seq.missing.length)w.push(`missing numbers: ${seq.missing.slice(0,20).join(', ')}${seq.missing.length>20?'…':''}`);if(seq.outOfRange.length)w.push(`out-of-range numbers: ${seq.outOfRange.join(', ')}`);$('sequenceWarning').textContent=w.length?w.join(' | '):'✓ Questions are in the correct Q1–Q100 sequence.';
-}
+function renderPreview(){const seq=sequenceIssues(parsed),valid=parsed.filter(q=>!q.errors.length).length,ok=parsed.length===100&&!seq.duplicates.length&&!seq.missing.length&&!seq.outOfRange.length;$('summary').innerHTML=`<span class="pill">Detected: ${parsed.length}</span><span class="pill">Valid: ${valid}</span><span class="pill">Errors: ${parsed.length-valid}</span><span class="pill">Sequence: ${ok?'1–100 ✓':'Needs review'}</span>`;$('rows').innerHTML=parsed.length?parsed.map(q=>`<div class="row"><div>Q${q.num}</div><div><b>${esc(q.question)}</b><div class="small-options">${['A','B','C','D'].map(k=>`<div><b>(${k})</b> ${esc(q.options[k])}</div>`).join('')}${q.tags.length?`<div class="small-options"><b>Tags:</b> ${esc(q.tags.join(', '))}</div>`:''}</div></div><div>${esc(q.correctAnswer||'—')}</div><div class="${q.errors.length?'bad':'ok'}">${q.errors.length?esc(q.errors.join(', ')):'Ready'}</div></div>`).join(''):'<div class="row"><div>—</div><div>No questions detected.</div><div>—</div><div class="bad">Invalid</div></div>';$('previewCard').style.display='block';const w=[];if(seq.duplicates.length)w.push(`duplicate numbers: ${seq.duplicates.join(', ')}`);if(seq.missing.length)w.push(`missing numbers: ${seq.missing.slice(0,20).join(', ')}${seq.missing.length>20?'…':''}`);if(seq.outOfRange.length)w.push(`out-of-range numbers: ${seq.outOfRange.join(', ')}`);$('sequenceWarning').textContent=w.length?w.join(' | '):'✓ Questions are in the correct Q1–Q100 sequence.';}
 $('preview').onclick=()=>{parsed=parseQuestions($('source').value);renderPreview();const invalid=parsed.filter(q=>q.errors.length).length,seq=sequenceIssues(parsed),ok=parsed.length===100&&!seq.duplicates.length&&!seq.missing.length&&!seq.outOfRange.length;setStatus(!parsed.length?'No questions found.':ok&&!invalid?'✓ Found all 100 questions. They are ready to import.':`Found ${parsed.length} questions. ${invalid} need correction${ok?'.':'; check the Q-number sequence.'}`,invalid||!ok);};
 $('clear').onclick=()=>{$('source').value='';parsed=[];$('previewCard').style.display='none';setStatus('');};
-
-$('importBtn').onclick=async()=>{
-  if(!authed)return;
-  const valid=parsed.filter(q=>!q.errors.length),seq=sequenceIssues(parsed),ok=parsed.length===100&&!seq.duplicates.length&&!seq.missing.length&&!seq.outOfRange.length;
-  if(valid.length!==parsed.length||!ok){setStatus('Fix validation/sequence errors before importing.',true);return;}
-  const exam=$('exam').value.trim(),subject=$('subject').value.trim(),previousExam=$('previousExam').value.trim(),globalTags=$('tags').value.split(',').map(x=>x.trim().toLowerCase()).filter(Boolean),marks=Number($('marks').value)||0,negativeMarks=Number($('negative').value)||0;
-  if(!exam||!subject){setStatus('Exam and Subject are required.',true);return;}
-  if(!confirm(`Import all ${valid.length} questions into ${exam} → ${subject}?`))return;
-  const btn=$('importBtn');btn.disabled=true;btn.textContent='Importing…';
-  try{
-    for(let i=0;i<valid.length;i+=400){
-      const batch=writeBatch(db);
-      if(i===0)batch.set(doc(db,'exams',examDocId(exam)),{name:exam,title:exam,subject,updatedAt:serverTimestamp(),createdBy:ADMIN},{merge:true});
-      for(const q of valid.slice(i,i+400)){const ref=doc(collection(db,'questions'));const tags=q.tags.length?q.tags:globalTags;batch.set(ref,{exam,subject,previousExam,tags,marks,negativeMarks,questionNumber:q.num,question:q.question,options:q.options,correctAnswer:q.correctAnswer,answerType:['A','B','C','D'].includes(q.correctAnswer)?'single':q.correctAnswer==='ALL'?'all':q.correctAnswer==='MULTIPLE'?'multiple':'deleted_or_all_awarded',explanation:q.explanation,answerSource:'bulk-import',createdAt:serverTimestamp()});}
-      await batch.commit();
-    }
-    await setDoc(doc(db,'subjects',subjectDocId(subject)),{name:subject,updatedAt:serverTimestamp(),createdBy:ADMIN},{merge:true});
-    setStatus(`✓ Successfully imported all ${valid.length} questions into ${exam} → ${subject}.`);btn.textContent='Imported';
-  }catch(e){console.error(e);setStatus('Import failed. Check Firestore permissions and try again.',true);btn.disabled=false;btn.textContent='Import Questions';}
-};
+$('importBtn').onclick=async()=>{if(!authed)return;const valid=parsed.filter(q=>!q.errors.length),seq=sequenceIssues(parsed),ok=parsed.length===100&&!seq.duplicates.length&&!seq.missing.length&&!seq.outOfRange.length;if(valid.length!==parsed.length||!ok){setStatus('Fix validation/sequence errors before importing.',true);return;}const exam=$('exam').value.trim(),subject=$('subject').value.trim(),previousExam=$('previousExam').value.trim(),globalTags=$('tags').value.split(',').map(x=>x.trim().toLowerCase()).filter(Boolean),marks=Number($('marks').value)||0,negativeMarks=Number($('negative').value)||0;if(!exam||!subject){setStatus('Exam and Subject are required.',true);return;}if(!confirm(`Import all ${valid.length} questions into ${exam} → ${subject}?`))return;const btn=$('importBtn');btn.disabled=true;btn.textContent='Importing…';try{for(let i=0;i<valid.length;i+=400){const batch=writeBatch(db);if(i===0)batch.set(doc(db,'exams',examDocId(exam)),{name:exam,title:exam,subject,updatedAt:serverTimestamp(),createdBy:auth.currentUser?.email||''},{merge:true});for(const q of valid.slice(i,i+400)){const ref=doc(collection(db,'questions'));const tags=q.tags.length?q.tags:globalTags;batch.set(ref,{exam,subject,previousExam,tags,marks,negativeMarks,questionNumber:q.num,question:q.question,options:q.options,correctAnswer:q.correctAnswer,answerType:['A','B','C','D'].includes(q.correctAnswer)?'single':q.correctAnswer==='ALL'?'all':q.correctAnswer==='MULTIPLE'?'multiple':'deleted_or_all_awarded',explanation:q.explanation,answerSource:'bulk-import',createdAt:serverTimestamp()});}await batch.commit();}await setDoc(doc(db,'subjects',subjectDocId(subject)),{name:subject,updatedAt:serverTimestamp(),createdBy:auth.currentUser?.email||''},{merge:true});setStatus(`✓ Successfully imported all ${valid.length} questions into ${exam} → ${subject}.`);btn.textContent='Imported';}catch(e){console.error(e);setStatus('Import failed. Check Firestore permissions and try again.',true);btn.disabled=false;btn.textContent='Import Questions';}};
