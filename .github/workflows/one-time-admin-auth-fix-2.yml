@@ -1,0 +1,54 @@
+name: One-time remaining admin auth fix
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replace remaining single-admin checks
+        shell: python
+        run: |
+          from pathlib import Path
+          for p in list(Path('.').glob('*.html')) + list(Path('.').glob('*.js')):
+              s=p.read_text(encoding='utf-8')
+              changed=False
+              for old in ["const ADMIN='commercewithkiransingh@gmail.com';", "const ADMIN='kiransingh.smile@gmail.com';"]:
+                  if old in s:
+                      s=s.replace(old,"const SUPER_ADMINS=['commercewithkiransingh@gmail.com','kiransingh.smile@gmail.com'];function isSuperAdmin(u){return !!(u?.email&&SUPER_ADMINS.includes(u.email.toLowerCase()));}const ADMIN='kiransingh.smile@gmail.com';")
+                      changed=True
+              reps={
+                "u?.email?.toLowerCase()!==ADMIN.toLowerCase()":"!isSuperAdmin(u)",
+                "u?.email?.toLowerCase()===ADMIN.toLowerCase()":"isSuperAdmin(u)",
+                "u.email.toLowerCase()!==ADMIN.toLowerCase()":"!isSuperAdmin(u)",
+                "u.email.toLowerCase()===ADMIN.toLowerCase()":"isSuperAdmin(u)",
+                "u.email?.toLowerCase()!==ADMIN.toLowerCase()":"!isSuperAdmin(u)",
+                "u.email?.toLowerCase()===ADMIN.toLowerCase()":"isSuperAdmin(u)",
+                "(u.email||'').toLowerCase()!==ADMIN.toLowerCase()":"!isSuperAdmin(u)",
+                "(u.email||'').toLowerCase()===ADMIN.toLowerCase()":"isSuperAdmin(u)",
+                "u?.email?.toLowerCase() !== ADMIN.toLowerCase()":"!isSuperAdmin(u)",
+                "u?.email?.toLowerCase() === ADMIN.toLowerCase()":"isSuperAdmin(u)",
+              }
+              for a,b in reps.items():
+                  if a in s:
+                      s=s.replace(a,b); changed=True
+              s=s.replace("createdBy:ADMIN","createdBy:auth.currentUser?.email||''")
+              s=s.replace("premiumGrantedBy:ADMIN","premiumGrantedBy:auth.currentUser?.email||''")
+              if changed:p.write_text(s,encoding='utf-8')
+      - name: Commit and remove workflow
+        shell: bash
+        run: |
+          rm -f .github/workflows/one-time-admin-auth-fix-2.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Fix remaining admin email checks'
+          git push
