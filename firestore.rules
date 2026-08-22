@@ -4,7 +4,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn() { return request.auth != null; }
     function superAdmin() {
-      return signedIn() && request.auth.token.email == 'kiransingh.smile@gmail.com';
+      return signedIn() && request.auth.token.email in ['commercewithkiransingh@gmail.com', 'kiransingh.smile@gmail.com'];
     }
     function adminRecordExists() {
       return signedIn() && exists(/databases/$(database)/documents/adminUsers/$(request.auth.token.email));
@@ -65,11 +65,18 @@ service cloud.firestore {
       allow read: if hasPermission('premium') || (verifiedUser() && settingId == 'main');
       allow create, update, delete: if hasPermission('premium');
     }
+    match /subjects/{subjectId} {
+      allow read: if signedIn();
+      allow create, update, delete: if hasPermission('exams') || hasPermission('questions');
+    }
     match /exams/{examId} {
       // Exam documents contain public catalog metadata (primarily the exam name).
       // Keep questions protected separately below; students need to list exams before choosing one.
       allow read: if signedIn();
       allow create, update, delete: if hasPermission('exams');
+    }
+    match /bulkImportDrafts/{draftId} {
+      allow read, write: if hasPermission('questions') || hasPermission('exams');
     }
     match /questions/{questionId} {
       // A currently active Daily Live Test grants question access to signed-in students.
