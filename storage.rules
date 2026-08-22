@@ -2,9 +2,8 @@ rules_version = '2';
 
 service firebase.storage {
   match /b/{bucket}/o {
-    // Question and option images are readable by students because they are
-    // displayed on public/test pages. Only designated super admins may upload,
-    // update, or delete them.
+    // Question and option images are publicly readable because they are shown
+    // on student/test pages. Only the two designated super-admin accounts may upload.
     match /question-images/{allPaths=**} {
       allow read: if true;
       allow write: if request.auth != null
@@ -12,8 +11,7 @@ service firebase.storage {
           'commercewithkiransingh@gmail.com',
           'kiransingh.smile@gmail.com'
         ]
-        && request.resource.size <= 10 * 1024 * 1024
-        && request.resource.contentType.matches('image/.*');
+        && request.resource.size <= 10485760;
       allow delete: if request.auth != null
         && request.auth.token.email in [
           'commercewithkiransingh@gmail.com',
