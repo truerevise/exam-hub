@@ -6,7 +6,10 @@
   "firestore": {
     "rules": "firestore.rules"
   },
-  "storage": {
-    "rules": "storage.rules"
-  }
+  "storage": [
+    {
+      "bucket": "exam-hub-db0eb.firebasestorage.app",
+      "rules": "storage.rules"
+    }
+  ]
 }
