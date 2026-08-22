@@ -37,17 +37,17 @@ body{margin:0;background:#f5f7fb;color:#172033;font-family:Inter,Arial,sans-seri
     <h2>Choose Questions</h2>
     <p class="muted">Select only the questions you want students to receive.</p>
     <input id="search" class="search" placeholder="Search question, exam, subject or topic...">
-    <div id="questions" class="question-list"><div class="q">Loading Question Bank...</div></div>
+    <div id="questions" class="question-list"><div class="q">Waiting for Firebase authentication...</div></div>
   </div>
 
   <div class="card">
     <h2>Published Tests</h2>
-    <div id="published"><div class="muted">Loading...</div></div>
+    <div id="published"><div class="muted">Waiting for Firebase authentication...</div></div>
   </div>
 </div>
 
 <script type="module">
-import {auth, db} from './firebase-config.js?v=20260823';
+import {auth, db, authReady} from './firebase-config.js?v=20260823';
 import {onAuthStateChanged, signOut} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
 import {collection, getDocs, Timestamp, serverTimestamp, writeBatch, doc} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
 
@@ -57,6 +57,7 @@ const SUPER_ADMINS = new Set([
 ]);
 const $ = id => document.getElementById(id);
 let questions = [];
+let authInitialized = false;
 
 function esc(value){
   return String(value ?? '').replace(/[&<>"']/g, ch => ({
@@ -178,15 +179,46 @@ $('publish').onclick=publish;
 $('manage').onclick=()=>location.href='admin-live-access.html';
 $('logout').onclick=async()=>{await signOut(auth);location.replace('admin.html');};
 
+// Important: firebase-config.js establishes Auth persistence asynchronously.
+// Wait for that to finish before listening for the auth state and touching
+// protected Firestore collections. This prevents the first-load race that
+// previously required a manual page refresh.
+try {
+  await authReady;
+} catch (error) {
+  console.warn('Firebase Auth persistence setup failed; continuing with Auth state:', error);
+}
+
 onAuthStateChanged(auth, async user => {
-  if(!user){location.replace('admin.html');return;}
-  const email = String(user.email || '').toLowerCase();
-  if(!SUPER_ADMINS.has(email)){
+  if (authInitialized) return;
+  authInitialized = true;
+
+  if(!user){
     location.replace('admin.html');
     return;
   }
+
+  const email = String(user.email || '').toLowerCase();
+
+  // Current Daily Live admin access is restricted to the configured
+  // super-admin accounts. Firestore rules remain the final security layer.
+  if(!SUPER_ADMINS.has(email)){
+    $('msg').textContent = 'Admin verification failed. Redirecting to Admin Login...';
+    location.replace('admin.html');
+    return;
+  }
+
   $('msg').textContent='Admin verified. Loading Question Bank...';
-  await Promise.all([loadQuestions(),loadPublished()]);
+
+  // Deliberately load in this order: Auth ready → Admin verified →
+  // Question Bank → Published Tests. This avoids the previous race condition.
+  try {
+    await loadQuestions();
+    await loadPublished();
+  } catch (error) {
+    console.error('Daily Live Admin initialization failed:', error);
+    $('msg').textContent = 'Admin page could not finish loading. Please refresh once and check the console.';
+  }
 });
 </script>
 </body>
