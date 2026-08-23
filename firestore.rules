@@ -11,10 +11,12 @@ service cloud.firestore {
       ];
     }
     function adminRecordExists() {
-      return signedIn() && exists(/databases/$(database)/documents/adminUsers/$(request.auth.uid));
+      return signedIn()
+        && request.auth.token.email != null
+        && exists(/databases/$(database)/documents/adminUsers/$(request.auth.token.email));
     }
     function adminRecord() {
-      return get(/databases/$(database)/documents/adminUsers/$(request.auth.uid));
+      return get(/databases/$(database)/documents/adminUsers/$(request.auth.token.email));
     }
     function hasPermission(permission) {
       return superAdmin()
@@ -91,7 +93,6 @@ service cloud.firestore {
       allow update: if hasPermission('questions') || superAdmin();
       allow delete: if false;
     }
-
     match /questions/{questionId} {
       allow get: if hasPermission('questions')
         || (signedIn() && dailyQuestionAccess(questionId))
@@ -196,7 +197,7 @@ service cloud.firestore {
       allow read, write: if hasPermission('questions') || (verifiedUser() && request.auth.uid == studentId);
     }
     match /adminUsers/{uid} {
-      allow read: if (signedIn() && request.auth.uid == uid) || superAdmin();
+      allow read: if superAdmin() || (signedIn() && request.auth.token.email == uid);
       allow write: if superAdmin();
     }
   }
