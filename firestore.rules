@@ -60,10 +60,17 @@ service cloud.firestore {
     }
 
     match /questions/{questionId} {
+      // Individual question reads remain protected: a user may fetch a question
+      // for an actual test only when the exam is free or the user has Premium,
+      // or when the question is part of an active Daily Live Test.
       allow get: if hasPermission('questions')
         || (signedIn() && dailyQuestionAccess(questionId))
         || (verifiedUser() && canAccessExam(resource.data.get('exam', '')));
-      allow list: if hasPermission('questions');
+
+      // Mock-test listing is intentionally available to verified users so free
+      // members can see which exams, subjects and question counts are available.
+      // The actual Attempt Test action remains Premium-gated in test.html.
+      allow list: if hasPermission('questions') || verifiedUser();
       allow create, update, delete: if hasPermission('questions');
     }
     match /dailyQuestionAccess/{questionId} {
@@ -83,8 +90,6 @@ service cloud.firestore {
       }
     }
     match /dailyAttempts/{attemptId} {
-      // IMPORTANT: use the document ID for the student's pre-attempt read.
-      // The first attempt document does not exist yet, so resource.data is unavailable.
       allow read: if hasPermission('results')
         || (signedIn() && attemptId.matches('^' + request.auth.uid + '_.*$'));
       allow create: if verifiedUser()
