@@ -1,2 +1,3 @@
-const $=id=>document.getElementById(id);
-window.renderBulkImagePreview=()=>{const box=$('bulkImagePreview');if(!box)return;const map=window.__bulkImportImages||{};const entries=[];Object.keys(map).sort((a,b)=>Number(a)-Number(b)).forEach(number=>{Object.entries(map[number]||{}).forEach(([part,url])=>{if(url)entries.push({number,part,url});});});if(!entries.length){box.style.display='none';box.innerHTML='';return;}box.style.display='grid';box.innerHTML=entries.map(({number,part,url})=>`<div class="bulk-image-card"><a href="${url}" target="_blank" rel="noopener"><img src="${url}" alt="Q${number} ${part==='question'?'Question image':`Option ${part} image`}" loading="lazy"></a><div class="bulk-image-label">Q${number} — ${part==='question'?'Question image':`Option ${part} image`}</div></div>`).join('');};
+// Image rendering is handled by bulk-import-images.js.
+// Compatibility shim for older bulk-import.html references.
+export {};
