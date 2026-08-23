@@ -1,14 +1,16 @@
-// Bulk Import mobile/large-series input fix v3.
-// Uses Clipboard API directly so Android keyboard paste truncation cannot affect the
-// imported text. Also provides an immediate clipboard -> textarea -> preview path.
+// Bulk Import mobile/large-series input fix v4.
+// IMPORTANT: never set textarea.maxLength=0. For a textarea, 0 means zero characters.
+// This version removes the limit completely and uses direct clipboard/file loading.
 
 function installBulkInputFix() {
   const el = document.getElementById('source');
-  if (!el || el.dataset.largePasteFix === '3') return;
-  el.dataset.largePasteFix = '3';
+  if (!el || el.dataset.largePasteFix === '4') return;
+  el.dataset.largePasteFix = '4';
 
+  // Remove every possible character limit. Do NOT set maxLength=0.
   el.removeAttribute('maxlength');
-  try { el.maxLength = 0; } catch (_) {}
+  el.removeAttribute('maxLength');
+  try { el.maxLength = 2147483647; } catch (_) {}
   el.setAttribute('wrap', 'off');
   el.setAttribute('autocomplete', 'off');
   el.setAttribute('spellcheck', 'false');
@@ -28,15 +30,12 @@ function installBulkInputFix() {
 
   const updateCount = () => {
     const value = el.value || '';
-    const chars = value.length;
-    const lines = value ? value.split(/\n/).length : 0;
-    const questions = questionCount(value);
-    counter.textContent = `${chars.toLocaleString()} characters • ${lines.toLocaleString()} lines • ${questions.toLocaleString()} questions detected • No character limit`;
+    counter.textContent = `${value.length.toLocaleString()} characters • ${value.split(/\n/).length.toLocaleString()} lines • ${questionCount(value).toLocaleString()} questions detected • No character limit`;
   };
 
   const putFullText = text => {
     if (typeof text !== 'string' || !text.length) return false;
-    // Direct value assignment avoids Android's native textarea paste path entirely.
+    // Direct assignment bypasses Android's textarea paste/input limit.
     el.value = text;
     try { el.setSelectionRange(text.length, text.length); } catch (_) {}
     el.dispatchEvent(new Event('input', { bubbles: true }));
@@ -45,9 +44,7 @@ function installBulkInputFix() {
     return true;
   };
 
-  // Intercept normal paste before page handlers. If the browser supplies the full
-  // clipboard text, insert it directly. Otherwise the dedicated Clipboard button
-  // below is the reliable path.
+  // Capture paste before other handlers and insert the complete clipboardData text.
   document.addEventListener('paste', event => {
     if (event.target !== el) return;
     const text = event.clipboardData?.getData('text/plain');
@@ -79,8 +76,29 @@ function installBulkInputFix() {
     pasteBtn.insertAdjacentElement('afterend', previewClipboardBtn);
   }
 
+  // A file path is the most reliable fallback for very large series on Android.
+  let fileInput = document.getElementById('bulkTextFile');
+  if (!fileInput) {
+    fileInput = document.createElement('input');
+    fileInput.id = 'bulkTextFile';
+    fileInput.type = 'file';
+    fileInput.accept = '.txt,.text,text/plain';
+    fileInput.style.display = 'none';
+    document.body.appendChild(fileInput);
+  }
+  let fileBtn = document.getElementById('loadBulkTextFile');
+  if (!fileBtn) {
+    fileBtn = document.createElement('button');
+    fileBtn.id = 'loadBulkTextFile';
+    fileBtn.type = 'button';
+    fileBtn.className = 'btn secondary';
+    fileBtn.style.marginTop = '8px';
+    fileBtn.textContent = '📄 Load Full Series from .txt';
+    previewClipboardBtn.insertAdjacentElement('afterend', fileBtn);
+  }
+
   async function readClipboard() {
-    if (!navigator.clipboard?.readText) throw new Error('Clipboard API unavailable in this browser/context');
+    if (!navigator.clipboard?.readText) throw new Error('Clipboard API unavailable');
     const text = await navigator.clipboard.readText();
     if (!text) throw new Error('Clipboard is empty');
     putFullText(text);
@@ -92,30 +110,42 @@ function installBulkInputFix() {
     try {
       const text = await readClipboard();
       pasteBtn.textContent = `✓ Loaded ${text.length.toLocaleString()} characters / ${questionCount(text)} questions`;
-      setTimeout(() => { pasteBtn.textContent = '📋 Load FULL Clipboard'; }, 3500);
     } catch (e) {
       console.error(e);
       pasteBtn.textContent = '⚠️ Allow clipboard access, then tap again';
-      setTimeout(() => { pasteBtn.textContent = '📋 Load FULL Clipboard'; }, 3500);
     }
+    setTimeout(() => { pasteBtn.textContent = '📋 Load FULL Clipboard'; }, 3500);
   };
 
   previewClipboardBtn.onclick = async () => {
     try {
       const text = await readClipboard();
       const preview = document.getElementById('preview');
-      if (preview) {
-        preview.click();
-        previewClipboardBtn.textContent = `✓ ${questionCount(text)} questions loaded + previewed`;
-      } else {
-        previewClipboardBtn.textContent = `✓ Loaded ${text.length.toLocaleString()} characters`;
-      }
-      setTimeout(() => { previewClipboardBtn.textContent = '📋 Load Clipboard + Preview'; }, 4000);
+      if (preview) preview.click();
+      previewClipboardBtn.textContent = `✓ ${questionCount(text)} questions loaded + previewed`;
     } catch (e) {
       console.error(e);
-      previewClipboardBtn.textContent = '⚠️ Clipboard access failed — allow permission';
-      setTimeout(() => { previewClipboardBtn.textContent = '📋 Load Clipboard + Preview'; }, 4000);
+      previewClipboardBtn.textContent = '⚠️ Clipboard access failed — use .txt fallback';
     }
+    setTimeout(() => { previewClipboardBtn.textContent = '📋 Load Clipboard + Preview'; }, 4000);
+  };
+
+  fileBtn.onclick = () => fileInput.click();
+  fileInput.onchange = async () => {
+    const file = fileInput.files?.[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      if (!text) throw new Error('File is empty');
+      putFullText(text);
+      fileBtn.textContent = `✓ Loaded ${text.length.toLocaleString()} characters / ${questionCount(text)} questions`;
+      const preview = document.getElementById('preview');
+      if (preview) preview.click();
+    } catch (e) {
+      console.error(e);
+      fileBtn.textContent = '⚠️ Could not read file';
+    }
+    setTimeout(() => { fileBtn.textContent = '📄 Load Full Series from .txt'; }, 4000);
   };
 
   el.addEventListener('input', updateCount);
