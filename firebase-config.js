@@ -16,6 +16,17 @@ export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const authReady = setPersistence(auth, browserLocalPersistence).catch(() => {});
 
+// Shared admin guard used by legacy admin pages. Keeping one canonical list
+// prevents page-to-page authorization drift.
+const SUPER_ADMINS = new Set([
+  'commercewithkiransingh@gmail.com',
+  'kiransingh.smile@gmail.com'
+]);
+export const isSuperAdmin = user => !!(
+  user?.email && SUPER_ADMINS.has(String(user.email).toLowerCase())
+);
+window.isSuperAdmin = window.isSuperAdmin || isSuperAdmin;
+
 window.goLogin = window.goLogin || (path => {
   const u = auth.currentUser;
   if (u) location.href = path;
@@ -120,9 +131,6 @@ onAuthStateChanged(auth, user => {
 
 applyHomepageSettings();
 
-// The test page has its own large module. Load the stored Telugu handler here
-// so it can intercept the language selector and use questionTe/optionsTe from
-// Firestore instead of machine-translating questions that have an official Telugu version.
 if (location.pathname.endsWith('/test.html')) {
   import('./bilingual-test.js?v=1').catch(e => console.warn('Bilingual test handler unavailable:', e));
 }
