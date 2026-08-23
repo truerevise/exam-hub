@@ -1,11 +1,11 @@
-// Bulk Import mobile/large-series input fix v7.
+// Bulk Import mobile/large-series input fix v8.
 // Clipboard and .txt loaders APPEND to the existing textarea content.
 // They never erase questions already loaded in #source.
 
 (function installBulkInputFix(){
   const el = document.getElementById('source');
-  if (!el || el.dataset.largePasteFix === '7') return;
-  el.dataset.largePasteFix = '7';
+  if (!el || el.dataset.largePasteFix === '8') return;
+  el.dataset.largePasteFix = '8';
 
   el.removeAttribute('maxlength');
   try { el.maxLength = -1; } catch (_) {}
@@ -33,7 +33,6 @@
     counter.textContent = `${value.length.toLocaleString()} characters • ${value.split(/\n/).length.toLocaleString()} lines • ${questionCount(value).toLocaleString()} questions detected • No character limit`;
   };
 
-  // Replace is kept only as an internal helper for the Clear/empty use case.
   const putFullText = text => {
     if (typeof text !== 'string') return false;
     el.value = text;
@@ -44,21 +43,18 @@
     return true;
   };
 
-  // Append new imported text without ever deleting the existing series.
   const appendFullText = text => {
     if (typeof text !== 'string' || !text.length) return false;
     const existing = el.value || '';
     if (!existing.length) return putFullText(text);
-
-    // Keep every existing character. Add a clean separator so Q-number blocks
-    // remain independent and the parser can continue the existing sequence.
     const separator = /\n\s*$/.test(existing) ? '\n' : '\n\n';
-    const combined = existing + separator + text;
-    return putFullText(combined);
+    return putFullText(existing + separator + text);
   };
 
-  // Capture native paste before any other page handler and append it to the
-  // existing bulk series instead of replacing the current textarea contents.
+  // Expose one canonical append operation for any future loader on this page.
+  // This prevents another module from accidentally replacing the existing series.
+  window.appendBulkImportText = appendFullText;
+
   document.addEventListener('paste', event => {
     if (event.target !== el) return;
     const text = event.clipboardData && event.clipboardData.getData('text/plain');
