@@ -1,6 +1,9 @@
 import { auth, db } from './firebase-config.js';
 import { collection, getDocs, writeBatch, doc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
 
+// Always load the latest mobile large-paste handler, even if bulk-import.html is cached.
+import('./bulk-import-input-fix.js?runtime=5').catch(e=>console.error('Bulk input fix failed to load',e));
+
 const SUPER_ADMINS=['commercewithkiransingh@gmail.com','kiransingh.smile@gmail.com'];
 const MAX_QUESTIONS=1000;
 const $=id=>document.getElementById(id);
