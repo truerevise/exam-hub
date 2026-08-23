@@ -59,18 +59,20 @@ service cloud.firestore {
       return userLimit > 0 ? userLimit : (groupLimit > 0 ? groupLimit : access.get('allAttempts', 1));
     }
 
+    // Mock-test exam catalogue: signed-in free and Premium users can browse it.
+    // Attempting an actual test remains protected by the question/test access rules.
+    match /exams/{examId} {
+      allow read: if signedIn() || hasPermission('questions');
+      allow create, update, delete: if hasPermission('questions');
+    }
+
     match /questions/{questionId} {
-      // Individual question reads remain protected: a user may fetch a question
-      // for an actual test only when the exam is free or the user has Premium,
-      // or when the question is part of an active Daily Live Test.
       allow get: if hasPermission('questions')
         || (signedIn() && dailyQuestionAccess(questionId))
         || (verifiedUser() && canAccessExam(resource.data.get('exam', '')));
 
-      // Mock-test listing is intentionally available to verified users so free
-      // members can see which exams, subjects and question counts are available.
-      // The actual Attempt Test action remains Premium-gated in test.html.
-      allow list: if hasPermission('questions') || verifiedUser();
+      // Free signed-in members can browse subjects/mock tests and question counts.
+      allow list: if hasPermission('questions') || signedIn();
       allow create, update, delete: if hasPermission('questions');
     }
     match /dailyQuestionAccess/{questionId} {
