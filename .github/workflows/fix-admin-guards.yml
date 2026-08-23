@@ -1,0 +1,50 @@
+name: One-time admin guard cleanup
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    if: ${{ !contains(github.event.head_commit.message, '[admin-guard-cleanup]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Fix duplicated admin guards and insecure report page
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          canonical = "const SUPER_ADMINS=['commercewithkiransingh@gmail.com','kiransingh.smile@gmail.com'];function isSuperAdmin(u){return !!(u?.email&&SUPER_ADMINS.includes(u.email.toLowerCase()));}"
+          guard_re = re.compile(r"const SUPER_ADMINS=\[[^;]+\];function isSuperAdmin\(u\)\{[^}]+\}")
+
+          for path in Path('.').glob('*.html'):
+              text = path.read_text(encoding='utf-8')
+              matches = list(guard_re.finditer(text))
+              if len(matches) > 1:
+                  first = matches[0]
+                  text = text[:first.start()] + canonical + text[first.end():]
+                  text = guard_re.sub('', text)
+                  # Restore one canonical guard before the first script if the cleanup removed it.
+                  marker = '<script type="module">'
+                  text = text.replace(marker, marker + canonical, 1)
+              if path.name == 'admin-audit.html':
+                  text = text.replace("if(u?.email?.toLowerCase()!==ADMIN)return location.replace('admin.html');load()", "if(!isSuperAdmin(u))return location.replace('admin.html');load()")
+              if path.name == 'admin-site-settings.html':
+                  text = text.replace("if(u?.email?.toLowerCase()!==ADMIN)return location.replace('admin.html');load().catch(console.error)", "if(!isSuperAdmin(u))return location.replace('admin.html');load().catch(console.error)")
+              if path.name == 'admin-question-reports.html':
+                  text = text.replace("onAuthStateChanged(auth,u=>{if(!u){$('list').innerHTML='<div class=\"card error\">Admin sign-in required.</div>';return}load()});", "onAuthStateChanged(auth,u=>{if(!isSuperAdmin(u)){location.replace('admin.html');return}load()});")
+              path.write_text(text, encoding='utf-8')
+          PY
+          git rm .github/workflows/fix-admin-guards.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Fix admin guard authorization [admin-guard-cleanup]" || exit 0
+          git push
