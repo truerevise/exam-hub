@@ -83,7 +83,12 @@ service cloud.firestore {
     }
     match /paymentOrders/{orderId} {
       allow read: if hasPermission('payments') || superAdmin();
-      allow create, update, delete: if false;
+      allow create, delete: if false;
+      allow update: if superAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'status','refundedAt','refundedBy','adminAction','adminActionAt'
+        ])
+        && request.resource.data.status == 'refunded';
     }
     match /questionReports/{reportId} {
       allow read: if hasPermission('questions') || superAdmin();
