@@ -4,7 +4,11 @@ service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn() { return request.auth != null; }
     function superAdmin() {
-      return signedIn() && request.auth.token.email in ['support@truerevise.com'];
+      return signedIn() && request.auth.token.email in [
+        'support@truerevise.com',
+        'commercewithkiransingh@gmail.com',
+        'kiransingh.smile@gmail.com'
+      ];
     }
     function adminRecordExists() {
       return signedIn() && exists(/databases/$(database)/documents/adminUsers/$(request.auth.uid));
@@ -59,9 +63,11 @@ service cloud.firestore {
       return userLimit > 0 ? userLimit : (groupLimit > 0 ? groupLimit : access.get('allAttempts', 1));
     }
 
-    // Public/student catalogue and access settings used by the Mock Tests and test pages.
-    // These documents contain exam names and free-exam flags, not payment credentials.
     match /exams/{examId} {
+      allow read: if signedIn() || hasPermission('questions');
+      allow create, update, delete: if hasPermission('questions');
+    }
+    match /subjects/{subjectId} {
       allow read: if signedIn() || hasPermission('questions');
       allow create, update, delete: if hasPermission('questions');
     }
@@ -72,6 +78,18 @@ service cloud.firestore {
     match /appSettings/{settingId} {
       allow read: if true;
       allow create, update, delete: if hasPermission('settings');
+    }
+    match /paymentOrders/{orderId} {
+      allow read: if hasPermission('payments') || superAdmin();
+      allow create, update, delete: if false;
+    }
+    match /questionReports/{reportId} {
+      allow read: if hasPermission('questions') || superAdmin();
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.status == 'new';
+      allow update: if hasPermission('questions') || superAdmin();
+      allow delete: if false;
     }
 
     match /questions/{questionId} {
