@@ -1,225 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta name="robots" content="noindex,nofollow,noarchive">
 <link rel="canonical" href="https://truerevise.com/daily-live-admin.html">
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080b12">
+<title>Daily Live Tests • True Revise Admin</title>
 <style>
-:root{color-scheme:dark}*{box-sizing:border-box}html,body{min-height:100%;background:#121212}body{margin:0;background:#121212;color:#f5f7fa;font-family:Inter,Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:18px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.top a{color:#60a5fa;text-decoration:none}.card{background:#1e1e1e;border:1px solid #303030;border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.25)}h1,h2{margin:0 0 12px;color:#fff}.muted{color:#a7adb7;font-size:13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field label{display:block;font-size:12px;color:#a7adb7;margin-bottom:6px}.field input,.search{width:100%;box-sizing:border-box;padding:11px;border:1px solid #3a3f46;border-radius:9px;background:#15171a;color:#f5f7fa;outline:none}.field input:focus,.search:focus{border-color:#3b82f6;box-shadow:0 0 0 2px rgba(59,130,246,.18)}.field input::placeholder,.search::placeholder{color:#737b87}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}button{border:0;border-radius:9px;padding:11px 15px;background:#3b82f6;color:#fff;font-weight:700;cursor:pointer}button:hover{background:#2563eb}button.secondary{background:#24272c;color:#e5e7eb;border:1px solid #3a3f46}.status{margin-top:10px;font-weight:600;color:#dbeafe}.question-list{max-height:520px;overflow:auto;border:1px solid #34383e;border-radius:10px;margin-top:10px;background:#15171a}.q{display:flex;gap:10px;padding:12px;border-bottom:1px solid #2b2f34;background:#15171a}.q:last-child{border-bottom:0}.q-text{flex:1;color:#f3f4f6}.q input[type="checkbox"]{accent-color:#3b82f6;margin-top:3px}.live{border:1px solid #34383e;background:#15171a;border-radius:10px;padding:13px;margin-top:10px}.live a{color:#60a5fa}.badge{display:inline-block;padding:4px 8px;border-radius:20px;background:#123524;color:#6ee7a0;font-size:12px;font-weight:700}.expired{background:#3a1f20;color:#fca5a5}.error{color:#fecaca;background:#351b1b;border:1px solid #6b2b2b;border-radius:9px;padding:10px;margin-top:10px;font-size:13px}@media(max-width:700px){.grid{grid-template-columns:1fr}.wrap{padding:12px}}
+:root{color-scheme:dark;--bg:#080b12;--panel:#101722;--panel2:#151d2b;--line:#263246;--text:#f5f7fb;--muted:#91a0b6;--blue:#3b6cff;--green:#27d17f;--red:#ff6673;--shadow:0 18px 55px rgba(0,0,0,.28)}
+*{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -8%,#17233d 0,#080b12 45%);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased}.wrap{width:min(1180px,100%);margin:auto;padding:18px 18px 40px}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}.brand{display:flex;align-items:center;gap:11px}.brand-mark{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#2563eb,#7147ff);display:grid;place-items:center;font-weight:900;box-shadow:0 10px 28px rgba(37,99,235,.2)}.brand h1{font-size:18px;margin:0}.brand p{margin:3px 0 0;color:var(--muted);font-size:11px}.top-actions{display:flex;gap:8px;flex-wrap:wrap}.btn{appearance:none;border:1px solid #34435e;border-radius:10px;padding:10px 14px;background:#141d2d;color:#e7edff;font-weight:800;cursor:pointer;min-height:42px}.btn:hover{border-color:#4a6592;background:#19243a}.btn.primary{background:linear-gradient(135deg,#2563eb,#4f46e5);border-color:#3b6cff;color:#fff}.btn.primary:hover{filter:brightness(1.08)}.btn.danger{border-color:#63303a;background:#2a171c;color:#ffb2ba}
+.hero{border:1px solid #2d4775;border-radius:22px;background:linear-gradient(135deg,#172554,#101827 70%);padding:22px;box-shadow:var(--shadow);margin-bottom:15px}.hero-row{display:flex;align-items:center;justify-content:space-between;gap:20px}.eyebrow{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border-radius:999px;background:#07351f;border:1px solid #145c39;color:#7ef0b0;font-size:10px;font-weight:900;letter-spacing:.05em;text-transform:uppercase}.hero h2{font-size:27px;line-height:1.15;margin:12px 0 6px}.hero p{margin:0;color:#aab8cf;line-height:1.55;font-size:13px}.hero-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:15px 0}.stat{background:#101827d9;border:1px solid var(--line);border-radius:15px;padding:14px}.stat-label{color:var(--muted);font-size:11px}.stat-value{font-size:25px;font-weight:900;margin-top:5px}.stat-note{font-size:10px;color:#6f7f98;margin-top:3px}
+.card{background:rgba(16,23,34,.92);border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:15px;box-shadow:0 12px 35px rgba(0,0,0,.16)}.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}.section-head h3{margin:0;font-size:18px}.section-head p{margin:4px 0 0;color:var(--muted);font-size:12px;line-height:1.45}.counter{white-space:nowrap;color:#b9c6dc;font-size:11px;padding:7px 9px;border:1px solid var(--line);border-radius:999px;background:#0c121d}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field label{display:block;font-size:10px;font-weight:900;letter-spacing:.04em;color:#a6b2c6;margin:0 0 6px;text-transform:uppercase}.field input{width:100%;min-height:45px;padding:11px 12px;border:1px solid #334158;border-radius:10px;background:#0c121d;color:#f5f7fb;outline:none;font:inherit}.field input:focus,.search:focus{border-color:#3b6cff;box-shadow:0 0 0 3px rgba(59,108,255,.15)}.field input::placeholder,.search::placeholder{color:#68778e}.actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px}.status{margin-top:11px;min-height:20px;color:#b9c8df;font-size:12px;font-weight:700}.status.ok{color:#75e8ad}.status.warn{color:#ffd479}.search-row{display:flex;gap:9px;margin-bottom:10px}.search{width:100%;min-height:44px;padding:10px 12px;border:1px solid #334158;border-radius:10px;background:#0c121d;color:#f5f7fb;outline:none;font:inherit}.question-list{max-height:500px;overflow:auto;border:1px solid #29354a;border-radius:13px;background:#0c121d}.q{display:flex;align-items:flex-start;gap:11px;padding:12px 13px;border-bottom:1px solid #202b3b;cursor:pointer}.q:last-child{border-bottom:0}.q:hover{background:#111a29}.q input{accent-color:#3b6cff;margin-top:3px;flex:0 0 auto}.q-text{min-width:0;flex:1;color:#f1f4fa;font-size:13px;line-height:1.45}.q-meta{display:block;color:#74839a;font-size:10px;margin-top:3px}.published{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}.live{border:1px solid #2a374c;background:#0d1420;border-radius:14px;padding:14px}.live-title{font-size:14px;font-weight:850;line-height:1.35}.live-meta{color:#8796ac;font-size:11px;line-height:1.5;margin:6px 0 10px}.live-footer{display:flex;align-items:center;justify-content:space-between;gap:10px}.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border-radius:999px;background:#07351f;border:1px solid #145c39;color:#7ef0b0;font-size:10px;font-weight:900}.badge.expired{background:#321a1f;border-color:#63303a;color:#ff9da8}.links{display:flex;gap:9px;flex-wrap:wrap}.links a{color:#8db5ff;text-decoration:none;font-size:11px;font-weight:800}.links a:hover{text-decoration:underline}.empty{padding:20px;text-align:center;color:#718099;font-size:12px}.error{color:#ffc0c7;background:#32191d;border:1px solid #63303a;border-radius:10px;padding:11px;font-size:12px;line-height:1.45}.tip{padding:12px 14px;background:#0d1726;border:1px solid #2b3c58;border-radius:12px;color:#aebbd0;font-size:11px;line-height:1.55;margin-top:12px}.tip b{color:#e8efff}.footer{text-align:center;color:#56657c;font-size:10px;margin:24px 0 4px}
+@media(max-width:850px){.stats{grid-template-columns:repeat(2,1fr)}.grid,.published{grid-template-columns:1fr}.hero-row{align-items:flex-start;flex-direction:column}.hero-actions,.top-actions{width:100%}.hero-actions .btn{flex:1}.top-actions .btn{min-width:90px}}
+@media(max-width:560px){.wrap{padding:12px 12px 30px}.top{align-items:flex-start}.brand-mark{width:38px;height:38px;border-radius:11px}.brand h1{font-size:16px}.brand p{font-size:10px}.top-actions .btn:first-child{display:none}.hero{padding:17px;border-radius:18px}.hero h2{font-size:22px}.hero p{font-size:12px}.stats{gap:8px}.stat{padding:12px}.stat-value{font-size:22px}.card{padding:14px;border-radius:16px}.section-head{align-items:center}.section-head h3{font-size:16px}.actions .btn{flex:1}.search-row{display:block}.search-row .btn{width:100%;margin-top:8px}.live-footer{align-items:flex-start;flex-direction:column}.q{padding:11px}.q-text{font-size:12px}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="top">
-    <a href="admin-dashboard.html">← Admin Dashboard</a>
-    <button id="logout">Logout</button>
-  </div>
+  <header class="top">
+    <div class="brand"><div class="brand-mark">⚡</div><div><h1>Daily Live Tests</h1><p>True Revise • Admin workspace</p></div></div>
+    <div class="top-actions"><button class="btn" onclick="location.href='admin-dashboard.html'">← Dashboard</button><button class="btn danger" id="logout">Logout</button></div>
+  </header>
 
-  <div class="card">
-    <h1>⚡ Daily Live Tests</h1>
-    <p class="muted">Create a professional 24-hour test from your existing Question Bank.</p>
+  <section class="hero">
+    <div class="hero-row">
+      <div><span class="eyebrow">● Live test management</span><h2>Create today's test with confidence.</h2><p>Build a 24-hour Daily Live Test from the Question Bank, publish it once, and monitor the active and expired tests from one place.</p><div class="hero-actions"><button class="btn primary" onclick="document.getElementById('title').focus()">＋ Create New Test</button><button class="btn" onclick="location.href='admin-live-access.html'">🎯 Attempt Control</button><button class="btn" onclick="location.href='results.html'">📊 Results</button></div></div>
+      <div class="counter">⏱ 24-hour publishing window</div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat"><div class="stat-label">Available Questions</div><div class="stat-value" id="questionCount">—</div><div class="stat-note">Question Bank</div></div>
+    <div class="stat"><div class="stat-label">Published Tests</div><div class="stat-value" id="publishedCount">—</div><div class="stat-note">All-time</div></div>
+    <div class="stat"><div class="stat-label">Live Now</div><div class="stat-value" id="liveCount">—</div><div class="stat-note">Currently active</div></div>
+    <div class="stat"><div class="stat-label">Expired</div><div class="stat-value" id="expiredCount">—</div><div class="stat-note">Archived history</div></div>
+  </section>
+
+  <section class="card" id="createCard">
+    <div class="section-head"><div><h3>Create Daily Live Test</h3><p>Use selected Question Bank items. Students will see the published test publicly; login is required only to attempt it.</p></div><span class="counter" id="selectedCount">0 selected</span></div>
     <div class="grid">
-      <div class="field"><label>TEST TITLE</label><input id="title" placeholder="Daily Commerce Test - Day 01"></div>
-      <div class="field"><label>EXAM / CATEGORY</label><input id="exam" placeholder="UGC NET Commerce"></div>
-      <div class="field"><label>TEST DURATION (MINUTES)</label><input id="duration" type="number" min="1" max="300" value="30"></div>
+      <div class="field"><label for="title">Test title</label><input id="title" placeholder="Daily Commerce Test • 24 Aug 2026" autocomplete="off"></div>
+      <div class="field"><label for="exam">Exam / category</label><input id="exam" placeholder="UGC NET Commerce / TG SET / TG SER" autocomplete="off"></div>
+      <div class="field"><label for="duration">Test duration (minutes)</label><input id="duration" type="number" min="1" max="300" value="30" inputmode="numeric"></div>
     </div>
-    <div class="actions">
-      <button id="selectAll" class="secondary">Select All</button>
-      <button id="clearAll" class="secondary">Clear All</button>
-      <button id="publish">🚀 Publish Live Test</button>
-      <button id="manage" class="secondary">🎯 Manage Attempts</button>
-    </div>
+    <div class="actions"><button id="selectAll" class="btn">Select All</button><button id="clearAll" class="btn">Clear All</button><button id="publish" class="btn primary">🚀 Publish Live Test</button></div>
     <div id="msg" class="status"></div>
-  </div>
+    <div class="tip"><b>Recommended:</b> Keep one Daily Live Test active at a time unless you intentionally want multiple simultaneous tests. Verify the selected question count and duration before publishing.</div>
+  </section>
 
-  <div class="card">
-    <h2>Choose Questions</h2>
-    <p class="muted">Select only the questions you want students to receive.</p>
-    <input id="search" class="search" placeholder="Search question, exam, subject or topic...">
-    <div id="questions" class="question-list"><div class="q">Waiting for Firebase authentication...</div></div>
-  </div>
+  <section class="card">
+    <div class="section-head"><div><h3>Question Bank</h3><p>Search by question, exam, subject or topic and select only what belongs in today's test.</p></div><span class="counter" id="filteredCount">—</span></div>
+    <div class="search-row"><input id="search" class="search" placeholder="Search questions, exam, subject or topic…" autocomplete="off"><button class="btn" id="clearSearch">Clear Search</button></div>
+    <div id="questions" class="question-list"><div class="empty">Waiting for Firebase authentication…</div></div>
+  </section>
 
-  <div class="card">
-    <h2>Published Tests</h2>
-    <div id="published"><div class="muted">Waiting for Firebase authentication...</div></div>
-  </div>
+  <section class="card">
+    <div class="section-head"><div><h3>Published Tests</h3><p>Monitor today's live test and keep expired tests as a read-only archive.</p></div><button class="btn" id="refreshPublished">↻ Refresh</button></div>
+    <div id="published" class="published"><div class="empty">Waiting for Firebase authentication…</div></div>
+  </section>
+
+  <div class="footer">True Revise • Daily Live Test Administration</div>
 </div>
 
 <script type="module">
-import {auth, db, authReady} from './firebase-config.js?v=20260823';
-import {onAuthStateChanged, signOut} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
-import {collection, getDocs, Timestamp, serverTimestamp, writeBatch, doc} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
-
-const SUPER_ADMINS = new Set([
-  'commercewithkiransingh@gmail.com',
-  'kiransingh.smile@gmail.com'
-]);
-const $ = id => document.getElementById(id);
-let questions = [];
-let authInitialized = false;
-
-function esc(value){
-  return String(value ?? '').replace(/[&<>\"']/g, ch => ({
-    '&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#039;'
-  }[ch]));
-}
-
-function showError(target, message){
-  $(target).innerHTML = '<div class="error">'+esc(message)+'</div>';
-}
-
-function renderQuestions(){
-  const term = $('search').value.toLowerCase().trim();
-  const filtered = questions.filter(q => {
-    const text = [q.question,q.exam,q.subject,q.topic,q.category,q.questionText].filter(Boolean).join(' ').toLowerCase();
-    return text.includes(term);
-  });
-  if(!filtered.length){
-    $('questions').innerHTML = '<div class="q">No questions found.</div>';
-    return;
-  }
-  $('questions').innerHTML = filtered.map(q => `
-    <label class="q">
-      <input type="checkbox" value="${esc(q.id)}">
-      <span class="q-text">
-        <b>${esc(q.question || q.questionText || 'Question')}</b><br>
-        <span class="muted">${esc(q.exam || q.category || '')}${q.subject ? ' • '+esc(q.subject) : ''}${q.topic ? ' • '+esc(q.topic) : ''}</span>
-      </span>
-    </label>
-  `).join('');
-}
-
-async function loadQuestions(){
-  $('questions').innerHTML = '<div class="q">Loading Question Bank...</div>';
-  try{
-    const snap = await getDocs(collection(db,'questions'));
-    questions = snap.docs.map(d => ({id:d.id,...d.data()}));
-    renderQuestions();
-    $('msg').textContent = `Question Bank loaded: ${questions.length} questions.`;
-  }catch(error){
-    console.error('Daily Live Test question load failed:', error);
-    showError('questions', `Question Bank could not be loaded. Firebase error: ${error.code || error.message || 'unknown error'}`);
-  }
-}
-
-async function loadPublished(){
-  $('published').innerHTML = '<div class="muted">Loading...</div>';
-  try{
-    const snap = await getDocs(collection(db,'dailyLiveTests'));
-    const data = snap.docs.map(d => ({id:d.id,...d.data()})).sort((a,b) => {
-      const at = a.createdAt?.seconds || a.publishedAt?.seconds || 0;
-      const bt = b.createdAt?.seconds || b.publishedAt?.seconds || 0;
-      return bt-at;
-    });
-    if(!data.length){
-      $('published').innerHTML = '<div class="muted">No Daily Live Tests published yet.</div>';
-      return;
-    }
-    $('published').innerHTML = data.map(t => {
-      const end = t.endAt?.toDate ? t.endAt.toDate() : new Date(t.endAt || 0);
-      const live = end > new Date();
-      return `<div class="live">
-        <b>${esc(t.title || 'Untitled Test')}</b><br>
-        <span class="muted">${esc(t.exam || '')} • ${(t.questionIds || []).length} questions • ${esc(t.durationMinutes || '-')} minutes</span><br>
-        <span class="badge ${live ? '' : 'expired'}">${live ? 'LIVE • ends '+end.toLocaleString() : 'EXPIRED'}</span><br><br>
-        <a href="daily-live-test.html?id=${encodeURIComponent(t.id)}">Student View</a> ·
-        <a href="admin-live-access.html">Manage Attempts</a>
-      </div>`;
-    }).join('');
-  }catch(error){
-    console.error('Daily Live Test published load failed:', error);
-    showError('published', `Published Tests could not be loaded. Firebase error: ${error.code || error.message || 'unknown error'}`);
-  }
-}
-
-async function publish(){
-  const title = $('title').value.trim();
-  const exam = $('exam').value.trim();
-  const duration = Number($('duration').value) || 30;
-  const ids = [...document.querySelectorAll('#questions input[type="checkbox"]:checked')].map(x => x.value);
-  if(!title){$('msg').textContent='Enter a test title.';return;}
-  if(!ids.length){$('msg').textContent='Select at least one question.';return;}
-  if(duration < 1 || duration > 300){$('msg').textContent='Duration must be between 1 and 300 minutes.';return;}
-  $('msg').textContent='Publishing...';
-  try{
-    const now = new Date();
-    const end = new Date(now.getTime()+24*60*60*1000);
-    const testRef = doc(collection(db,'dailyLiveTests'));
-    const batch = writeBatch(db);
-    batch.set(testRef, {
-      title, exam, questionIds: ids,
-      publishedAt: Timestamp.fromDate(now),
-      startAt: Timestamp.fromDate(now),
-      endAt: Timestamp.fromDate(end),
-      durationMinutes: duration,
-      createdAt: serverTimestamp(),
-      active: true
-    });
-    ids.forEach(qid => batch.set(doc(db,'dailyQuestionAccess',qid), {
-      questionId: qid, testId: testRef.id,
-      expiresAt: Timestamp.fromDate(end),
-      createdAt: serverTimestamp()
-    }, {merge:true}));
-    await batch.commit();
-    $('msg').textContent='Published successfully. Live for 24 hours.';
-    $('title').value='';
-    document.querySelectorAll('#questions input[type="checkbox"]').forEach(x => x.checked=false);
-    await loadPublished();
-  }catch(error){
-    console.error('Publish failed:',error);
-    $('msg').textContent=`Could not publish. Firebase error: ${error.code || error.message || 'unknown error'}`;
-  }
-}
-
-$('search').addEventListener('input',renderQuestions);
-$('selectAll').onclick=()=>document.querySelectorAll('#questions input[type="checkbox"]').forEach(x=>x.checked=true);
-$('clearAll').onclick=()=>document.querySelectorAll('#questions input[type="checkbox"]').forEach(x=>x.checked=false);
-$('publish').onclick=publish;
-$('manage').onclick=()=>location.href='admin-live-access.html';
-$('logout').onclick=async()=>{await signOut(auth);location.replace('admin.html');};
-
-// Important: firebase-config.js establishes Auth persistence asynchronously.
-// Wait for that to finish before listening for the auth state and touching
-// protected Firestore collections. This prevents the first-load race that
-// previously required a manual page refresh.
-try {
-  await authReady;
-} catch (error) {
-  console.warn('Firebase Auth persistence setup failed; continuing with Auth state:', error);
-}
-
-onAuthStateChanged(auth, async user => {
-  if (authInitialized) return;
-  authInitialized = true;
-
-  if(!user){
-    location.replace('admin.html');
-    return;
-  }
-
-  const email = String(user.email || '').toLowerCase();
-
-  // Current Daily Live admin access is restricted to the configured
-  // super-admin accounts. Firestore rules remain the final security layer.
-  if(!SUPER_ADMINS.has(email)){
-    $('msg').textContent = 'Admin verification failed. Redirecting to Admin Login...';
-    location.replace('admin.html');
-    return;
-  }
-
-  $('msg').textContent='Admin verified. Loading Question Bank...';
-
-  // Deliberately load in this order: Auth ready → Admin verified →
-  // Question Bank → Published Tests. This avoids the previous race condition.
-  try {
-    await loadQuestions();
-    await loadPublished();
-  } catch (error) {
-    console.error('Daily Live Admin initialization failed:', error);
-    $('msg').textContent = 'Admin page could not finish loading. Please refresh once and check the console.';
-  }
-});
+import {auth,db,authReady} from './firebase-config.js?v=20260823';
+import {onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
+import {collection,getDocs,Timestamp,serverTimestamp,writeBatch,doc} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
+const SUPER_ADMINS=new Set(['commercewithkiransingh@gmail.com','kiransingh.smile@gmail.com']);
+const $=id=>document.getElementById(id);let questions=[];let authInitialized=false;
+function esc(v){return String(v??'').replace(/[&<>\"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#039;'}[ch]))}
+function showError(target,message){$(target).innerHTML='<div class="error">'+esc(message)+'</div>'}
+function updateSelection(){const n=document.querySelectorAll('#questions input[type="checkbox"]:checked').length;$('selectedCount').textContent=`${n} selected`}
+function renderQuestions(){const term=$('search').value.toLowerCase().trim();const filtered=questions.filter(q=>[q.question,q.exam,q.subject,q.topic,q.category,q.questionText].filter(Boolean).join(' ').toLowerCase().includes(term));$('filteredCount').textContent=`${filtered.length} shown • ${questions.length} total`;if(!filtered.length){$('questions').innerHTML='<div class="empty">No matching questions found.</div>';return}$('questions').innerHTML=filtered.map(q=>`<label class="q"><input type="checkbox" value="${esc(q.id)}"><span class="q-text"><b>${esc(q.question||q.questionText||'Question')}</b><span class="q-meta">${esc(q.exam||q.category||'')}${q.subject?' • '+esc(q.subject):''}${q.topic?' • '+esc(q.topic):''}</span></span></label>`).join('');$('questions').querySelectorAll('input').forEach(x=>x.addEventListener('change',updateSelection));updateSelection()}
+async function loadQuestions(){ $('questions').innerHTML='<div class="empty">Loading Question Bank…</div>';try{const snap=await getDocs(collection(db,'questions'));questions=snap.docs.map(d=>({id:d.id,...d.data()}));renderQuestions();$('questionCount').textContent=questions.length}catch(e){console.error(e);showError('questions',`Question Bank could not be loaded: ${e.code||e.message||'unknown error'}`)}}
+async function loadPublished(){ $('published').innerHTML='<div class="empty">Loading published tests…</div>';try{const snap=await getDocs(collection(db,'dailyLiveTests'));const data=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>{const at=a.createdAt?.seconds||a.publishedAt?.seconds||0,bt=b.createdAt?.seconds||b.publishedAt?.seconds||0;return bt-at});const now=Date.now();$('publishedCount').textContent=data.length;$('liveCount').textContent=data.filter(t=>(t.endAt?.toDate?t.endAt.toDate():new Date(t.endAt||0)).getTime()>now).length;$('expiredCount').textContent=data.filter(t=>(t.endAt?.toDate?t.endAt.toDate():new Date(t.endAt||0)).getTime()<=now).length;if(!data.length){$('published').innerHTML='<div class="empty">No Daily Live Tests published yet.</div>';return}$('published').innerHTML=data.map(t=>{const end=t.endAt?.toDate?t.endAt.toDate():new Date(t.endAt||0);const live=end.getTime()>now;return `<article class="live"><div class="live-title">${esc(t.title||'Untitled Test')}</div><div class="live-meta">${esc(t.exam||'No category')} • ${(t.questionIds||[]).length} questions • ${esc(t.durationMinutes||'-')} minutes</div><div class="live-footer"><span class="badge ${live?'':'expired'}">${live?'● LIVE • ends '+end.toLocaleString():'EXPIRED'}</span><div class="links"><a href="live-tests.html?id=${encodeURIComponent(t.id)}" target="_blank" rel="noopener">Student View</a><a href="admin-live-access.html">Attempt Control</a><a href="results.html">Results</a></div></div></article>`}).join('')}catch(e){console.error(e);showError('published',`Published Tests could not be loaded: ${e.code||e.message||'unknown error'}`)}}
+async function publish(){const title=$('title').value.trim(),exam=$('exam').value.trim(),duration=Number($('duration').value)||30,ids=[...document.querySelectorAll('#questions input[type="checkbox"]:checked')].map(x=>x.value);if(!title){$('msg').className='status warn';$('msg').textContent='Enter a test title.';$('title').focus();return}if(!exam){$('msg').className='status warn';$('msg').textContent='Enter an exam or category.';$('exam').focus();return}if(!ids.length){$('msg').className='status warn';$('msg').textContent='Select at least one question.';return}if(duration<1||duration>300){$('msg').className='status warn';$('msg').textContent='Duration must be between 1 and 300 minutes.';return}$('publish').disabled=true;$('publish').textContent='Publishing…';$('msg').className='status';$('msg').textContent='Publishing Daily Live Test…';try{const now=new Date(),end=new Date(now.getTime()+86400000),testRef=doc(collection(db,'dailyLiveTests')),batch=writeBatch(db);batch.set(testRef,{title,exam,questionIds:ids,publishedAt:Timestamp.fromDate(now),startAt:Timestamp.fromDate(now),endAt:Timestamp.fromDate(end),durationMinutes:duration,createdAt:serverTimestamp(),active:true});ids.forEach(qid=>batch.set(doc(db,'dailyQuestionAccess',qid),{questionId:qid,testId:testRef.id,expiresAt:Timestamp.fromDate(end),createdAt:serverTimestamp()},{merge:true}));await batch.commit();$('msg').className='status ok';$('msg').textContent='✓ Published successfully. The test is live for 24 hours.';$('title').value='';document.querySelectorAll('#questions input[type="checkbox"]').forEach(x=>x.checked=false);updateSelection();await loadPublished()}catch(e){console.error(e);$('msg').className='status warn';$('msg').textContent=`Could not publish: ${e.code||e.message||'unknown error'}`}finally{$('publish').disabled=false;$('publish').textContent='🚀 Publish Live Test'}}
+$('search').addEventListener('input',renderQuestions);$('clearSearch').onclick=()=>{$('search').value='';renderQuestions()};$('selectAll').onclick=()=>{document.querySelectorAll('#questions input[type="checkbox"]').forEach(x=>x.checked=true);updateSelection()};$('clearAll').onclick=()=>{document.querySelectorAll('#questions input[type="checkbox"]').forEach(x=>x.checked=false);updateSelection()};$('publish').onclick=publish;$('refreshPublished').onclick=loadPublished;$('logout').onclick=async()=>{await signOut(auth);location.replace('admin.html')};try{await authReady}catch(e){console.warn('Auth persistence setup failed',e)}onAuthStateChanged(auth,async user=>{if(authInitialized)return;authInitialized=true;if(!user){location.replace('admin.html');return}const email=String(user.email||'').toLowerCase();if(!SUPER_ADMINS.has(email)){$('msg').textContent='Admin verification failed. Redirecting to Admin Login…';location.replace('admin.html');return}$('msg').textContent='Admin verified. Loading…';await Promise.all([loadQuestions(),loadPublished()])});
 </script>
 </body>
 </html>
