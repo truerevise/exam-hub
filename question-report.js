@@ -150,9 +150,59 @@ function injectStyles() {
     .question-report-toast.show{opacity:1;transform:translate(-50%,0)}
     .question-media-wrap{margin:10px 0 18px;padding:10px;border-radius:12px;background:#0d1422;border:1px solid #303b4b;text-align:center}
     .question-media-image{display:block;max-width:100%;max-height:420px;width:auto;height:auto;margin:auto;object-fit:contain;border-radius:8px;background:#fff;padding:8px}
-    @media(max-width:520px){.question-report-btn{padding:8px 9px;font-size:12px}.question-report-menu{width:225px}.question-report-menu button{padding:11px 10px}.question-media-image{max-height:300px}}
+    .matching-question{margin-top:2px}
+    .matching-intro{font-size:inherit;line-height:1.6;font-weight:800;margin-bottom:14px}
+    .matching-grid{display:grid;gap:9px;margin:10px 0 14px}
+    .matching-row{display:grid;grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr);align-items:stretch;background:#171f2b;border:1px solid #303d50;border-radius:12px;overflow:hidden}
+    .matching-cell{padding:11px 12px;line-height:1.5;font-size:14px}
+    .matching-left{color:#f4f7fb;font-weight:750}
+    .matching-right{color:#c9d5e8;background:#111822}
+    .matching-label{display:inline-flex;min-width:25px;margin-right:7px;color:#8fb0ff;font-weight:900}
+    .matching-arrow{display:flex;align-items:center;justify-content:center;color:#6f83a3;font-weight:900;background:#111822;border-left:1px solid #303d50;border-right:1px solid #303d50}
+    .matching-telugu{margin:12px 0 0;padding:12px 13px;background:#101722;border:1px solid #2c394b;border-radius:12px;color:#dce5f2;line-height:1.7;font-size:14px}
+    .matching-telugu b{display:block;color:#8faeff;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+    @media(max-width:520px){.question-report-btn{padding:8px 9px;font-size:12px}.question-report-menu{width:225px}.question-report-menu button{padding:11px 10px}.question-media-image{max-height:300px}.matching-row{grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr)}.matching-cell{padding:10px 9px;font-size:13px}.matching-arrow{font-size:12px}.matching-telugu{font-size:13px}}
   `;
   document.head.appendChild(s);
+}
+
+function formatMatchingQuestion() {
+  const question = $('question') || $('q');
+  if (!question) return;
+  const raw = (question.textContent || '').replace(/\s+/g, ' ').trim();
+  if (!raw || /^loading/i.test(raw) || !/match\s+the\s+following|match\s+the\s+following/i.test(raw)) return;
+  if (question.dataset.matchingSource === raw) return;
+
+  const optionsMarker = /\s+(?:telugu\s+)?options\s*:/i;
+  const optionsIndex = raw.search(optionsMarker);
+  const body = optionsIndex >= 0 ? raw.slice(0, optionsIndex).trim() : raw;
+  const marker = /(?:^|\s)([a-d])\)\s*/gi;
+  const matches = [...body.matchAll(marker)].slice(0, 4);
+  if (matches.length < 2) return;
+
+  const intro = body.slice(0, matches[0].index).trim();
+  const rows = matches.map((m, n) => {
+    const end = n + 1 < matches.length ? matches[n + 1].index : body.length;
+    let chunk = body.slice(m.index, end).trim();
+    chunk = chunk.replace(/^[a-d]\)\s*/i, '');
+    const teluguPos = chunk.search(/\s+Telugu\s*:/i);
+    if (teluguPos >= 0) chunk = chunk.slice(0, teluguPos).trim();
+    const arrow = chunk.match(/\s(?:→|->|–>|⟶)\s/);
+    if (!arrow) return { label: m[1].toUpperCase(), left: chunk, right: '' };
+    const pos = arrow.index;
+    return { label: m[1].toUpperCase(), left: chunk.slice(0, pos).trim(), right: chunk.slice(pos + arrow[0].length).trim() };
+  });
+
+  let telugu = '';
+  const teluguMatch = body.match(/\s+Telugu\s*:\s*(.*)$/i);
+  if (teluguMatch) telugu = teluguMatch[1].trim();
+
+  const wrap = document.createElement('div');
+  wrap.className = 'matching-question';
+  wrap.innerHTML = `<div class="matching-intro">${esc(intro)}</div><div class="matching-grid">${rows.map(r => `<div class="matching-row"><div class="matching-cell matching-left"><span class="matching-label">${esc(r.label)}.</span>${esc(r.left)}</div><div class="matching-arrow">↔</div><div class="matching-cell matching-right">${esc(r.right)}</div></div>`).join('')}</div>${telugu ? `<div class="matching-telugu"><b>తెలుగు</b>${esc(telugu)}</div>` : ''}`;
+  question.innerHTML = '';
+  question.appendChild(wrap);
+  question.dataset.matchingSource = raw;
 }
 
 function init() {
@@ -161,6 +211,7 @@ function init() {
   const question = $('question') || $('q');
   if (!question) return;
   injectStyles();
+  formatMatchingQuestion();
 
   if (save) {
     const wrap = document.createElement('div');
@@ -192,7 +243,10 @@ function init() {
 
   const observer = new MutationObserver(() => {
     clearTimeout(init.mediaTimer);
-    init.mediaTimer = setTimeout(loadQuestionImage, 80);
+    init.mediaTimer = setTimeout(() => {
+      formatMatchingQuestion();
+      loadQuestionImage();
+    }, 80);
   });
   observer.observe(question, { childList: true, characterData: true, subtree: true });
   loadQuestionImage();
