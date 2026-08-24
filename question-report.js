@@ -152,16 +152,18 @@ function injectStyles() {
     .question-media-image{display:block;max-width:100%;max-height:420px;width:auto;height:auto;margin:auto;object-fit:contain;border-radius:8px;background:#fff;padding:8px}
     .matching-question{margin-top:2px}
     .matching-intro{font-size:inherit;line-height:1.6;font-weight:800;margin-bottom:14px}
-    .matching-grid{display:grid;gap:9px;margin:10px 0 14px}
-    .matching-row{display:grid;grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr);align-items:stretch;background:#171f2b;border:1px solid #303d50;border-radius:12px;overflow:hidden}
-    .matching-cell{padding:11px 12px;line-height:1.5;font-size:14px}
-    .matching-left{color:#f4f7fb;font-weight:750}
-    .matching-right{color:#c9d5e8;background:#111822}
-    .matching-label{display:inline-flex;min-width:25px;margin-right:7px;color:#8fb0ff;font-weight:900}
-    .matching-arrow{display:flex;align-items:center;justify-content:center;color:#6f83a3;font-weight:900;background:#111822;border-left:1px solid #303d50;border-right:1px solid #303d50}
+    .matching-title{display:inline-block;color:#8faeff;margin-right:6px}
+    .matching-section-title{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#8faeff;font-weight:900;margin:12px 0 7px}
+    .matching-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin:8px 0 14px}
+    .matching-list{background:#171f2b;border:1px solid #303d50;border-radius:12px;overflow:hidden}
+    .matching-item{display:flex;gap:8px;padding:10px 11px;line-height:1.45;font-size:14px;border-bottom:1px solid #283447}
+    .matching-item:last-child{border-bottom:0}
+    .matching-label{flex:0 0 24px;color:#8fb0ff;font-weight:900}
+    .matching-item-text{min-width:0;color:#f4f7fb}
+    .matching-proponent .matching-item-text{color:#d6e0ee}
     .matching-telugu{margin:12px 0 0;padding:12px 13px;background:#101722;border:1px solid #2c394b;border-radius:12px;color:#dce5f2;line-height:1.7;font-size:14px}
     .matching-telugu b{display:block;color:#8faeff;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
-    @media(max-width:520px){.question-report-btn{padding:8px 9px;font-size:12px}.question-report-menu{width:225px}.question-report-menu button{padding:11px 10px}.question-media-image{max-height:300px}.matching-row{grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr)}.matching-cell{padding:10px 9px;font-size:13px}.matching-arrow{font-size:12px}.matching-telugu{font-size:13px}}
+    @media(max-width:520px){.question-report-btn{padding:8px 9px;font-size:12px}.question-report-menu{width:225px}.question-report-menu button{padding:11px 10px}.question-media-image{max-height:300px}.matching-columns{grid-template-columns:1fr;gap:9px}.matching-section-title{margin-top:10px}.matching-item{font-size:13px;padding:9px 10px}}
   `;
   document.head.appendChild(s);
 }
@@ -170,36 +172,53 @@ function formatMatchingQuestion() {
   const question = $('question') || $('q');
   if (!question) return;
   const raw = (question.textContent || '').replace(/\s+/g, ' ').trim();
-  if (!raw || /^loading/i.test(raw) || !/match\s+the\s+following|match\s+the\s+following/i.test(raw)) return;
+  if (!raw || /^loading/i.test(raw) || !/match\s+the\s+following/i.test(raw)) return;
   if (question.dataset.matchingSource === raw) return;
 
-  const optionsMarker = /\s+(?:telugu\s+)?options\s*:/i;
-  const optionsIndex = raw.search(optionsMarker);
-  const body = optionsIndex >= 0 ? raw.slice(0, optionsIndex).trim() : raw;
-  const marker = /(?:^|\s)([a-d])\)\s*/gi;
-  const matches = [...body.matchAll(marker)].slice(0, 4);
-  if (matches.length < 2) return;
+  const teluguIndex = raw.search(/\s+Telugu\s*:/i);
+  const englishPart = teluguIndex >= 0 ? raw.slice(0, teluguIndex).trim() : raw;
+  const teluguPart = teluguIndex >= 0 ? raw.slice(teluguIndex).replace(/^\s*Telugu\s*:\s*/i, '').trim() : '';
 
-  const intro = body.slice(0, matches[0].index).trim();
-  const rows = matches.map((m, n) => {
-    const end = n + 1 < matches.length ? matches[n + 1].index : body.length;
-    let chunk = body.slice(m.index, end).trim();
-    chunk = chunk.replace(/^[a-d]\)\s*/i, '');
-    const teluguPos = chunk.search(/\s+Telugu\s*:/i);
-    if (teluguPos >= 0) chunk = chunk.slice(0, teluguPos).trim();
-    const arrow = chunk.match(/\s(?:→|->|–>|⟶)\s/);
-    if (!arrow) return { label: m[1].toUpperCase(), left: chunk, right: '' };
-    const pos = arrow.index;
-    return { label: m[1].toUpperCase(), left: chunk.slice(0, pos).trim(), right: chunk.slice(pos + arrow[0].length).trim() };
+  const roman = [...englishPart.matchAll(/(?:^|\s)(I|II|III|IV)\)\s*/g)];
+  const letter = [...englishPart.matchAll(/(?:^|\s)([a-d])\)\s*/gi)];
+  if (letter.length < 4 || roman.length < 4) return;
+
+  const firstRoman = roman[0].index;
+  const introAndLetters = englishPart.slice(0, firstRoman).trim();
+  const introMatch = introAndLetters.match(/^(.*?):\s*([a-d])\)\s*/i);
+  if (!introMatch) return;
+  const intro = introMatch[1].trim() + ':';
+  const lettersText = introAndLetters.slice(introMatch[0].length - 3).trim();
+  const letterMatches = [...lettersText.matchAll(/(?:^|\s)([a-d])\)\s*/gi)];
+  if (letterMatches.length < 4) return;
+  const leftItems = letterMatches.slice(0,4).map((m,n) => {
+    const start = m.index + m[0].length;
+    const end = n < 3 ? letterMatches[n+1].index : lettersText.length;
+    return {label:m[1].toUpperCase(), text:lettersText.slice(start,end).trim()};
+  });
+  const rightItems = roman.slice(0,4).map((m,n) => {
+    const start = m.index + m[0].length;
+    const end = n < 3 ? roman[n+1].index : englishPart.length;
+    return {label:m[1].toUpperCase(), text:englishPart.slice(start,end).trim()};
   });
 
-  let telugu = '';
-  const teluguMatch = body.match(/\s+Telugu\s*:\s*(.*)$/i);
-  if (teluguMatch) telugu = teluguMatch[1].trim();
+  // Keep only the actual proponent text; if the last item accidentally contains trailing markup, trim it.
+  rightItems.forEach(item => { item.text = item.text.replace(/\s+(?:Telugu|Options)\s*:.*/i,'').trim(); });
 
   const wrap = document.createElement('div');
   wrap.className = 'matching-question';
-  wrap.innerHTML = `<div class="matching-intro">${esc(intro)}</div><div class="matching-grid">${rows.map(r => `<div class="matching-row"><div class="matching-cell matching-left"><span class="matching-label">${esc(r.label)}.</span>${esc(r.left)}</div><div class="matching-arrow">↔</div><div class="matching-cell matching-right">${esc(r.right)}</div></div>`).join('')}</div>${telugu ? `<div class="matching-telugu"><b>తెలుగు</b>${esc(telugu)}</div>` : ''}`;
+  wrap.innerHTML = `
+    <div class="matching-intro"><span class="matching-title">${esc(intro)}</span></div>
+    <div class="matching-section-title">Theories / Items</div>
+    <div class="matching-columns">
+      <div class="matching-list">${leftItems.map(x => `<div class="matching-item"><span class="matching-label">${esc(x.label)}.</span><span class="matching-item-text">${esc(x.text)}</span></div>`).join('')}</div>
+      <div>
+        <div class="matching-section-title" style="margin-top:0">Proponents</div>
+        <div class="matching-list matching-proponent">${rightItems.map(x => `<div class="matching-item"><span class="matching-label">${esc(x.label)}.</span><span class="matching-item-text">${esc(x.text)}</span></div>`).join('')}</div>
+      </div>
+    </div>
+    ${teluguPart ? `<div class="matching-telugu"><b>తెలుగు</b>${esc(teluguPart.replace(/\s+(?:Options|option)\s*:.*/i,'').trim())}</div>` : ''}`;
+
   question.innerHTML = '';
   question.appendChild(wrap);
   question.dataset.matchingSource = raw;
