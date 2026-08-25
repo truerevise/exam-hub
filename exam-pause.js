@@ -208,7 +208,6 @@ if (EXAM_PAGE) {
     saveCurrentProgress({ paused: timerPaused });
   }
 
-  // Capture answers and navigation without changing the exam's existing handlers.
   document.addEventListener('click', (event) => {
     const target = event.target;
     if (!(target instanceof Element)) return;
@@ -243,7 +242,6 @@ if (EXAM_PAGE) {
     }
   }, true);
 
-  // Intercept the existing one-second exam timer so pause/resume does not alter the exam logic.
   window.setInterval = function(callback, delay, ...args) {
     if (!EXAM_PAGE || Number(delay) !== 1000 || timerCallback) {
       return nativeSetInterval(callback, delay, ...args);
@@ -308,7 +306,7 @@ if (EXAM_PAGE) {
     observer.observe(document.body, { childList: true, subtree: true, characterData: true });
 
     restoreProgress().catch(() => {});
-    setInterval(() => {
+    nativeSetInterval(() => {
       if (!progressRestored) restoreProgress().catch(() => {});
       if (!timerPaused) saveCurrentProgress();
     }, 1000);
