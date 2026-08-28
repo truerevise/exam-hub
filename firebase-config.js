@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
 import { getFirestore, collection, getDocs, query, orderBy, limit, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
-import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDQPGrwNBGS1EOdOg6t3uyuby0IDQwO9Uw",
@@ -16,6 +16,22 @@ export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const authReady = setPersistence(auth, browserLocalPersistence).catch(() => {});
 
+// Daily Live Tests are intentionally available before login. We use a temporary
+// Firebase anonymous identity only on the Live Test page so Firestore can still
+// enforce one-attempt-per-test and keep each guest's submission private.
+const isDailyLivePage = () => location.pathname.endsWith('/live-test.html');
+if (isDailyLivePage()) {
+  authReady.then(async () => {
+    if (!auth.currentUser) {
+      try {
+        await signInAnonymously(auth);
+      } catch (e) {
+        console.warn('Anonymous Daily Live Test sign-in unavailable:', e.message);
+      }
+    }
+  });
+}
+
 // Shared admin guard used by legacy admin pages. Keeping one canonical list
 // prevents page-to-page authorization drift.
 const SUPER_ADMINS = new Set([
@@ -29,7 +45,7 @@ window.isSuperAdmin = window.isSuperAdmin || isSuperAdmin;
 
 window.goLogin = window.goLogin || (path => {
   const u = auth.currentUser;
-  if (u) location.href = path;
+  if (u && !u.isAnonymous) location.href = path;
   else location.href = 'login.html?next=' + encodeURIComponent(path);
 });
 
@@ -43,7 +59,7 @@ const syncStudentNavigation = user => {
   if (!isHome()) return;
   const link = document.querySelector('.login-link');
   if (!link) return;
-  if (user) {
+  if (user && !user.isAnonymous) {
     link.textContent = 'Dashboard';
     link.href = 'dashboard.html';
     link.setAttribute('aria-label', 'Student Dashboard');
