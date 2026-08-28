@@ -16,20 +16,20 @@ export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const authReady = setPersistence(auth, browserLocalPersistence).catch(() => {});
 
-// Daily Live Tests are intentionally available before login. We use a temporary
-// Firebase anonymous identity only on the Live Test page so Firestore can still
-// enforce one-attempt-per-test and keep each guest's submission private.
+// Daily Live Tests are intentionally available before login. Wait for Firebase
+// Auth persistence first, then create a temporary anonymous identity before
+// live-test.html registers its auth listener. This prevents the initial null
+// auth state from redirecting guests to the login page.
 const isDailyLivePage = () => location.pathname.endsWith('/live-test.html');
 if (isDailyLivePage()) {
-  authReady.then(async () => {
-    if (!auth.currentUser) {
-      try {
-        await signInAnonymously(auth);
-      } catch (e) {
-        console.warn('Anonymous Daily Live Test sign-in unavailable:', e.message);
-      }
+  await authReady;
+  if (!auth.currentUser) {
+    try {
+      await signInAnonymously(auth);
+    } catch (e) {
+      console.warn('Anonymous Daily Live Test sign-in unavailable:', e.message);
     }
-  });
+  }
 }
 
 // Shared admin guard used by legacy admin pages. Keeping one canonical list
@@ -95,7 +95,7 @@ async function applyHomepageSettings() {
     if (highlight && s.highlight) highlight.textContent = s.highlight;
     if (lead && s.description) lead.textContent = s.description;
     if (primary && s.primaryText) primary.textContent = s.primaryText;
-    if (primary && safeInternalUrl(s.primaryUrl)) primary.onclick = () => window.goLogin(safeInternalUrl(s.primaryUrl));
+    if (primary && safeInternalUrl(s.primaryUrl)) primary.onclick = () => window.goLogin(s.safeInternalUrl || safeInternalUrl(s.primaryUrl));
     if (secondary && s.secondaryText) secondary.textContent = s.secondaryText;
     if (secondary && safeInternalUrl(s.secondaryUrl)) secondary.href = safeInternalUrl(s.secondaryUrl);
     if (passTitle && s.passTitle) passTitle.textContent = s.passTitle;
