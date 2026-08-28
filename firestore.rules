@@ -3,6 +3,9 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn() { return request.auth != null; }
+    function anonymousUser() {
+      return signedIn() && request.auth.token.firebase.sign_in_provider == 'anonymous';
+    }
     function superAdmin() {
       return signedIn() && request.auth.token.email in [
         'support@truerevise.com',
@@ -31,9 +34,11 @@ service cloud.firestore {
     function authPhoneVerified() { return signedIn() && request.auth.token.phone_number != null; }
     function verifiedUser() {
       return signedIn()
+        && !anonymousUser()
         && (!verificationSetting('emailVerificationRequired') || authEmailVerified())
         && (!verificationSetting('mobileVerificationRequired') || authPhoneVerified());
     }
+    function liveTestUser() { return anonymousUser() || verifiedUser(); }
     function studentDoc() {
       return get(/databases/$(database)/documents/students/$(request.auth.uid));
     }
@@ -59,7 +64,9 @@ service cloud.firestore {
       let access = exists(accessPath) ? get(accessPath).data : {};
       let userPath = /databases/$(database)/documents/dailyLiveAccess/$(testId)/users/$(request.auth.uid);
       let userLimit = exists(userPath) ? get(userPath).data.get('attempts', 0) : 0;
-      let group = studentDoc().data.get('group', '');
+      let group = exists(/databases/$(database)/documents/students/$(request.auth.uid))
+        ? get(/databases/$(database)/documents/students/$(request.auth.uid)).data.get('group', '')
+        : '';
       let groups = access.get('groupAttempts', {});
       let groupLimit = groups.get(group, 0);
       return userLimit > 0 ? userLimit : (groupLimit > 0 ? groupLimit : access.get('allAttempts', 1));
@@ -124,13 +131,13 @@ service cloud.firestore {
     match /dailyAttempts/{attemptId} {
       allow read: if hasPermission('results')
         || (signedIn() && attemptId.matches('^' + request.auth.uid + '_.*$'));
-      allow create: if verifiedUser()
+      allow create: if liveTestUser()
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.liveTestId is string
         && request.resource.data.attemptsUsed == 1
         && request.resource.data.attemptsUsed <= liveAttemptLimit(request.resource.data.liveTestId)
         && attemptId == request.auth.uid + '_' + request.resource.data.liveTestId;
-      allow update: if verifiedUser()
+      allow update: if liveTestUser()
         && resource.data.uid == request.auth.uid
         && request.resource.data.uid == resource.data.uid
         && request.resource.data.liveTestId == resource.data.liveTestId
@@ -142,18 +149,20 @@ service cloud.firestore {
     match /students/{studentId} {
       allow read: if hasPermission('students') || (signedIn() && request.auth.uid == studentId);
       allow create: if signedIn()
+        && !anonymousUser()
         && request.auth.uid == studentId
         && request.resource.data.email == request.auth.token.email
         && request.resource.data.mobile is string
         && request.resource.data.mobile.matches('^\\+91[6-9][0-9]{9}$');
       allow update: if hasPermission('students')
-        || (signedIn() && request.auth.uid == studentId
+        || (signedIn() && !anonymousUser() && request.auth.uid == studentId
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','photoURL','displayName','emailVerified','phoneVerified','verifiedAt','updatedAt']));
       allow delete: if hasPermission('students');
     }
     match /mobileRegistry/{mobileId} {
       allow read: if hasPermission('students') || (signedIn() && resource.data.uid == request.auth.uid);
       allow create: if signedIn()
+        && !anonymousUser()
         && !exists(/databases/$(database)/documents/mobileRegistry/$(mobileId))
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.mobile == mobileId
@@ -161,8 +170,9 @@ service cloud.firestore {
       allow update, delete: if hasPermission('students');
     }
     match /results/{resultId} {
-      allow read: if hasPermission('results') || (verifiedUser() && resource.data.uid == request.auth.uid);
-      allow create: if verifiedUser()
+      allow read: if hasPermission('results')
+        || (signedIn() && resource.data.uid == request.auth.uid && resource.data.get('isDailyLive', false));
+      allow create: if liveTestUser()
         && request.resource.data.uid == request.auth.uid
         && (!request.resource.data.get('isDailyLive', false)
           || (request.resource.data.liveTestId is string
@@ -172,11 +182,11 @@ service cloud.firestore {
     }
     match /dailyLiveLeaderboard/{entryId} {
       allow read: if signedIn();
-      allow create: if verifiedUser()
+      allow create: if liveTestUser()
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.liveTestId is string
         && entryId == request.auth.uid + '_' + request.resource.data.liveTestId;
-      allow update: if verifiedUser()
+      allow update: if liveTestUser()
         && resource.data.uid == request.auth.uid
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.liveTestId == resource.data.liveTestId
