@@ -62,9 +62,16 @@ jobs:
                   continue
 
               if name in private:
+                  old_title = get_meta(text, r'<title>(.*?)</title>', '')
                   text = remove_old_seo(text)
                   text = re.sub(r'<title>.*?</title>\s*', '', text, count=1, flags=re.I | re.S)
-                  text = re.sub(r'<head>', '<head>\n<meta name="robots" content="noindex,nofollow,noarchive">\n<meta name="googlebot" content="noindex,nofollow,noarchive">', text, count=1, flags=re.I)
+                  private_title = old_title or name.replace('.html', '').replace('-', ' ').title() + ' | True Revise Admin'
+                  private_seo = f'''<!-- TrueRevise Private Page -->
+          <meta name="robots" content="noindex,nofollow,noarchive">
+          <meta name="googlebot" content="noindex,nofollow,noarchive">
+          <title>{private_title}</title>
+          '''
+                  text = re.sub(r'<head>', '<head>\n' + private_seo, text, count=1, flags=re.I)
                   path.write_text(text, encoding='utf-8')
                   continue
 
