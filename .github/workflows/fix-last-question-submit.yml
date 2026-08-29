@@ -1,47 +1,38 @@
-name: Fix last question submit button
+name: Verify last question submit button
 
 on:
   push:
     branches: [main]
+    paths:
+      - 'live-test.html'
+      - '.github/workflows/fix-last-question-submit.yml'
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  fix-submit:
-    if: "!contains(github.event.head_commit.message, '[skip submit-fix]')"
+  verify-submit:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check live test submit button
+      - name: Verify submit button is last-question only
         shell: bash
         run: |
+          set -euo pipefail
           python - <<'PY'
           from pathlib import Path
-          p = Path('live-test.html')
-          s = p.read_text(encoding='utf-8')
-          old_css = '#submit{display:none!important}'
-          old_js = "$ ('submit').style.display='block'".replace(' ', '')
-          if old_css not in s or old_js not in s:
-              print('Submit button is already fixed. Nothing to do.')
-              raise SystemExit(0)
-          s = s.replace(old_css, '#submit{display:none}', 1)
-          s = s.replace(old_js, "$ ('submit').style.display=i===qs.length-1?'block':'none'".replace(' ', ''), 1)
-          p.write_text(s, encoding='utf-8')
-          print('live-test.html fixed')
+          import re
+          s = Path('live-test.html').read_text(encoding='utf-8')
+          if '#submit{display:none!important}' in s:
+              raise SystemExit('Found a forced-visible submit rule.')
+          patterns = [
+              r"style\.display\s*=\s*i\s*===\s*qs\.length\s*-\s*1\s*\?\s*['\"]block['\"]\s*:\s*['\"]none['\"]",
+              r"style\.display\s*=\s*current\s*===\s*qs\.length\s*-\s*1\s*\?\s*['\"]block['\"]\s*:\s*['\"]none['\"]",
+          ]
+          if not any(re.search(p, s) for p in patterns):
+              raise SystemExit('Could not verify last-question submit visibility logic.')
+          print('Last-question submit visibility check passed.')
           PY
-
-      - name: Commit and push if changed
-        shell: bash
-        run: |
-          if git diff --quiet -- live-test.html; then
-            echo 'No change needed.'
-            exit 0
-          fi
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add live-test.html
-          git commit -m 'Show submit button only on last question [skip submit-fix]'
-          git push
