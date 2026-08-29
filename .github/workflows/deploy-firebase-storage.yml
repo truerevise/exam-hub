@@ -8,6 +8,10 @@ on:
       - 'storage.rules'
       - 'firebase.json'
       - '.github/workflows/deploy-firebase-storage.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   deploy-storage:
@@ -21,8 +25,8 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools
+      - name: Verify Firebase CLI
+        run: npx --yes firebase-tools@15.28.1 --version
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
@@ -30,4 +34,4 @@ jobs:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
       - name: Deploy Firebase Storage Rules
-        run: firebase deploy --only storage --project exam-hub-db0eb
+        run: npx --yes firebase-tools@15.28.1 deploy --only storage --project exam-hub-db0eb
