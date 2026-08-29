@@ -5,7 +5,7 @@ on:
     branches: [main]
   workflow_dispatch:
   workflow_run:
-    workflows: ["SEO automation"]
+    workflows: ["TrueRevise SEO"]
     types: [completed]
 
 permissions:
