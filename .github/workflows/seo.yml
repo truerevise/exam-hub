@@ -27,7 +27,7 @@ jobs:
               "admin-exam-manager.html", "admin-homepage-manager.html", "admin-live-access.html",
               "admin-notifications.html", "admin-pass-access.html", "admin-payments.html",
               "admin-question-reports.html", "admin-roles.html", "admin-site-settings.html",
-              "daily-live-admin.html", "manage-exams.html", "students.html", "student-results.html",
+              "admin-clean-embedded-options.html", "daily-live-admin.html", "manage-exams.html", "students.html", "student-results.html",
               "dashboard.html", "profile.html", "results.html", "review.html", "saved-questions.html",
               "pass-access.html", "premium-pass.html", "login.html", "register.html", "forgot-password.html",
               "verify-account.html", "test.html", "live-test.html", "mock-test.html"
@@ -38,6 +38,7 @@ jobs:
                   r'<!-- TrueRevise SEO -->.*?(?=<style|</head>)',
                   r'<meta\s+name=["\']description["\'][^>]*>\s*',
                   r'<meta\s+name=["\']robots["\'][^>]*>\s*',
+                  r'<meta\s+name=["\']googlebot["\'][^>]*>\s*',
                   r'<meta\s+name=["\']author["\'][^>]*>\s*',
                   r'<link\s+rel=["\']canonical["\'][^>]*>\s*',
                   r'<link\s+rel=["\']icon["\'][^>]*>\s*',
@@ -63,11 +64,7 @@ jobs:
               if name in private:
                   text = remove_old_seo(text)
                   text = re.sub(r'<title>.*?</title>\s*', '', text, count=1, flags=re.I | re.S)
-                  text = re.sub(
-                      r'<head>',
-                      '<head>\n<meta name="robots" content="noindex,nofollow,noarchive">\n<link rel="canonical" href="https://truerevise.com/' + name + '">',
-                      text, count=1, flags=re.I
-                  )
+                  text = re.sub(r'<head>', '<head>\n<meta name="robots" content="noindex,nofollow,noarchive">\n<meta name="googlebot" content="noindex,nofollow,noarchive">', text, count=1, flags=re.I)
                   path.write_text(text, encoding='utf-8')
                   continue
 
@@ -135,7 +132,7 @@ jobs:
               "admin-exam-manager.html", "admin-homepage-manager.html", "admin-live-access.html",
               "admin-notifications.html", "admin-pass-access.html", "admin-payments.html",
               "admin-question-reports.html", "admin-roles.html", "admin-site-settings.html",
-              "daily-live-admin.html", "manage-exams.html", "students.html", "student-results.html",
+              "admin-clean-embedded-options.html", "daily-live-admin.html", "manage-exams.html", "students.html", "student-results.html",
               "dashboard.html", "profile.html", "results.html", "review.html", "saved-questions.html",
               "pass-access.html", "premium-pass.html", "login.html", "register.html", "forgot-password.html",
               "verify-account.html", "test.html", "live-test.html", "mock-test.html"
