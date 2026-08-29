@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
-import { getFirestore, collection, getDocs, query, orderBy, limit, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -32,14 +32,15 @@ if (isDailyLivePage()) {
   }
 }
 
-// Shared admin guard used by legacy admin pages. Keeping one canonical list
-// prevents page-to-page authorization drift.
+// Keep client-side super-admin access aligned with the Firestore rules.
+// This is a UI guard only; Firestore rules remain the source of truth.
 const SUPER_ADMINS = new Set([
+  'support@truerevise.com',
   'commercewithkiransingh@gmail.com',
   'kiransingh.smile@gmail.com'
 ]);
 export const isSuperAdmin = user => !!(
-  user?.email && SUPER_ADMINS.has(String(user.email).toLowerCase())
+  user?.email && SUPER_ADMINS.has(String(user.email).trim().toLowerCase())
 );
 window.isSuperAdmin = window.isSuperAdmin || isSuperAdmin;
 
