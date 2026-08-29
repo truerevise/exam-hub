@@ -150,6 +150,7 @@ applyHomepageSettings();
 
 if (location.pathname.endsWith('/test.html') || location.pathname.endsWith('/live-test.html')) {
   await import('./exam-pause.js?v=2').catch(e => console.warn('Exam pause handler unavailable:', e));
+  await import('./last-question-submit.js?v=1').catch(e => console.warn('Submit visibility guard unavailable:', e));
 }
 
 if (location.pathname.endsWith('/test.html')) {
