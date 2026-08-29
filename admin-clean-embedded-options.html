@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clean Embedded Options — TrueRevise Admin</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#070b12;color:#eef2ff;font-family:Inter,system-ui,Arial}.wrap{max-width:1000px;margin:auto;padding:18px}.head{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#2563eb,#7c3aed);font-size:22px}h1{margin:0;font-size:22px}.muted{color:#8f9bb5;font-size:12px;line-height:1.5}.card{background:#101827;border:1px solid #29344a;border-radius:18px;padding:16px;margin:14px 0}.btn{border:1px solid #34415b;background:#182238;color:#dbe5ff;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer}.primary{background:#2563eb;border-color:#2563eb;color:#fff}.danger{background:#4a1e2a;border-color:#7f3044;color:#ffb8c5}.btn:disabled{opacity:.55;cursor:not-allowed}.pill{display:inline-block;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:900;background:#082f1d;color:#86efac;border:1px solid #14532d}.warn{background:#3a2b0d;color:#fcd34d;border-color:#6d5218}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.stat{padding:12px;border:1px solid #29344a;border-radius:12px;background:#0c1421}.stat b{display:block;font-size:22px}.stat span{font-size:10px;color:#7f8ca4}.sample{padding:12px;border-top:1px solid #263149}.sample:first-child{border-top:0}.before{color:#ffb8c5}.after{color:#9ee7b8}.arrow{color:#8190aa;margin:6px 0}.notice{padding:12px;border:1px solid #6d5218;background:#2b220f;color:#fcdc7a;border-radius:12px;font-size:12px;line-height:1.5}.success{padding:12px;border:1px solid #205b40;background:#0d2b1e;color:#8be5b0;border-radius:12px}.error{padding:12px;border:1px solid #653442;background:#25151b;color:#ffb4bf;border-radius:12px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}@media(max-width:650px){.grid{grid-template-columns:1fr}.head{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="head"><div class="brand"><div class="logo">🧹</div><div><h1>Clean Embedded Options</h1><div class="muted">Safe one-time cleanup for an uploaded exam where options were accidentally stored inside the question text.</div></div></div><button class="btn" onclick="location.href='admin-dashboard.html'">← Admin</button></header>
+<section class="card">
+<h2>PYQ TG SET EDUCATION HELD IN 2023</h2>
+<div class="muted">This tool targets only this exact exam name. It removes text beginning at the first detected A-option marker only when A, B, C and D markers are all present in the correct order. Separate <b>options.A/B/C/D</b> fields are never changed.</div>
+<div id="stats" class="grid"><div class="stat"><b>—</b><span>QUESTIONS</span></div><div class="stat"><b>—</b><span>NEED CLEANUP</span></div><div class="stat"><b>—</b><span>SAFE / UNCHANGED</span></div></div>
+<div class="actions"><button id="scan" class="btn primary">🔍 Scan Exam</button><button id="clean" class="btn danger" disabled>🧹 Remove Embedded Options</button></div>
+<div id="msg" style="margin-top:12px"></div>
+</section>
+<section class="card" id="preview" style="display:none"><h2>Preview</h2><div class="muted">Only the question text will change. Review the examples before applying the cleanup.</div><div id="samples" style="margin-top:10px"></div></section>
+</main>
+<script type="module">
+import{auth,db}from'./firebase-config.js';
+import{onAuthStateChanged}from'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
+import{collection,getDocs,doc,writeBatch}from'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
+const TARGET='PYQ TG SET EDUCATION HELD IN 2023';
+const ADMINS=['support@truerevise.com','commercewithkiransingh@gmail.com','kiransingh.smile@gmail.com'];
+const $=id=>document.getElementById(id);let rows=[],cleanable=[];let ready=false;
+function superAdmin(u){return!!u?.email&&ADMINS.includes(u.email.toLowerCase())}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function cleanEmbeddedOptions(text){
+  const s=String(text??'').replace(/\r/g,'');
+  const re=/(?:^|\s)(?:\(A\)|A[.)])\s*/i;
+  const m=s.match(re); if(!m)return null;
+  const start=m.index+(m[0].startsWith(' ')||m[0].startsWith('\n')?1:0);
+  const tail=s.slice(start);
+  const markers=[...tail.matchAll(/(?:^|\s)(?:\(([A-D])\)|([A-D])[.)])\s*/gi)].map(x=>({letter:(x[1]||x[2]).toUpperCase(),index:x.index}));
+  const letters=markers.map(x=>x.letter);
+  let pos=0;for(const want of ['A','B','C','D']){const i=letters.indexOf(want,pos);if(i<0)return null;pos=i+1}
+  if(markers[0].letter!=='A'||markers[0].index>Math.max(40,Math.floor(tail.length*.55)))return null;
+  const cleaned=s.slice(0,start).trim().replace(/[\s:;-]+$/,'').trim();
+  if(cleaned.length<5||cleaned===s.trim())return null;
+  return cleaned;
+}
+function setMsg(html,type=''){$('msg').className=type; $('msg').innerHTML=html}
+function updateStats(total,need){$('stats').innerHTML=`<div class="stat"><b>${total}</b><span>QUESTIONS</span></div><div class="stat"><b>${need}</b><span>NEED CLEANUP</span></div><div class="stat"><b>${total-need}</b><span>SAFE / UNCHANGED</span></div>`}
+async function scan(){
+  $('scan').disabled=true;$('clean').disabled=true;$('preview').style.display='none';setMsg('Scanning…');
+  try{
+    const snap=await getDocs(collection(db,'questions'));
+    rows=snap.docs.map(d=>({id:d.id,...d.data()})).filter(x=>String(x.exam||'').trim()===TARGET);
+    cleanable=rows.map(x=>({row:x,cleaned:cleanEmbeddedOptions(x.question)})).filter(x=>x.cleaned);
+    updateStats(rows.length,cleanable.length);
+    if(!rows.length){setMsg('No questions found for the exact exam name.','error');return}
+    if(!cleanable.length){setMsg('✓ No embedded A–D option block was detected. Nothing needs to be changed.','success');return}
+    $('preview').style.display='block';
+    $('samples').innerHTML=cleanable.slice(0,12).map((x,i)=>`<div class="sample"><div><span class="pill">Q${i+1} • ${esc(x.row.subject||'Unassigned')}</span></div><div class="before"><b>Before:</b> ${esc(x.row.question)}</div><div class="arrow">↓ remove embedded A/B/C/D options</div><div class="after"><b>After:</b> ${esc(x.cleaned)}</div></div>`).join('')+(cleanable.length>12?`<div class="sample muted">Showing 12 of ${cleanable.length} questions that will be cleaned.</div>`:'');
+    $('clean').disabled=false;setMsg(`Found <b>${cleanable.length}</b> question(s) with a complete embedded A–D option block.`, 'notice');
+  }catch(e){console.error(e);setMsg(`Scan failed: ${esc(e.message)}`,'error')}finally{$('scan').disabled=false}
+}
+async function clean(){
+  if(!cleanable.length)return;
+  const n=cleanable.length;
+  if(!confirm(`Remove the embedded A–D options from ${n} question(s) in “${TARGET}”?\n\nOnly the question field will be updated. Separate options will remain unchanged.`))return;
+  $('clean').disabled=true;$('scan').disabled=true;setMsg('Cleaning questions…');
+  try{
+    for(let i=0;i<cleanable.length;i+=450){const batch=writeBatch(db);cleanable.slice(i,i+450).forEach(x=>batch.update(doc(db,'questions',x.row.id),{question:x.cleaned,updatedAt:new Date()}));await batch.commit()}
+    setMsg(`✓ Successfully cleaned <b>${n}</b> question(s). The separate A/B/C/D option fields were not changed.`, 'success');
+    cleanable=[];await scan();
+  }catch(e){console.error(e);setMsg(`Cleanup failed: ${esc(e.message)}`,'error');$('clean').disabled=false;$('scan').disabled=false}
+}
+$('scan').onclick=scan;$('clean').onclick=clean;
+onAuthStateChanged(auth,u=>{if(!superAdmin(u)){location.replace('admin.html');return}ready=true});
+</script>
+</body></html>
