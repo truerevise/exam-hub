@@ -1,0 +1,43 @@
+name: Enforce Premium Exam Access
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  enforce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enforce premium-only regular exams
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          p = Path('test.html')
+          s = p.read_text(encoding='utf-8')
+          pattern = r'async function hasAccess\(\)\{.*?\}\nfunction premiumMessage'
+          replacement = """async function hasAccess(){try{const st=await withTimeout(getDoc(doc(db,'students',user.uid)),9000,'Student access check');const pass=st.exists()?expiry(st.data().premiumUntil):0;return pass>Date.now()}catch(e){console.error('Premium access check failed',e);return false}}\nfunction premiumMessage"""
+          new, n = re.subn(pattern, replacement, s, count=1, flags=re.S)
+          if n != 1:
+              raise SystemExit('Expected regular-exam access gate was not found; refusing to modify the file.')
+          if new == s:
+              print('Already premium-only; no change needed.')
+          else:
+              p.write_text(new, encoding='utf-8')
+
+      - name: Commit enforced access gate
+        run: |
+          if git diff --quiet -- test.html; then
+            echo "No access-gate change needed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add test.html
+          git commit -m "Enforce premium-only access for regular exams"
+          git push
