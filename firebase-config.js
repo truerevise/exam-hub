@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
-import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signInAnonymously, signOut } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDQPGrwNBGS1EOdOg6t3uyuby0IDQwO9Uw",
@@ -16,11 +16,10 @@ export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const authReady = setPersistence(auth, browserLocalPersistence).catch(() => {});
 
-// Daily Live Tests are intentionally available before login. Wait for Firebase
-// Auth persistence first, then create a temporary anonymous identity before
-// live-test.html registers its auth listener. This prevents the initial null
-// auth state from redirecting guests to the login page.
 const isDailyLivePage = () => location.pathname.endsWith('/live-test.html');
+
+// Daily Live Tests may use a temporary anonymous Firebase identity.
+// Never let that temporary identity take over normal student/admin pages.
 if (isDailyLivePage()) {
   await authReady;
   if (!auth.currentUser) {
@@ -30,10 +29,17 @@ if (isDailyLivePage()) {
       console.warn('Anonymous Daily Live Test sign-in unavailable:', e.message);
     }
   }
+} else {
+  await authReady;
+  if (auth.currentUser?.isAnonymous) {
+    try {
+      await signOut(auth);
+    } catch (e) {
+      console.warn('Could not clear temporary anonymous session:', e.message);
+    }
+  }
 }
 
-// Keep client-side super-admin access aligned with the Firestore rules.
-// This is a UI guard only; Firestore rules remain the source of truth.
 const SUPER_ADMINS = new Set([
   'support@truerevise.com',
   'commercewithkiransingh@gmail.com',
@@ -96,7 +102,7 @@ async function applyHomepageSettings() {
     if (highlight && s.highlight) highlight.textContent = s.highlight;
     if (lead && s.description) lead.textContent = s.description;
     if (primary && s.primaryText) primary.textContent = s.primaryText;
-    if (primary && safeInternalUrl(s.primaryUrl)) primary.onclick = () => window.goLogin(s.safeInternalUrl || safeInternalUrl(s.primaryUrl));
+    if (primary && safeInternalUrl(s.primaryUrl)) primary.onclick = () => window.goLogin(s.primaryUrl);
     if (secondary && s.secondaryText) secondary.textContent = s.secondaryText;
     if (secondary && safeInternalUrl(s.secondaryUrl)) secondary.href = safeInternalUrl(s.secondaryUrl);
     if (passTitle && s.passTitle) passTitle.textContent = s.passTitle;
