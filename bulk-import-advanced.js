@@ -28,7 +28,7 @@ function normalizeText(v){
   return String(v||'').toLowerCase().replace(/<[^>]*>/g,' ').replace(/[^\p{L}\p{N}]+/gu,' ').replace(/\s+/g,' ').trim();
 }
 function questionStarts(text){
-  const re=/^\s*(?:Q(?:uestion)?\s*)0*(\d{1,4})\s*[.):-]\s*/gim;
+  const re=/^\s*(?:Q(?:uestion)?\s*(?:Number\s*)?)0*(\d{1,4})\s*[.):-]?\s*/gim;
   return [...String(text||'').matchAll(re)];
 }
 function blocks(){
@@ -39,7 +39,7 @@ function blocks(){
   }
   return out;
 }
-function setSourceBlocks(list){ source.value=list.map((x,i)=>{const n=i+1;return x.text.replace(/^\s*(?:Q(?:uestion)?\s*)0*\d{1,4}\s*[.):-]\s*/i,`Q${n}. `)}).join('\n\n'); source.dispatchEvent(new Event('input',{bubbles:true})); }
+function setSourceBlocks(list){ source.value=list.map((x,i)=>{const n=i+1;return x.text.replace(/^\s*(?:Q(?:uestion)?\s*(?:Number\s*)?)0*\d{1,4}\s*[.):-]?\s*/i,`Q${n}. `)}).join('\n\n'); source.dispatchEvent(new Event('input',{bubbles:true})); }
 
 $('advRenumber')?.addEventListener('click',()=>{
   const b=blocks();
