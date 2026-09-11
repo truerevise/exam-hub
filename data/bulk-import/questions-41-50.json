@@ -1,0 +1,194 @@
+{
+  "questions": [
+    {
+      "questionNumber": 41,
+      "question": "In research, Hypothesis means",
+      "options": {
+        "A": "To determine specific expectations for testing relationships between variables",
+        "B": "To continue arguments to solve problem",
+        "C": "To find solutions to problems",
+        "D": "To determine problem explanations"
+      },
+      "answer": "A",
+      "answerText": "To determine specific expectations for testing relationships between variables",
+      "explanation": "A hypothesis is a precise, testable, and tentative statement about the expected relationship between two or more variables. It guides the research design by specifying what relationship or difference is expected and provides a basis for empirical testing. Key characteristics include being tentative, testable, specific, and potentially directional or non-directional. The null hypothesis states no relationship or difference, while the alternative hypothesis states the expected relationship or difference.",
+      "whyOtherOptionsAreWrong": {
+        "B": "A hypothesis is not an argument or debate; it is an empirical prediction that can be tested with evidence.",
+        "C": "Finding solutions is a broader purpose of research. A hypothesis is a focused statement used within the research process.",
+        "D": "This is too vague. A hypothesis provides a specific and testable expectation rather than a general explanation."
+      },
+      "tags": ["Research Methodology", "Hypothesis", "Variables", "Scientific Method", "English"]
+    },
+    {
+      "questionNumber": 42,
+      "question": "In laboratory experiments, the more precise experimental procedure is",
+      "options": {
+        "A": "the more the error variance",
+        "B": "the less the strength of the variable",
+        "C": "the more the strength of the variable",
+        "D": "the less the error variance"
+      },
+      "answer": "D",
+      "answerText": "the less the error variance",
+      "explanation": "Precision in experimental procedures means greater standardization, control, consistency, and accurate measurement. As procedural precision increases, unwanted or error variance decreases. Lower error variance makes it easier to detect the true effect of the independent variable and generally improves internal validity and statistical power.",
+      "whyOtherOptionsAreWrong": {
+        "A": "This is the opposite relationship. Greater precision reduces error variance.",
+        "B": "Precision does not reduce the actual strength of a variable; it improves the ability to observe its effect accurately.",
+        "C": "Precision does not increase the actual strength of a variable; it reduces measurement and procedural noise."
+      },
+      "tags": ["Research Methodology", "Experimental Design", "Error Variance", "Precision", "Internal Validity", "English"]
+    },
+    {
+      "questionNumber": 43,
+      "question": "Detect the primary source from the sources given",
+      "options": {
+        "A": "Research surveys containing abstracts",
+        "B": "Publications describing others work",
+        "C": "Publications containing authors own work",
+        "D": "Publications containing others experiences"
+      },
+      "answer": "C",
+      "answerText": "Publications containing authors own work",
+      "explanation": "A primary source provides original, first-hand evidence or original work. In research, this includes publications reporting the author's own original data, experiments, observations, analyses, or findings. Typical examples include original research articles, theses and dissertations, conference papers reporting original work, raw data, laboratory records, and first-hand historical documents.",
+      "whyOtherOptionsAreWrong": {
+        "A": "An abstract is a summary of a study and is not itself the full original research record. Research surveys that summarize multiple studies are secondary sources.",
+        "B": "A publication describing another researcher's work is a secondary source because it interprets or summarizes the original work.",
+        "D": "A publication based on other people's experiences is generally secondary unless the author is presenting their own first-hand experience."
+      },
+      "tags": ["Research Methodology", "Primary Sources", "Secondary Sources", "Literature Review", "English"]
+    },
+    {
+      "questionNumber": 44,
+      "question": "Systematic sampling refers to the pattern where",
+      "options": {
+        "A": "Every nth individual in the population list is selected",
+        "B": "Groups rather than individuals are selected",
+        "C": "Each member of the population does not have an equal chance of being selected",
+        "D": "The researcher selects sample based on the specific purpose of research"
+      },
+      "answer": "A",
+      "answerText": "Every nth individual in the population list is selected",
+      "explanation": "Systematic sampling is a probability sampling technique in which, after a random starting point is chosen, every kth or nth member of an ordered population list is selected. The sampling interval is commonly calculated as k = N/n, where N is population size and n is desired sample size. It is simple and efficient, but periodic patterns in the list can create bias.",
+      "whyOtherOptionsAreWrong": {
+        "B": "Selecting groups rather than individual units describes cluster sampling.",
+        "C": "This statement characterizes some non-probability sampling methods. Systematic sampling is a probability method when implemented with a random start and a valid sampling frame.",
+        "D": "Selecting participants based on the researcher's purpose is purposive or judgmental sampling."
+      },
+      "tags": ["Research Methodology", "Sampling Techniques", "Systematic Sampling", "Probability Sampling", "English"]
+    },
+    {
+      "questionNumber": 45,
+      "question": "An approach which often leads to the knowledge for knowledge sake is the approach of",
+      "options": {
+        "A": "Applied research",
+        "B": "Action research",
+        "C": "Fundamental research",
+        "D": "Analytical research"
+      },
+      "answer": "C",
+      "answerText": "Fundamental research",
+      "explanation": "Fundamental research, also called basic or pure research, is primarily undertaken to extend knowledge, develop or refine theories, and understand fundamental principles without an immediate practical application being the main objective. This is the classic meaning of knowledge for knowledge's sake. Its findings may later lead to practical applications.",
+      "whyOtherOptionsAreWrong": {
+        "A": "Applied research is directed toward solving practical or specific real-world problems.",
+        "B": "Action research focuses on solving immediate, context-specific problems, often undertaken by practitioners in their own settings.",
+        "D": "Analytical research describes an approach involving analysis of existing information or data and may be either basic or applied."
+      },
+      "tags": ["Research Methodology", "Fundamental Research", "Applied Research", "Pure Research", "English"]
+    },
+    {
+      "questionNumber": 46,
+      "question": "In a situation where two population 'means' the difference is actually zero, but, sample 'means' show difference to be significant. In this case the researcher has committed",
+      "options": {
+        "A": "Type I error",
+        "B": "Type II error",
+        "C": "Type I and II errors",
+        "D": "Neither Type I nor Type II error"
+      },
+      "answer": "A",
+      "answerText": "Type I error",
+      "explanation": "A Type I error occurs when a researcher rejects a true null hypothesis. Here, the true population difference is zero, so the null hypothesis of no difference is true, but the sample result is judged statistically significant and the researcher rejects the null. This is a false-positive conclusion. Type I error is represented by alpha (α), commonly set at 0.05 in many studies.",
+      "whyOtherOptionsAreWrong": {
+        "B": "Type II error occurs when a false null hypothesis is not rejected, meaning a real effect is missed.",
+        "C": "For the same hypothesis test decision, the situation described corresponds to Type I error, not both errors simultaneously.",
+        "D": "An error has occurred because the researcher concluded that a difference exists when the true population difference is zero."
+      },
+      "tags": ["Research Methodology", "Type I Error", "Type II Error", "Hypothesis Testing", "Statistical Significance", "English"]
+    },
+    {
+      "questionNumber": 47,
+      "question": "In a research study the effect of mental strain was studied on the methods of teaching of the school teachers. In this study, mental strain is",
+      "options": {
+        "A": "Intervening variable",
+        "B": "Independent variable",
+        "C": "Dependent variable",
+        "D": "Extraneous variable"
+      },
+      "answer": "B",
+      "answerText": "Independent variable",
+      "explanation": "The independent variable is the variable treated as the presumed cause or predictor. In this study, the researcher is examining the effect of mental strain on teachers' methods of teaching. Therefore, mental strain is the independent variable, while teaching methods are the dependent variable.",
+      "whyOtherOptionsAreWrong": {
+        "A": "An intervening or mediating variable explains part of the mechanism between a cause and outcome. Mental strain is the stated cause being studied here.",
+        "C": "The dependent variable is the outcome being affected or measured; in this case it is the method of teaching.",
+        "D": "An extraneous variable is an outside factor that may influence the dependent variable but is not the main variable being studied."
+      },
+      "tags": ["Research Methodology", "Variables", "Independent Variable", "Dependent Variable", "Experimental Design", "English"]
+    },
+    {
+      "questionNumber": 48,
+      "question": "The Chi-square test is the non-parametric technique most commonly used to analyze",
+      "options": {
+        "A": "Categorical data",
+        "B": "Quantitative data",
+        "C": "Qualitative data",
+        "D": "Descriptive data"
+      },
+      "answer": "A",
+      "answerText": "Categorical data",
+      "explanation": "The chi-square (χ²) test is a non-parametric inferential technique commonly used with categorical frequency data. Major uses include testing goodness of fit, testing independence or association between categorical variables, and testing homogeneity of categorical distributions. The calculation compares observed frequencies with expected frequencies.",
+      "whyOtherOptionsAreWrong": {
+        "B": "Quantitative measurements such as continuous scores are commonly analyzed with tests such as t-tests, ANOVA, or correlation, depending on the design and assumptions.",
+        "C": "In this context, qualitative research data such as interview transcripts is generally analyzed using methods such as thematic or content analysis rather than chi-square. However, qualitative variables that have been coded into categories can be analyzed with chi-square.",
+        "D": "Chi-square is an inferential test rather than simply a descriptive-data technique."
+      },
+      "tags": ["Research Methodology", "Statistics", "Chi-square", "Non-parametric Tests", "Categorical Data", "English"]
+    },
+    {
+      "questionNumber": 49,
+      "question": "Mostly generalizability is less in",
+      "options": {
+        "A": "Historical research",
+        "B": "Experimental research",
+        "C": "Survey research",
+        "D": "Case study"
+      },
+      "answer": "D",
+      "answerText": "Case study",
+      "explanation": "Generalizability refers to the extent to which findings can be applied beyond the particular sample, setting, or case studied. Case studies usually focus intensively on one case or a small number of cases selected for their contextual importance, so statistical generalization to a wider population is usually limited. Their strength is depth and contextual understanding rather than broad statistical generalization.",
+      "whyOtherOptionsAreWrong": {
+        "A": "Historical research is primarily concerned with understanding past events and contexts. Its findings are not usually statistically generalizable, but the question asks which approach generally has the least generalizability, for which case study is the better answer among the given options.",
+        "B": "Experimental research can achieve strong external validity when samples and settings are appropriately selected and findings are replicated, although experimental control often emphasizes internal validity.",
+        "C": "Survey research can have relatively high statistical generalizability when it uses large, representative probability samples."
+      },
+      "tags": ["Research Methodology", "Generalizability", "External Validity", "Case Study", "English"]
+    },
+    {
+      "questionNumber": 50,
+      "question": "As a researcher you have to obtain the views of very large number of teachers to eradicate corruption from the society. Which tool of the following will be suitable?",
+      "options": {
+        "A": "Interview",
+        "B": "Observation Schedule",
+        "C": "Questionnaire",
+        "D": "Attitude Scale"
+      },
+      "answer": "C",
+      "answerText": "Questionnaire",
+      "explanation": "A questionnaire is most suitable when views or opinions must be collected from a very large number of respondents. It can be administered to many participants relatively quickly, uses standardized questions, and supports efficient collection and comparison of responses. Interviews are more time-consuming and resource-intensive for large samples, while an observation schedule requires direct observation. An attitude scale can measure attitudes, but the question asks generally for obtaining the views of a very large number of teachers, making a questionnaire the broader and more practical tool.",
+      "whyOtherOptionsAreWrong": {
+        "A": "Interviews usually require substantially more time and personnel per respondent, making them less practical for very large samples.",
+        "B": "An observation schedule records observed behaviour and is not the most suitable instrument for obtaining a large number of teachers' views or opinions.",
+        "D": "An attitude scale is designed specifically to measure attitudes in a structured manner. It may be included within a questionnaire, but the broader data-collection tool asked for here is the questionnaire."
+      },
+      "tags": ["Research Methodology", "Data Collection Tools", "Questionnaire", "Survey Research", "Attitude Scale", "English"]
+    }
+  ]
+}
