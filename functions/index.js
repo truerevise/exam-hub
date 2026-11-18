@@ -44,7 +44,7 @@ const callableOptions = {
 };
 
 exports.createPremiumOrder = onCall(callableOptions, async (request) => {
-  if (!request.auth) throw new HttpsError('unauthenticated', 'Please sign in first.');
+  throw new HttpsError('failed-precondition', 'TrueRevise Premium Pass payments are disabled. All student features are free.');
 
   const { price, validityDays } = await getPassSettings();
   const amount = Math.round(price * 100);
@@ -80,7 +80,7 @@ exports.createPremiumOrder = onCall(callableOptions, async (request) => {
 });
 
 exports.verifyPremiumPayment = onCall(callableOptions, async (request) => {
-  if (!request.auth) throw new HttpsError('unauthenticated', 'Please sign in first.');
+  throw new HttpsError('failed-precondition', 'TrueRevise Premium Pass payments are disabled. All student features are free.');
 
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = request.data || {};
   if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
