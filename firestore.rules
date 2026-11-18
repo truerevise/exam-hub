@@ -51,8 +51,9 @@ service cloud.firestore {
       return signedIn()
         && get(/databases/$(database)/documents/passSettings/freeExams).data.get(examName, false) == true;
     }
+    // TrueRevise is free: verified students can access every exam without a paid pass.
     function canAccessExam(examName) {
-      return isAdmin() || (verifiedUser() && (hasActivePass() || isFreeExam(examName)));
+      return isAdmin() || verifiedUser();
     }
     function dailyQuestionAccess(questionId) {
       let accessPath = /databases/$(database)/documents/dailyQuestionAccess/$(questionId);
