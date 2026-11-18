@@ -1,38 +1,9 @@
 const { onCall, onRequest, HttpsError } = require('firebase-functions/v2/https');
-const { defineSecret } = require('firebase-functions/params');
 const { getFirestore, FieldValue } = require('firebase-admin/firestore');
 const { initializeApp } = require('firebase-admin/app');
-const Razorpay = require('razorpay');
-const crypto = require('crypto');
 
 initializeApp();
 const db = getFirestore();
-
-const RAZORPAY_KEY_ID = defineSecret('RAZORPAY_KEY_ID');
-const RAZORPAY_KEY_SECRET = defineSecret('RAZORPAY_KEY_SECRET');
-const RAZORPAY_WEBHOOK_SECRET = defineSecret('RAZORPAY_WEBHOOK_SECRET');
-
-const functionsSecrets = [RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET];
-
-function razorpayClient() {
-  return new Razorpay({
-    key_id: RAZORPAY_KEY_ID.value(),
-    key_secret: RAZORPAY_KEY_SECRET.value()
-  });
-}
-
-function safeEqualHex(expected, received) {
-  if (!received || expected.length !== received.length) return false;
-  return crypto.timingSafeEqual(Buffer.from(expected, 'utf8'), Buffer.from(received, 'utf8'));
-}
-
-async function getPassSettings() {
-  const snap = await db.doc('passSettings/main').get();
-  const data = snap.exists ? snap.data() : {};
-  const price = Math.max(1, Number(data.price || 20));
-  const validityDays = Math.max(1, Number(data.validityDays || 30));
-  return { price, validityDays };
-}
 
 // Callable functions already enforce Firebase Auth before creating an order.
 // Allow the public True Revise web client to complete the browser preflight.
