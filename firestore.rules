@@ -39,10 +39,8 @@ service cloud.firestore {
         && (!verificationSetting('mobileVerificationRequired') || authPhoneVerified());
     }
     function liveTestUser() { return anonymousUser() || verifiedUser(); }
-    function studentDoc() {
-      return get(/databases/$(database)/documents/students/$(request.auth.uid));
-    }
-    // All regular exams are available to every verified student.\n    function canAccessExam(examName) {
+    // All regular exams are available to every verified student.
+    function canAccessExam(examName) {
       return isAdmin() || verifiedUser();
     }
     function dailyQuestionAccess(questionId) {
