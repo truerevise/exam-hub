@@ -21,7 +21,7 @@
 import{auth,db}from'./firebase-config.js';
 import{onAuthStateChanged}from'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
 import{collection,query,where,getDocs,addDoc,doc,getDoc,setDoc,deleteDoc,serverTimestamp}from'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
-const p=new URLSearchParams(location.search),exam=p.get('exam')||'',subject=p.get('subject')||'',batchId=p.get('batchId')||'';
+const p=new URLSearchParams(location.search),exam=p.get('exam')||'',subject=p.get('subject')||'',batchId=p.get('batchId')||'',section=p.get('section')||'General';
 let questions=[],currentQuestion=0,answers=[],remainingSeconds=3600,timerId=null,submitting=false,user=null,currentLang='en',translationCache=new Map(),savedIds=new Set(),saving=false;
 const $=id=>document.getElementById(id);
 const withTimeout=(promise,ms,label)=>Promise.race([promise,new Promise((_,reject)=>setTimeout(()=>reject(new Error(label+' timed out after '+ms+'ms')),ms))]);
