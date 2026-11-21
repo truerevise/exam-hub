@@ -1,26 +1,179 @@
-<!DOCTYPE html><html lang="en"><head>
-<!-- TrueRevise SEO -->
-<meta name="description" content="True Revise | Question Bank resources, information and exam preparation content from True Revise.">
-<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
-<meta name="author" content="True Revise">
-<link rel="canonical" href="https://truerevise.com/question-bank.html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="theme-color" content="#080d18">
+<title>Question Bank | True Revise Admin</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#070b14">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://truerevise.com/question-bank.html">
-<meta property="og:title" content="Question Bank | True Revise">
-<meta property="og:description" content="True Revise | Question Bank resources, information and exam preparation content from True Revise.">
-<meta property="og:site_name" content="True Revise">
-<meta property="og:locale" content="en_IN">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Question Bank | True Revise">
-<meta name="twitter:description" content="True Revise | Question Bank resources, information and exam preparation content from True Revise.">
-
 <style>
-*{box-sizing:border-box}body{margin:0;background:#080b12;color:#eef2ff;font-family:Inter,system-ui,Arial,sans-serif}.wrap{max-width:1050px;margin:auto;padding:18px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.back{color:#8fb5ff;text-decoration:none}.title{font-size:27px;font-weight:800;margin-top:5px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:10px;padding:10px 14px;background:#2563eb;color:#fff;font-weight:800;cursor:pointer}.secondary{background:#182238;border:1px solid #31405d}.card,.q,.test-group{background:#111722;border:1px solid #263149;border-radius:17px;margin-bottom:14px}.card{padding:17px}.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.filters input{width:100%;padding:12px;border-radius:10px;border:1px solid #34415b;background:#0d1422;color:#fff;outline:none}.meta{color:#8f9bb5;font-size:13px;line-height:1.5}.test-group{overflow:hidden}.test-head{padding:16px 17px;background:linear-gradient(145deg,#151e2e,#111722);border-bottom:1px solid #263149;display:flex;justify-content:space-between;align-items:center;gap:12px;cursor:pointer}.test-head:hover{background:#172033}.test-title{font-size:17px;font-weight:850;line-height:1.35}.test-label{color:#8fb5ff;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}.test-count{white-space:nowrap;color:#b9c7df;background:#182238;border:1px solid #31405d;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800}.test-chevron{font-size:17px;color:#8fa7d0;transition:transform .2s}.test-group.collapsed .test-chevron{transform:rotate(-90deg)}.test-body{padding:12px}.test-group.collapsed .test-body{display:none}.q{padding:17px;margin:0 0 12px}.q:last-child{margin-bottom:0}.q h3{margin:0 0 8px;line-height:1.45}.options{margin:12px 0;padding:12px;border-radius:11px;background:#0e1525;line-height:1.8}.answer{color:#7ee2a9;font-weight:800}.answer.special{color:#ffd58a}.delete{border:0;border-radius:9px;padding:9px 12px;background:#4a1e2a;color:#ffabb8;font-weight:800;cursor:pointer}.tag{display:inline-block;margin:5px 5px 0 0;padding:4px 8px;border-radius:999px;background:#182742;border:1px solid #30476e;color:#9eb9ef;font-size:11px}.source{margin-top:10px;padding:9px 11px;border-radius:10px;background:#151f31;border-left:3px solid #4f7ff2;color:#c6d4ed;font-size:12px}.empty{color:#8f9bb5;text-align:center;padding:28px}.group-tools{display:flex;gap:8px;flex-wrap:wrap}.group-summary{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.group-pill{font-size:10px;font-weight:800;color:#8ee6bd;background:#0f2b20;border:1px solid #1f5c43;border-radius:999px;padding:5px 8px}@media(max-width:700px){.filters{grid-template-columns:1fr}.top{align-items:flex-start;gap:10px;flex-direction:column}.test-head{align-items:flex-start}.test-count{font-size:10px}.q{padding:14px}.group-tools{width:100%}.group-tools .btn{flex:1}}
-</style></head><body><main class="wrap"><div class="top"><div><a class="back" href="admin-dashboard.html">← Admin Dashboard</a><div class="title">📚 Question Bank</div></div><div class="actions"><button class="btn secondary" id="refresh">Refresh</button><button class="btn secondary" id="expandAll">Expand All</button><button class="btn secondary" id="collapseAll">Collapse All</button><button class="btn" onclick="location.href='add-question.html'">＋ Add Question</button></div></div><section class="card"><div class="filters"><input id="exam" placeholder="🔎 Filter by exam"><input id="subject" placeholder="Filter by subject / test name"><input id="section" placeholder="Filter by section / unit"><input id="category" placeholder="Filter by category"><input id="tags" placeholder="🏷️ Search admin tags (e.g. polity)"></div><div class="meta" id="count" style="margin-top:10px">Loading...</div></section><div id="list"></div></main><script type="module">const SUPER_ADMINS=['commercewithkiransingh@gmail.com','kiransingh.smile@gmail.com'];function isSuperAdmin(u){return !!(u?.email&&SUPER_ADMINS.includes(u.email.toLowerCase()));}import{auth,db}from'./firebase-config.js';import{onAuthStateChanged}from'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';import{collection,getDocs,deleteDoc,doc}from'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';const $=id=>document.getElementById(id);let all=[];const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));function answerLabel(q){const a=String(q.correctAnswer??q.answer??'').toUpperCase();if(a==='ALL')return 'ALL — all four options are correct';if(a==='MULTIPLE')return 'MULTIPLE — more than one option is correct';if(a==='DELETED')return 'DELETED / ALL AWARDED';if(!a)return '—';return a}function getTestName(q){const explicit=String(q.testName??q.test??'').trim();if(explicit)return explicit;return String(q.subject||'General Test').trim()||'General Test'}function getGroupKey(q){return `${String(q.exam||'Exam').trim()}\u0000${getTestName(q)}`}
-function questionHtml(q,index){const o=q.options||{};const tags=(q.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('');const taxonomy=[q.section?`<span class="tag">Section: ${esc(q.section)}</span>`:'',q.category?`<span class="tag">Category: ${esc(q.category)}</span>`:'',q.topic?`<span class="tag">Topic: ${esc(q.topic)}</span>`:''].join('');const source=q.previousExam?`<div class="source">📜 Previously conducted in: <b>${esc(q.previousExam)}</b></div>`:'';const ans=answerLabel(q),raw=String(q.correctAnswer??q.answer??'').toUpperCase(),special=['ALL','MULTIPLE','DELETED'].includes(raw);return `<article class="q"><h3>${index+1}. ${esc(q.question)}</h3><div class="meta">${esc(q.exam||'Exam')} • ${esc(getTestName(q))} • ${Number(q.marks||1)} mark${Number(q.marks||1)===1?'':'s'}</div>${taxonomy||tags?`<div style="margin-top:5px">${taxonomy}${tags}</div>`:''}${source}<div class="options"><div>A. ${esc(o.A??q.optionA)}</div><div>B. ${esc(o.B??q.optionB)}</div><div>C. ${esc(o.C??q.optionC)}</div><div>D. ${esc(o.D??q.optionD)}</div></div><div class="answer${special?' special':''}">Correct: ${esc(ans)}</div><div class="meta" style="margin-top:7px">${esc(q.explanation||'No explanation added.')}</div><button class="delete" data-id="${q.id}">Delete</button></article>`}
-function render(){const e=$('exam').value.toLowerCase().trim(),s=$('subject').value.toLowerCase().trim(),section=$('section').value.toLowerCase().trim(),category=$('category').value.toLowerCase().trim(),tagQuery=$('tags').value.toLowerCase().trim();const rows=all.filter(q=>{const tags=(q.tags||[]).join(' ').toLowerCase();const exam=String(q.exam||'').toLowerCase();const testName=getTestName(q).toLowerCase();return exam.includes(e)&&testName.includes(s)&&String(q.section||'').toLowerCase().includes(section)&&String(q.category||'').toLowerCase().includes(category)&&(!tagQuery||tags.includes(tagQuery))});$('count').textContent=`${rows.length} question${rows.length===1?'':'s'} shown • ${new Set(rows.map(getGroupKey)).size} test group${new Set(rows.map(getGroupKey)).size===1?'':'s'}`;if(!rows.length){$('list').innerHTML='<div class="card empty">No questions found.</div>';return}const groups=new Map();rows.forEach(q=>{const key=getGroupKey(q);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(q)});const groupEntries=[...groups.entries()].sort((a,b)=>{const [ae,at]=a[0].split('\u0000'),[be,bt]=b[0].split('\u0000');return ae.localeCompare(be)||at.localeCompare(bt)});$('list').innerHTML=groupEntries.map(([key,questions])=>{const [exam,testName]=key.split('\u0000');return `<section class="test-group"><div class="test-head" data-group="${esc(key)}"><div><div class="test-label">Mock Test Group</div><div class="test-title">${esc(exam)} — ${esc(testName)}</div><div class="group-summary"><span class="meta">${questions.length} question${questions.length===1?'':'s'}</span><span class="group-pill">${esc(testName)}</span></div></div><div class="test-chevron">▼</div></div><div class="test-body">${questions.map((q,i)=>questionHtml(q,i)).join('')}</div></section>`}).join('');bindEvents()}
-function bindEvents(){document.querySelectorAll('.test-head').forEach(head=>head.onclick=()=>head.closest('.test-group').classList.toggle('collapsed'));document.querySelectorAll('.delete').forEach(b=>b.onclick=async ev=>{ev.stopPropagation();if(confirm('Delete this question?')){b.disabled=true;try{await deleteDoc(doc(db,'questions',b.dataset.id));await load()}catch(e){console.error(e);alert('Could not delete this question. Check Firestore permissions.')}finally{b.disabled=false}}})}
-async function load(){try{const snap=await getDocs(collection(db,'questions'));all=snap.docs.map(d=>({id:d.id,...d.data()}));render()}catch(e){console.error(e);$('count').textContent='Could not load questions';$('list').innerHTML='<div class="card empty">Firebase could not read the question bank. Check Firestore rules.</div>'}}
-$('expandAll').onclick=()=>document.querySelectorAll('.test-group').forEach(g=>g.classList.remove('collapsed'));$('collapseAll').onclick=()=>document.querySelectorAll('.test-group').forEach(g=>g.classList.add('collapsed'));onAuthStateChanged(auth,u=>{if(isSuperAdmin(u))load();else location.replace('admin.html')});['exam','subject','section','category','tags'].forEach(id=>$(id).oninput=render);$('refresh').onclick=load;</script></body></html>
+:root{color-scheme:dark;--bg:#080d18;--panel:#111a2a;--panel2:#0d1523;--line:#263751;--muted:#91a3bd;--text:#edf4ff;--blue:#4c83ff;--green:#35c98b;--amber:#efb84d;--red:#f07886}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 12% -10%,#152b50 0,transparent 42%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.wrap{max-width:1440px;margin:auto;padding:22px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+.back{color:#9bbcff;text-decoration:none;font-size:13px;font-weight:700}
+.eyebrow{color:#8fb3ff;font-size:11px;text-transform:uppercase;letter-spacing:.13em;font-weight:850;margin-top:10px}
+h1{font-size:clamp(25px,3vw,34px);margin:4px 0 5px;letter-spacing:-.035em}
+.subtitle{color:var(--muted);font-size:13px;line-height:1.55}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid #36517a;background:#1b3155;color:#e8f0ff;border-radius:11px;padding:10px 14px;font-weight:800;font-size:12px;transition:.16s}
+.btn:hover{filter:brightness(1.16);transform:translateY(-1px)}
+.btn.primary{background:linear-gradient(135deg,#3675ef,#2758c9);border-color:#4f83ef;color:white}
+.btn.ghost{background:#111b2b;border-color:#2b3c56}
+.btn.danger{background:#3b1d2a;border-color:#713646;color:#ffc1c9}
+.btn:disabled{opacity:.55;cursor:wait;transform:none}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}
+.stat{position:relative;overflow:hidden;padding:16px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(145deg,#142137,#101827)}
+.stat:after{content:"";position:absolute;width:70px;height:70px;border-radius:50%;right:-22px;top:-22px;background:#4c83ff12}
+.stat .label{font-size:11px;color:var(--muted);font-weight:750}
+.stat .value{font-size:28px;font-weight:900;letter-spacing:-.04em;margin-top:6px;font-variant-numeric:tabular-nums}
+.stat .sub{font-size:10px;color:#7589a7;margin-top:3px}
+.panel{background:linear-gradient(155deg,#121c2c,#0e1624);border:1px solid var(--line);border-radius:17px;padding:17px;margin:14px 0}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}
+.panel-head h2{font-size:15px;margin:0}
+.panel-head p{font-size:11px;color:var(--muted);margin:4px 0 0}
+.filters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.field label{display:block;color:#9eb0c9;font-size:10px;font-weight:800;margin:0 0 6px}
+.field input,.field select{width:100%;min-width:0;border:1px solid #30415c;background:#091221;color:#edf4ff;border-radius:10px;padding:11px 12px;outline:none;font-size:12px}
+.field input:focus,.field select:focus{border-color:#6793ff;box-shadow:0 0 0 3px #4c83ff20}
+.filter-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.countline{font-size:11px;color:var(--muted)}
+.countline strong{color:#eaf1ff}
+.toggles{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.check{display:flex;align-items:center;gap:6px;font-size:11px;color:#b4c3d9}
+.check input{accent-color:#4c83ff}
+.group{overflow:hidden;border:1px solid #2a3d59;border-radius:16px;background:#0d1522;margin:14px 0}
+.group-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 17px;background:linear-gradient(110deg,#172641,#111b2d);cursor:pointer}
+.group-head:hover{background:linear-gradient(110deg,#1b3155,#142238)}
+.group-name{font-size:15px;font-weight:850;line-height:1.35}
+.group-kicker{font-size:9px;color:#8fb4ff;text-transform:uppercase;letter-spacing:.12em;font-weight:900;margin-bottom:4px}
+.group-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}
+.pill{display:inline-flex;align-items:center;border:1px solid #314663;background:#101d30;color:#b8cae5;border-radius:999px;padding:4px 8px;font-size:9px;font-weight:800}
+.pill.green{background:#0d2a22;border-color:#1e6149;color:#88e5bc}
+.pill.gold{background:#302716;border-color:#68502a;color:#f4d18c}
+.chevron{color:#9bb4d8;font-size:17px;transition:transform .18s}
+.group.collapsed .chevron{transform:rotate(-90deg)}
+.group.collapsed .group-content{display:none}
+.group-content{padding:12px}
+.question{border:1px solid #263750;background:linear-gradient(150deg,#121d2d,#101827);border-radius:14px;padding:15px;margin:0 0 10px}
+.question:last-child{margin-bottom:0}
+.question-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.q-index{flex:0 0 auto;color:#8ea9d4;background:#192a44;border:1px solid #324d72;border-radius:8px;padding:5px 8px;font-size:10px;font-weight:900}
+.q-title{font-size:13px;line-height:1.55;font-weight:780;flex:1;overflow-wrap:anywhere}
+.q-meta{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.q-meta .pill{font-weight:700}
+.option-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.option{padding:9px 10px;background:#0a1321;border:1px solid #253752;border-radius:9px;font-size:11px;line-height:1.5;overflow-wrap:anywhere}
+.option.correct{border-color:#24835f;background:#0d251f}
+.option b{color:#9db8e6;margin-right:5px}
+.option.correct b{color:#72e0ae}
+.telugu{display:block;color:#94a7c3;margin-top:4px;font-size:10px;line-height:1.45}
+.answerline{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;font-size:11px}
+.answer{color:#8de4b9;font-weight:900}
+.explanation{border-left:2px solid #426fbd;padding:7px 10px;margin-top:10px;background:#0d192b;color:#c0cfe3;border-radius:0 8px 8px 0;font-size:11px;line-height:1.55}
+.q-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}
+.qid{color:#7186a5;font-size:9px;overflow-wrap:anywhere}
+.delete{padding:7px 10px;font-size:10px}
+.empty{border:1px dashed #354966;border-radius:15px;padding:38px 18px;text-align:center;color:var(--muted);background:#0d1522}
+.empty strong{display:block;color:#e6efff;margin-bottom:5px;font-size:14px}
+.notice{border:1px solid #594927;background:#241e12;color:#e9d29d;padding:11px 13px;border-radius:11px;font-size:11px;line-height:1.5;margin-top:12px}
+.status{font-size:11px;color:var(--muted);margin:8px 0;min-height:16px}
+.loading{padding:24px;text-align:center;color:var(--muted);border:1px solid var(--line);border-radius:14px;background:#101827}
+@media(max-width:1000px){.filters{grid-template-columns:repeat(3,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.wrap{padding:13px}.topbar{align-items:flex-start;flex-direction:column}.actions{width:100%}.actions .btn{flex:1}.stats{gap:8px}.stat{padding:12px}.stat .value{font-size:24px}.filters{grid-template-columns:repeat(2,minmax(0,1fr))}.filters .field:first-child{grid-column:1/-1}.panel{padding:13px}.group-head{padding:13px}.group-content{padding:8px}.question{padding:12px}.option-grid{grid-template-columns:1fr}.filter-footer{align-items:flex-start;flex-direction:column}.q-foot{align-items:flex-start;flex-direction:column}.q-foot .btn{width:100%}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="topbar">
+<div>
+<a class="back" href="admin-dashboard.html">← Admin Dashboard</a>
+<div class="eyebrow">Content management</div>
+<h1>Question Bank</h1>
+<div class="subtitle">Search, inspect and maintain your exam questions in one place.</div>
+</div>
+<div class="actions">
+<button class="btn ghost" id="refresh">↻ Refresh</button>
+<button class="btn ghost" id="export">↓ Export CSV</button>
+<button class="btn ghost" id="expandAll">Expand all</button>
+<button class="btn ghost" id="collapseAll">Collapse all</button>
+<button class="btn primary" id="addQuestion">＋ Add question</button>
+</div>
+</header>
+
+<section class="stats" aria-label="Question bank summary">
+<div class="stat"><div class="label">TOTAL QUESTIONS</div><div class="value" id="totalQuestions">—</div><div class="sub">Loaded from Firestore</div></div>
+<div class="stat"><div class="label">EXAMS</div><div class="value" id="totalExams">—</div><div class="sub">Distinct exam names</div></div>
+<div class="stat"><div class="label">SUBJECTS</div><div class="value" id="totalSubjects">—</div><div class="sub">Distinct subject names</div></div>
+<div class="stat"><div class="label">WITH EXPLANATIONS</div><div class="value" id="withExplanations">—</div><div class="sub">Questions with explanation text</div></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><div><h2>Find questions</h2><p>Combine filters or search across the question text, options and explanations.</p></div><button class="btn ghost" id="resetFilters">Reset filters</button></div>
+<div class="filters">
+<div class="field"><label for="search">KEYWORD SEARCH</label><input id="search" type="search" placeholder="Question, option, explanation…"></div>
+<div class="field"><label for="exam">EXAM</label><select id="exam"><option value="">All exams</option></select></div>
+<div class="field"><label for="subject">SUBJECT / TEST</label><select id="subject"><option value="">All subjects</option></select></div>
+<div class="field"><label for="section">SECTION / UNIT</label><select id="section"><option value="">All sections</option></select></div>
+<div class="field"><label for="category">CATEGORY</label><select id="category"><option value="">All categories</option></select></div>
+<div class="field"><label for="difficulty">DIFFICULTY</label><select id="difficulty"><option value="">All levels</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></div>
+<div class="field"><label for="answerStatus">ANSWER DATA</label><select id="answerStatus"><option value="">All questions</option><option value="valid">Answer available</option><option value="missing">Missing answer</option></select></div>
+<div class="field"><label for="language">LANGUAGE DATA</label><select id="language"><option value="">All questions</option><option value="telugu">Telugu available</option><option value="notelugu">Telugu missing</option></select></div>
+</div>
+<div class="filter-footer">
+<div id="count" class="countline">Loading question bank…</div>
+<div class="toggles">
+<label class="check"><input id="showTelugu" type="checkbox" checked> Show Telugu fields</label>
+<label class="check"><input id="showExplanation" type="checkbox" checked> Show explanations</label>
+<label class="check"><input id="collapseGroups" type="checkbox"> Start groups collapsed</label>
+</div>
+</div>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+</section>
+<div id="list"><div class="loading">Loading questions from the database…</div></div>
+<div class="notice">Safety note: Deleting a question permanently removes that Firestore document. This page asks for confirmation before deletion. Use the export option before large cleanup operations.</div>
+</main>
+
+<script type="module">
+import {auth,db,isSuperAdmin} from './firebase-config.js';
+import {onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
+import {collection,getDocs,deleteDoc,doc} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
+
+const $=id=>document.getElementById(id);
+const FILTER_IDS=['search','exam','subject','section','category','difficulty','answerStatus','language'];
+let all=[],filtered=[];
+let loading=false;
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const text=v=>String(v??'').trim();
+const optionsOf=q=>q.options||{A:q.optionA,B:q.optionB,C:q.optionC,D:q.optionD};
+const answerOf=q=>String(q.correctAnswer??q.answer??'').trim().toUpperCase();
+const answerLabel=q=>{const a=answerOf(q);if(a==='ALL')return 'ALL — all options';if(a==='MULTIPLE')return 'MULTIPLE — multiple correct';if(a==='DELETED')return 'DELETED / all awarded';return a||'Not set'};
+const hasTelugu=q=>Boolean(text(q.questionTe)||text(q.explanationTe)||Object.values(q.optionsTe||{}).some(text));
+const testName=q=>text(q.testName||q.test||q.subject)||'General Test';
+const groupKey=q=>text(q.exam||'Unassigned exam')+'\u0000'+testName(q);
+const validAnswer=q=>['A','B','C','D','ALL','MULTIPLE','DELETED'].includes(answerOf(q));
+function setStatus(message,kind=''){const n=$('status');n.textContent=message;n.style.color=kind==='error'?'#ff9ca8':kind==='success'?'#85e2b6':''}
+function unique(values){return [...new Set(values.map(text).filter(Boolean))].sort((a,b)=>a.localeCompare(b))}
+function fillSelect(id,values,allLabel,keep=true){const el=$(id),old=keep?el.value:'';el.innerHTML='<option value="">'+allLabel+'</option>'+unique(values).map(v=>'<option value="'+esc(v)+'">'+esc(v)+'</option>').join('');if([...el.options].some(o=>o.value===old))el.value=old}
+function updateStats(){ $('totalQuestions').textContent=all.length.toLocaleString();$('totalExams').textContent=unique(all.map(q=>q.exam)).length.toLocaleString();$('totalSubjects').textContent=unique(all.map(q=>q.subject||q.testName||q.test)).length.toLocaleString();$('withExplanations').textContent=all.filter(q=>text(q.explanation)||text(q.explanationTe)).length.toLocaleString()}
+function updateFilters(){fillSelect('exam',all.map(q=>q.exam),'All exams');const e=$('exam').value;fillSelect('subject',all.filter(q=>!e||text(q.exam)===e).map(q=>q.subject||q.testName||q.test),'All subjects');const s=$('subject').value;const base=all.filter(q=>(!e||text(q.exam)===e)&&(!s||testName(q)===s||text(q.subject)===s));fillSelect('section',base.map(q=>q.section),'All sections');fillSelect('category',base.map(q=>q.category),'All categories')}
+function matches(q){const kw=$('search').value.toLowerCase().trim(),o=optionsOf(q),hay=[q.question,q.questionTe,q.explanation,q.explanationTe,q.exam,q.subject,q.section,q.category,q.topic,q.previousExam,...Object.values(o),...Object.values(q.optionsTe||{})].join(' ').toLowerCase();const answerFilter=$('answerStatus').value,lang=$('language').value;return(!kw||hay.includes(kw))&&(!$('exam').value||text(q.exam)===$('exam').value)&&(!$('subject').value||testName(q)===$('subject').value||text(q.subject)===$('subject').value)&&(!$('section').value||text(q.section)===$('section').value)&&(!$('category').value||text(q.category)===$('category').value)&&(!$('difficulty').value||text(q.difficulty).toLowerCase()===$('difficulty').value)&&(!answerFilter||(answerFilter==='valid'?validAnswer(q):!validAnswer(q)))&&(!lang||(lang==='telugu'?hasTelugu(q):!hasTelugu(q)))}
+function optionHtml(letter,eng,tel,correct,showTe){return '<div class="option'+(correct?' correct':'')+'"><b>'+letter+'.</b>'+esc(eng||'—')+(showTe&&tel?'<span class="telugu">'+esc(tel)+'</span>':'')+'</div>'}
+function questionHtml(q,index){const o=optionsOf(q),ot=q.optionsTe||{},answer=answerOf(q),isSpecial=['ALL','MULTIPLE','DELETED'].includes(answer),showTe=$('showTelugu').checked,showExp=$('showExplanation').checked;const taxonomy=[q.section?'Section: '+q.section:'',q.category?'Category: '+q.category:'',q.topic?'Topic: '+q.topic:'',q.difficulty?'Level: '+q.difficulty:''].filter(Boolean);const tags=Array.isArray(q.tags)?q.tags:typeof q.tags==='string'?q.tags.split(/[;,]/).filter(Boolean):[];const meta=[text(q.exam),text(q.subject||q.testName||q.test),Number(q.marks??1)+' mark(s)',q.negativeMarks!==undefined&&q.negativeMarks!==null?'Negative: '+q.negativeMarks:null].filter(Boolean);const explanation=showExp?(text(q.explanation)?'<div class="explanation"><b>Explanation:</b> '+esc(q.explanation)+(showTe&&text(q.explanationTe)?'<span class="telugu">'+esc(q.explanationTe)+'</span>':'')+'</div>':showTe&&text(q.explanationTe)?'<div class="explanation"><b>తెలుగు వివరణ:</b> '+esc(q.explanationTe)+'</div>':'') : '';const answerIsOption=['A','B','C','D'].includes(answer);const id=String(q.id||'');return '<article class="question"><div class="question-top"><span class="q-index">Q'+esc(q.questionNumber||index+1)+'</span><div class="q-title">'+esc(q.question||'[Question text missing]')+(showTe&&text(q.questionTe)?'<span class="telugu">'+esc(q.questionTe)+'</span>':'')+'</div></div><div class="q-meta">'+meta.map(m=>'<span class="pill">'+esc(m)+'</span>').join('')+taxonomy.map(m=>'<span class="pill">'+esc(m)+'</span>').join('')+tags.map(t=>'<span class="pill">'+esc(t)+'</span>').join('')+(hasTelugu(q)?'<span class="pill green">Telugu data</span>':'')+'</div><div class="option-grid">'+['A','B','C','D'].map(k=>optionHtml(k,o[k]??q['option'+k],ot[k],answer===k,showTe)).join('')+'</div><div class="answerline"><span class="answer'+(isSpecial?'':'')+'">Correct answer: '+esc(answerLabel(q))+'</span>'+(q.previousExam?'<span class="pill gold">PYQ: '+esc(q.previousExam)+'</span>':'')+'</div>'+explanation+'<div class="q-foot"><span class="qid">ID: '+esc(id)+'</span><button class="btn danger delete delete-question" data-id="'+esc(id)+'" data-question="'+esc(text(q.question).slice(0,180))+'">Delete question</button></div></article>'}
+function render(){filtered=all.filter(matches);$('count').innerHTML='<strong>'+filtered.length.toLocaleString()+'</strong> of <strong>'+all.length.toLocaleString()+'</strong> questions • '+unique(filtered.map(groupKey)).length+' exam/test groups';if(!filtered.length){$('list').innerHTML='<div class="empty"><strong>No matching questions</strong>Try changing the filters or reset them to see the complete question bank.</div>';return}const groups=new Map();filtered.forEach(q=>{const key=groupKey(q);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(q)});const entries=[...groups.entries()].sort((a,b)=>a[0].localeCompare(b[0]));$('list').innerHTML=entries.map(([key,questions])=>{const [exam,subject]=key.split('\u0000');const collapsed=$('collapseGroups').checked?' collapsed':'';return '<section class="group'+collapsed+'"><div class="group-head" role="button" tabindex="0" aria-expanded="'+(!$('collapseGroups').checked)+'"><div><div class="group-kicker">Exam / test collection</div><div class="group-name">'+esc(exam)+' — '+esc(subject)+'</div><div class="group-meta"><span class="pill">'+questions.length+' question(s)</span><span class="pill">'+(questions.filter(validAnswer).length)+' answered</span><span class="pill">'+questions.filter(hasTelugu).length+' bilingual</span></div></div><span class="chevron">⌄</span></div><div class="group-content">'+questions.map((q,i)=>questionHtml(q,i)).join('')+'</div></section>'}).join('');bindGroupEvents()}
+function bindGroupEvents(){document.querySelectorAll('.group-head').forEach(head=>{const toggle=()=>{const group=head.closest('.group');group.classList.toggle('collapsed');head.setAttribute('aria-expanded',String(!group.classList.contains('collapsed')))};head.addEventListener('click',toggle);head.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()}})});document.querySelectorAll('.delete-question').forEach(btn=>btn.onclick=async e=>{e.stopPropagation();const id=btn.dataset.id;if(!id)return alert('Missing question ID. Refresh the Question Bank and try again.');const label=btn.dataset.question||'this question';if(!confirm('Permanently delete this question?\n\n'+label+'\n\nThis cannot be undone. Export a backup first if needed.'))return;btn.disabled=true;btn.textContent='Deleting…';try{await deleteDoc(doc(db,'questions',id));all=all.filter(q=>q.id!==id);updateStats();updateFilters();render();setStatus('Question deleted successfully.','success')}catch(err){console.error(err);setStatus('Delete failed: '+(err?.message||'Firestore error')+'. No local record was removed.','error');btn.disabled=false;btn.textContent='Delete question'}})}
+async function load(){if(loading)return;loading=true;$('refresh').disabled=true;$('refresh').textContent='Loading…';setStatus('Fetching the latest question records…');try{const snap=await getDocs(collection(db,'questions'));all=snap.docs.map(d=>({id:d.id,...d.data()}));updateStats();updateFilters();render();setStatus('Successfully loaded '+all.length.toLocaleString()+' question records.','success')}catch(err){console.error(err);$('list').innerHTML='<div class="empty"><strong>Could not load the Question Bank</strong>'+esc(err?.message||'Check your connection and Firestore permissions, then refresh.')+'</div>';setStatus('Database read failed. The existing data has not been changed.','error')}finally{loading=false;$('refresh').disabled=false;$('refresh').textContent='↻ Refresh'}}
+function resetFilters(){FILTER_IDS.forEach(id=>$(id).value='');$('showTelugu').checked=true;$('showExplanation').checked=true;$('collapseGroups').checked=false;updateFilters();render();setStatus('Filters reset.')}
+function csvCell(v){const s=String(v??'');return '"'+s.replace(/"/g,'""')+'"'}
+function exportCsv(){const rows=filtered.length?filtered:all;if(!rows.length){setStatus('There are no questions to export.');return}const headers=['id','questionNumber','exam','subject','section','category','topic','difficulty','question','A','B','C','D','answer','explanation','marks','negativeMarks','tags','previousExam','questionTe','ATe','BTe','CTe','DTe','explanationTe'];const data=rows.map(q=>{const o=optionsOf(q),ot=q.optionsTe||{};return [q.id,q.questionNumber,q.exam,q.subject,q.section,q.category,q.topic,q.difficulty,q.question,o.A??q.optionA,o.B??q.optionB,o.C??q.optionC,o.D??q.optionD,answerOf(q),q.explanation,q.marks,q.negativeMarks,Array.isArray(q.tags)?q.tags.join(';'):q.tags,q.previousExam,q.questionTe,ot.A,ot.B,ot.C,ot.D,q.explanationTe]});const csv=[headers,...data].map(row=>row.map(csvCell).join(',')).join('\r\n');const url=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='truerevise-question-bank-'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);setStatus('Exported '+rows.length.toLocaleString()+' question(s).','success')}
+FILTER_IDS.forEach(id=>$(id).addEventListener(id==='search'?'input':'change',()=>{if(id==='exam'){updateFilters()}render()}));
+['showTelugu','showExplanation','collapseGroups'].forEach(id=>$(id).addEventListener('change',render));
+$('refresh').onclick=load;$('resetFilters').onclick=resetFilters;$('export').onclick=exportCsv;$('expandAll').onclick=()=>document.querySelectorAll('.group').forEach(g=>{g.classList.remove('collapsed');g.querySelector('.group-head').setAttribute('aria-expanded','true')});$('collapseAll').onclick=()=>document.querySelectorAll('.group').forEach(g=>{g.classList.add('collapsed');g.querySelector('.group-head').setAttribute('aria-expanded','false')});$('addQuestion').onclick=()=>location.href='add-question.html';
+onAuthStateChanged(auth,user=>{if(isSuperAdmin(user))load();else location.replace('admin.html')});
+</script>
+</body>
+</html>
