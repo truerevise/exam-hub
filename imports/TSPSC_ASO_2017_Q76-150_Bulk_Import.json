@@ -1,0 +1,12 @@
+[
+  {
+    "question": "Tally marks determine what?",
+    "A": "Class limit",
+    "B": "Class boundary",
+    "C": "Class frequency",
+    "D": "Class width",
+    "answer": "C",
+    "explanation": "Tally marks are recorded in groups to count observations. The total tally count in a class gives its frequency.",
+    "questionNumber": 1
+  }
+]
