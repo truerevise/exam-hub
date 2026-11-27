@@ -3,13 +3,13 @@ Q1. In the Telangana Scheduled Tribe population profile based on Census 2011, wh
 (B) Koya
 (C) Lambada
 (D) Chenchu
+English Question: In the Telangana Scheduled Tribe population profile based on Census 2011, which community is the largest?
 Telugu Question: తెలంగాణ షెడ్యూల్డ్ తెగల జనాభా ప్రొఫైల్ (2011 జనగణన ఆధారంగా) ప్రకారం అత్యధిక జనాభా కలిగిన తెగ ఏది?
 (A-Telugu) గోండ్
 (B-Telugu) కోయ
 (C-Telugu) లంబాడా
 (D-Telugu) చెంచు
 Telugu Explanation: లంబాడీలు (సుగాలీలు, బంజారాలు అని కూడా పిలుస్తారు) ఈ ప్రొఫైల్‌లో తెలంగాణలో అతిపెద్ద ST సమూహంగా చూపబడ్డారు. 2020 శిక్షణ పత్రం ప్రకారం వారి జనాభా 20,44,039 (ST జనాభాలో 64.32%). ఇవి 2011 జనగణన ఆధారిత చారిత్రక గణాంకాలు.
-English Question: In the Telangana Scheduled Tribe population profile based on Census 2011, which community is the largest?
 Answer: C
 Explanation: Lambadis (also listed as Sugalis and Banjaras) are the largest ST community in the Telangana profile cited in the 2020 MCRHRDI/Tribal Welfare training material. That table reports 2,044,039 persons, or 64.32% of the ST population. The figures are historical Census 2011-based statistics, not a current population estimate.
 Tags: Telangana Tribes, Census 2011, Lambada, PYQ-oriented practice
@@ -19,13 +19,13 @@ Q2. According to the same Telangana Tribal Welfare profile, what proportion of t
 (B) 12.00%
 (C) 64.32%
 (D) 4.54%
+English Question: According to the same Telangana Tribal Welfare profile, what proportion of the state's ST population was Lambadi?
 Telugu Question: అదే తెలంగాణ గిరిజన సంక్షేమ ప్రొఫైల్ ప్రకారం, రాష్ట్ర ST జనాభాలో లంబాడీల శాతం ఎంత?
 (A-Telugu) 9.37%
 (B-Telugu) 12.00%
 (C-Telugu) 64.32%
 (D-Telugu) 4.54%
 Telugu Explanation: ఆ పత్రంలో లంబాడీలు 64.32%, కోయలు 12.00%, గోండ్/నాయక్‌పోడు 9.37%, యెరుకుల 4.54%గా చూపబడ్డారు. ఈ గణాంకాలు 2011 జనగణన ఆధారంగా ఉన్నాయని గుర్తుంచుకోండి.
-English Question: According to the same Telangana Tribal Welfare profile, what proportion of the state's ST population was Lambadi?
 Answer: C
 Explanation: The MCRHRDI training material gives Lambadis as 64.32% of Telangana's ST population. Koya is shown as 12.00%, Gond/Naikpodu as 9.37%, and Yerukula as 4.54%. Always identify the reference year: these are Census 2011-based figures reproduced in a 2020 training document.
 Tags: Census 2011, Lambada, Population Statistics, Practice
@@ -35,13 +35,13 @@ Q3. Which tribal community is associated with traditional settlements called 'Ta
 (B) Lambada
 (C) Chenchu
 (D) Kolam
+English Question: Which tribal community is associated with traditional settlements called 'Tandas'?
 Telugu Question: 'తండాలు' అని పిలిచే సంప్రదాయ నివాసాలతో సంబంధం ఉన్న గిరిజన సమూహం ఏది?
 (A-Telugu) కోయ
 (B-Telugu) లంబాడా
 (C-Telugu) చెంచు
 (D-Telugu) కొలం
 Telugu Explanation: తండా అనేది లంబాడా/బంజారా నివాస ప్రాంతాలకు సాధారణంగా ఉపయోగించే పేరు. లంబాడాలను సుగాలీలు, బంజారాలు అని కూడా పిలుస్తారు. తెగ–నివాసం అనుబంధ ప్రశ్నలకు ఇది ముఖ్యమైనది.
-English Question: Which tribal community is associated with traditional settlements called 'Tandas'?
 Answer: B
 Explanation: Tanda is the traditional name commonly used for a Lambada/Banjara settlement. Lambadas are also known as Sugalis and Banjaras in the Scheduled Tribe list. The term Tanda is a useful tribe–settlement association for matching questions.
 Tags: Lambada, Tanda, Culture, Practice
@@ -51,13 +51,13 @@ Q4. Which of the following is the best-known traditional dance association of th
 (B) Perini
 (C) Kolatam
 (D) Bathukamma
+English Question: Which of the following is the best-known traditional dance association of the Gond community in Telangana?
 Telugu Question: తెలంగాణలో గోండ్ సమాజంతో ప్రసిద్ధి చెందిన సంప్రదాయ నృత్యం ఏది?
 (A-Telugu) గుస్సాడి
 (B-Telugu) పెరిణి
 (C-Telugu) కోలాటం
 (D-Telugu) బతుకమ్మ
 Telugu Explanation: గుస్సాడి గోండ్ సమాజంతో, ముఖ్యంగా ఆదిలాబాద్ ప్రాంతంతో సంబంధం ఉన్న ప్రత్యేక నృత్య సంప్రదాయం. పెరిణి తెలంగాణ వీరనృత్యం; బతుకమ్మ పూల పండుగ.
-English Question: Which of the following is the best-known traditional dance association of the Gond community in Telangana?
 Answer: A
 Explanation: Gussadi is a distinctive dance tradition associated with Gond communities, particularly in the Adilabad region. Performers are known for elaborate headgear and traditional costume. Perini is associated with Telangana's historic warrior-dance tradition, while Bathukamma is a floral festival rather than a Gond dance.
 Tags: Gond, Gussadi, Culture, Practice
@@ -67,13 +67,13 @@ Q5. Nagoba Jatara is held at which place?
 (B) Keslapur
 (C) Jodeghat
 (D) Mannanur
+English Question: Nagoba Jatara is held at which place?
 Telugu Question: నాగోబా జాతర ఏ ప్రాంతంలో జరుగుతుంది?
 (A-Telugu) మేడారం
 (B-Telugu) కేస్లాపూర్
 (C-Telugu) జోడేఘాట్
 (D-Telugu) మన్ననూర్
 Telugu Explanation: నాగోబా జాతర ఆదిలాబాద్ ప్రాంతంలోని కేస్లాపూర్‌లో జరుగుతుంది. ఇది గోండ్ సమాజంలోని మెస్రం వంశంతో, నాగోబా ఆరాధనతో సంబంధం కలిగి ఉంది. కేస్లాపూర్–నాగోబాను మేడారం–సమ్మక్క సారలమ్మతో గందరగోళం చేయకండి.
-English Question: Nagoba Jatara is held at which place?
 Answer: B
 Explanation: Nagoba Jatara is held at Keslapur in the Adilabad region. It is especially associated with the Mesram clan of the Gond community and worship of Nagoba, a serpent deity. Do not confuse Keslapur/Nagoba with Medaram/Sammakka–Saralamma.
 Tags: Nagoba Jatara, Keslapur, Gond, Practice
@@ -83,13 +83,13 @@ Q6. Nagoba Jatara is particularly associated with which Gond clan?
 (B) Koya
 (C) Yerukula
 (D) Lambadi
+English Question: Nagoba Jatara is particularly associated with which Gond clan?
 Telugu Question: నాగోబా జాతర ప్రధానంగా గోండ్ తెగలోని ఏ వంశంతో సంబంధం కలిగి ఉంది?
 (A-Telugu) మెస్రం
 (B-Telugu) కోయ
 (C-Telugu) యెరుకుల
 (D-Telugu) లంబాడీ
 Telugu Explanation: కేస్లాపూర్ నాగోబా జాతరలో గోండ్ సమాజంలోని మెస్రం వంశానికి ముఖ్య పాత్ర ఉంది. మెస్రం–గోండ్–నాగోబా–కేస్లాపూర్ అనుబంధాన్ని గుర్తుంచుకోండి.
-English Question: Nagoba Jatara is particularly associated with which Gond clan?
 Answer: A
 Explanation: The Mesram clan of the Gond community has a central role in the Nagoba Jatara tradition at Keslapur. The clan association is often used in one-line factual and match-the-following questions. The correct association is Mesram–Gond–Nagoba–Keslapur.
 Tags: Mesram, Nagoba, Gond, Practice
@@ -99,13 +99,13 @@ Q7. Sammakka–Saralamma Jatara is celebrated at:
 (B) Keslapur
 (C) Medaram
 (D) Utnoor
+English Question: Sammakka–Saralamma Jatara is celebrated at:
 Telugu Question: సమ్మక్క–సారలమ్మ జాతర ఎక్కడ నిర్వహిస్తారు?
 (A-Telugu) జోడేఘాట్
 (B-Telugu) కేస్లాపూర్
 (C-Telugu) మేడారం
 (D-Telugu) ఉట్నూర్
 Telugu Explanation: ములుగు జిల్లాలోని మేడారం సమ్మక్క–సారలమ్మ జాతరకు ప్రసిద్ధి. ఇది రెండేళ్లకొకసారి జరిగే భారీ గిరిజన ఉత్సవం. కేస్లాపూర్ నాగోబా జాతరకు ప్రసిద్ధి.
-English Question: Sammakka–Saralamma Jatara is celebrated at:
 Answer: C
 Explanation: Medaram, in Mulugu district, is the venue of the Sammakka–Saralamma Jatara. It is a major biennial tribal religious gathering, strongly associated with Koya cultural traditions. Keslapur is associated with Nagoba Jatara.
 Tags: Medaram, Sammakka Saralamma, Mulugu, Practice
@@ -115,13 +115,13 @@ Q8. Which tribal community has a strong traditional association with the Medaram
 (B) Gond
 (C) Kolam
 (D) Chenchu
+English Question: Which tribal community has a strong traditional association with the Medaram Sammakka–Saralamma Jatara?
 Telugu Question: మేడారం సమ్మక్క–సారలమ్మ జాతరతో బలమైన సంప్రదాయ సంబంధం కలిగిన గిరిజన తెగ ఏది?
 (A-Telugu) కోయ
 (B-Telugu) గోండ్
 (C-Telugu) కొలం
 (D-Telugu) చెంచు
 Telugu Explanation: మేడారం జాతర కోయ సంప్రదాయాలతో, సమ్మక్క–సారలమ్మ ఆరాధనతో బలంగా సంబంధం కలిగి ఉంది. ఇది ములుగు జిల్లాలోని మేడారంలో రెండేళ్లకొకసారి నిర్వహిస్తారు.
-English Question: Which tribal community has a strong traditional association with the Medaram Sammakka–Saralamma Jatara?
 Answer: A
 Explanation: The Medaram Jatara is strongly linked to Koya traditions and the worship of Sammakka and Saralamma. The event is held at Medaram in Mulugu district and is celebrated every two years. The question tests the tribe–festival–location combination.
 Tags: Koya, Medaram, Jatara, Practice
@@ -131,13 +131,13 @@ Q9. The Chenchu community is traditionally associated with which forest region?
 (B) Araku
 (C) Nilgiri
 (D) Satpura
+English Question: The Chenchu community is traditionally associated with which forest region?
 Telugu Question: చెంచు తెగ సంప్రదాయంగా ఏ అటవీ ప్రాంతంతో సంబంధం కలిగి ఉంది?
 (A-Telugu) నల్లమల
 (B-Telugu) అరకు
 (C-Telugu) నీలగిరి
 (D-Telugu) సాత్పురా
 Telugu Explanation: చెంచులు నల్లమల అటవీ ప్రాంతంతో, ముఖ్యంగా తెలంగాణలోని అమ్రాబాద్ ప్రాంతంతో సంబంధం కలిగి ఉంటారు. అటవీ ఉత్పత్తుల సేకరణ వంటి జీవన విధానాలు సంప్రదాయంగా ఉన్నాయి. చెంచు తెలంగాణలోని నాలుగు PVTGలలో ఒకటి.
-English Question: The Chenchu community is traditionally associated with which forest region?
 Answer: A
 Explanation: Chenchus are traditionally associated with the Nallamala forest region, including the Amrabad area of present-day Telangana. Traditional livelihoods have included gathering forest produce and other forest-based activities. Chenchu is also one of Telangana's four PVTGs.
 Tags: Chenchu, Nallamala, PVTG, Practice
@@ -147,13 +147,13 @@ Q10. Which of the following is NOT one of Telangana's four Particularly Vulnerab
 (B) Kolam
 (C) Thoti
 (D) Koya
+English Question: Which of the following is NOT one of Telangana's four Particularly Vulnerable Tribal Groups (PVTGs)?
 Telugu Question: తెలంగాణలోని నాలుగు ప్రత్యేకంగా బలహీన గిరిజన సమూహాల (PVTG)లో లేనిది ఏది?
 (A-Telugu) చెంచు
 (B-Telugu) కొలం
 (C-Telugu) తోటి
 (D-Telugu) కోయ
 Telugu Explanation: తెలంగాణలోని నాలుగు PVTGలు చెంచు, కొలం, తోటి, కొండరెడ్డి. కోయ పెద్ద ST సమూహమైనప్పటికీ ఈ నాలుగు PVTGల జాబితాలో లేదు. ఇది పరీక్షల్లో సాధారణ గందరగోళ ఎంపిక.
-English Question: Which of the following is NOT one of Telangana's four Particularly Vulnerable Tribal Groups (PVTGs)?
 Answer: D
 Explanation: Telangana's four PVTGs are Chenchu, Kolam, Thoti and Konda Reddi (also spelt Konda Reddy). Koya is a major Scheduled Tribe community but is not included in this four-group PVTG list. This distinction is a common multiple-choice trap.
 Tags: PVTG, Chenchu, Kolam, Thoti, Konda Reddi, Practice
@@ -163,13 +163,13 @@ Q11. Which set contains all four PVTGs identified in Telangana?
 (B) Chenchu, Kolam, Thoti and Konda Reddi
 (C) Chenchu, Gond, Koya and Kolam
 (D) Lambada, Thoti, Yerukula and Konda Reddi
+English Question: Which set contains all four PVTGs identified in Telangana?
 Telugu Question: తెలంగాణలో గుర్తించిన నాలుగు PVTGల సరైన సమూహం ఏది?
 (A-Telugu) గోండ్, కోయ, లంబాడా, యెరుకుల
 (B-Telugu) చెంచు, కొలం, తోటి, కొండరెడ్డి
 (C-Telugu) చెంచు, గోండ్, కోయ, కొలం
 (D-Telugu) లంబాడా, తోటి, యెరుకుల, కొండరెడ్డి
 Telugu Explanation: తెలంగాణలోని నాలుగు PVTGలు చెంచు, కొలం, తోటి, కొండరెడ్డి. వీటిని C–K–T–Kగా గుర్తుంచుకోవచ్చు. గోండ్, కోయ, లంబాడా, యెరుకుల ఈ నాలుగు సమూహాల్లో లేవు.
-English Question: Which set contains all four PVTGs identified in Telangana?
 Answer: B
 Explanation: The four PVTGs associated with Telangana are Chenchu, Kolam, Thoti and Konda Reddi. Remember the mnemonic C–K–T–K. Do not include Gond, Koya, Lambada or Yerukula in this four-community PVTG answer.
 Tags: PVTG, Telangana, Practice
@@ -179,13 +179,13 @@ Q12. Which Scheduled Tribe is especially associated with the northern Telangana 
 (B) Koya
 (C) Lambada
 (D) Yerukula
+English Question: Which Scheduled Tribe is especially associated with the northern Telangana districts of Adilabad and Kumuram Bheem Asifabad and is also a PVTG?
 Telugu Question: ఆదిలాబాద్, కుమురం భీం ఆసిఫాబాద్ జిల్లాలతో ఎక్కువగా సంబంధం ఉన్న, PVTGగా కూడా గుర్తించబడిన తెగ ఏది?
 (A-Telugu) కొలం
 (B-Telugu) కోయ
 (C-Telugu) లంబాడా
 (D-Telugu) యెరుకుల
 Telugu Explanation: కొలం తెగ ఉత్తర తెలంగాణలో, ముఖ్యంగా ఆదిలాబాద్ ప్రాంతంలో కనిపిస్తుంది; ఇది PVTGగా గుర్తించబడింది. అధికారిక ST జాబితాలో కొలం, కొలవార్ పేర్లు కూడా ఉన్నాయి.
-English Question: Which Scheduled Tribe is especially associated with the northern Telangana districts of Adilabad and Kumuram Bheem Asifabad and is also a PVTG?
 Answer: A
 Explanation: Kolam is a PVTG associated with northern Telangana, especially the Adilabad region. The official Telangana ST list includes Kolam and Kolawar. For exams, connect Kolam with northern Telangana and PVTG status.
 Tags: Kolam, Adilabad, PVTG, Practice
@@ -195,13 +195,13 @@ Q13. Which one of the following is a PVTG associated with the Godavari hill regi
 (B) Lambada
 (C) Yerukula
 (D) Pardhan
+English Question: Which one of the following is a PVTG associated with the Godavari hill region?
 Telugu Question: గోదావరి కొండ ప్రాంతంతో సంబంధం ఉన్న PVTG ఏది?
 (A-Telugu) కొండరెడ్డి
 (B-Telugu) లంబాడా
 (C-Telugu) యెరుకుల
 (D-Telugu) ప్రధాన్
 Telugu Explanation: కొండరెడ్డి తెలంగాణలోని నాలుగు PVTGలలో ఒకటి. గోదావరి ప్రాంతంలోని కొండ, అటవీ ప్రాంతాలతో సంబంధం కలిగి ఉంటుంది.
-English Question: Which one of the following is a PVTG associated with the Godavari hill region?
 Answer: A
 Explanation: Konda Reddi (also written Konda Reddy/Kondareddi in different official contexts) is one of Telangana's four PVTGs and is associated with hill and forest areas in the Godavari region. The official ST list and PVTG classification should be distinguished: a community can be an ST and also separately classified as a PVTG.
 Tags: Konda Reddi, PVTG, Godavari, Practice
@@ -211,13 +211,13 @@ Q14. Komaram Bheem belonged to which tribal community?
 (B) Gond
 (C) Chenchu
 (D) Lambada
+English Question: Komaram Bheem belonged to which tribal community?
 Telugu Question: కొమరం భీమ్ ఏ గిరిజన సమాజానికి చెందినవారు?
 (A-Telugu) కోయ
 (B-Telugu) గోండ్
 (C-Telugu) చెంచు
 (D-Telugu) లంబాడా
 Telugu Explanation: కొమరం భీమ్ ఆదిలాబాద్ ప్రాంతానికి చెందిన గోండ్ గిరిజన నాయకుడు; జోడేఘాట్‌తో ఆయనకు సంబంధం ఉంది. గిరిజన హక్కుల కోసం పోరాడారు. ఆయన నినాదం జల్, జంగల్, జమీన్—నీరు, అడవి, భూమి.
-English Question: Komaram Bheem belonged to which tribal community?
 Answer: B
 Explanation: Komaram Bheem was a Gond tribal leader associated with the Adilabad region and Jodeghat. He is remembered for resisting oppression and asserting tribal rights. His slogan is popularly rendered as Jal, Jangal, Zameen—water, forest and land.
 Tags: Komaram Bheem, Gond, Telangana History, Practice
@@ -227,13 +227,13 @@ Q15. The slogan 'Jal, Jangal, Zameen' is associated with:
 (B) Komaram Bheem
 (C) Alluri Sitarama Raju
 (D) Sarojini Naidu
+English Question: The slogan 'Jal, Jangal, Zameen' is associated with:
 Telugu Question: 'జల్, జంగల్, జమీన్' నినాదం ఎవరితో సంబంధం కలిగి ఉంది?
 (A-Telugu) సేవాలాల్ మహారాజ్
 (B-Telugu) కొమరం భీమ్
 (C-Telugu) అల్లూరి సీతారామరాజు
 (D-Telugu) సరోజినీ నాయుడు
 Telugu Explanation: కొమరం భీమ్‌కు సంబంధించిన ఈ నినాదం నీరు, అడవులు, భూమిపై గిరిజన హక్కులను ప్రతిబింబిస్తుంది. ఇది ఆయన పోరాట వారసత్వంలో ముఖ్యమైనది.
-English Question: The slogan 'Jal, Jangal, Zameen' is associated with:
 Answer: B
 Explanation: The slogan associated with Komaram Bheem expresses the demand for tribal rights over water, forests and land. It is central to his legacy and is frequently connected with Gond resistance in the Adilabad region. It should not be confused with other tribal or peasant movements.
 Tags: Komaram Bheem, Jal Jangal Zameen, Practice
@@ -243,13 +243,13 @@ Q16. Komaram Bheem is most closely associated with which place?
 (B) Keslapur
 (C) Jodeghat
 (D) Bhadrachalam
+English Question: Komaram Bheem is most closely associated with which place?
 Telugu Question: కొమరం భీమ్ ప్రధానంగా ఏ ప్రదేశంతో సంబంధం కలిగి ఉన్నారు?
 (A-Telugu) మేడారం
 (B-Telugu) కేస్లాపూర్
 (C-Telugu) జోడేఘాట్
 (D-Telugu) భద్రాచలం
 Telugu Explanation: ఆదిలాబాద్ ప్రాంతంలోని జోడేఘాట్ కొమరం భీమ్‌తో అత్యంత సంబంధం కలిగిన ప్రదేశం. మేడారం సమ్మక్క–సారలమ్మకు, కేస్లాపూర్ నాగోబా జాతరకు సంబంధించినవి.
-English Question: Komaram Bheem is most closely associated with which place?
 Answer: C
 Explanation: Jodeghat in the Adilabad region is the place most closely associated with Komaram Bheem. The place is commemorated in tribal history and public memory. Medaram is associated with Sammakka–Saralamma and Keslapur with Nagoba Jatara.
 Tags: Jodeghat, Komaram Bheem, Practice
@@ -259,13 +259,13 @@ Q17. In which year did Komaram Bheem die?
 (B) 1930
 (C) 1940
 (D) 1947
+English Question: In which year did Komaram Bheem die?
 Telugu Question: కొమరం భీమ్ మరణించిన సంవత్సరం ఏది?
 (A-Telugu) 1920
 (B-Telugu) 1930
 (C-Telugu) 1940
 (D-Telugu) 1947
 Telugu Explanation: కొమరం భీమ్ 1940లో నిజాం పాలన కాలంలో మరణించారు. చారిత్రక ఆధారాల్లో 8 అక్టోబర్ 1940 తేదీ సాధారణంగా పేర్కొంటారు. సంవత్సరం, జోడేఘాట్ రెండూ గుర్తుంచుకోండి.
-English Question: In which year did Komaram Bheem die?
 Answer: C
 Explanation: Komaram Bheem died in 1940 during the period of the Nizam's rule. The 8 October 1940 date is commonly cited in Telangana historical accounts and appeared as a statement in the 2024 TGPSC Group II Paper IV question. Learn both the year and the Jodeghat association.
 Tags: Komaram Bheem, 1940, Chronology, Practice
@@ -275,13 +275,13 @@ Q18. The 1940 tribal revolt at Babijheri in Adilabad district, asked in the TSPS
 (B) Koyas
 (C) Gonds
 (D) Hill Reddies
+English Question: The 1940 tribal revolt at Babijheri in Adilabad district, asked in the TSPSC Group II 2016 Paper II, was associated with which community?
 Telugu Question: 2016 TSPSC Group II Paper IIలో అడిగిన ఆదిలాబాద్ జిల్లాలోని 1940 బాబిజెరి తిరుగుబాటులో పాల్గొన్న ఆదివాసీ తెగ ఏది?
 (A-Telugu) బంజారాలు
 (B-Telugu) కోయలు
 (C-Telugu) గోండులు
 (D-Telugu) కొండ రెడ్డిలు
 Telugu Explanation: 2016 TSPSC Group II Paper IIలో 1940 బాబిజెరి తిరుగుబాటులో పాల్గొన్న తెగను అడిగారు. అందుబాటులో ఉన్న ప్రశ్నపత్రంలో సమాధానం గోండులు అని సూచించబడింది. ఇది ఆదిలాబాద్ ప్రాంత గోండ్ ప్రతిఘటనకు సంబంధించినది.
-English Question: The 1940 tribal revolt at Babijheri in Adilabad district, asked in the TSPSC Group II 2016 Paper II, was associated with which community?
 Answer: C
 Explanation: The 2016 TSPSC Group II Paper II asked which aboriginal tribe took part in the 1940 Babijheri revolt in Adilabad district. The answer marked in the available paper copy is Gonds. This is a verified previous-paper item; the explanation links the event to Gond resistance in the Adilabad region.
 Tags: PYQ, TSPSC Group 2, 2016, Babijheri, Gond; english
@@ -291,13 +291,13 @@ Q19. Which of the following constitutional provisions empowers the President to 
 (B) Article 338A
 (C) Article 342
 (D) Article 244
+English Question: Which of the following constitutional provisions empowers the President to specify Scheduled Tribes in relation to a State or Union Territory?
 Telugu Question: ఒక రాష్ట్రం లేదా కేంద్రపాలిత ప్రాంతానికి సంబంధించి షెడ్యూల్డ్ తెగలను ప్రకటించడానికి రాష్ట్రపతికి అధికారం కల్పించే రాజ్యాంగ నిబంధన ఏది?
 (A-Telugu) ఆర్టికల్ 330
 (B-Telugu) ఆర్టికల్ 338A
 (C-Telugu) ఆర్టికల్ 342
 (D-Telugu) ఆర్టికల్ 244
 Telugu Explanation: ఆర్టికల్ 342 షెడ్యూల్డ్ తెగల గుర్తింపుకు సంబంధించిన రాజ్యాంగ ప్రక్రియను నిర్దేశిస్తుంది. రాష్ట్రపతి ప్రకటన ద్వారా తెగలను పేర్కొంటారు; పార్లమెంట్ చట్టం ద్వారా జాబితాలో చేర్పులు లేదా తొలగింపులు చేయవచ్చు.
-English Question: Which of the following constitutional provisions empowers the President to specify Scheduled Tribes in relation to a State or Union Territory?
 Answer: C
 Explanation: Article 342 provides the constitutional procedure for specification of Scheduled Tribes. The President specifies the communities by public notification for a State or Union Territory, and Parliament may include or exclude communities by law. Article 338A concerns the National Commission for Scheduled Tribes, while Article 244 concerns administration under the Fifth and Sixth Schedules.
 Tags: Constitution, Article 342, Scheduled Tribes, Practice
@@ -307,13 +307,13 @@ Q20. Article 338A of the Constitution provides for:
 (B) National Commission for Scheduled Tribes
 (C) Election Commission
 (D) National Commission for Backward Classes
+English Question: Article 338A of the Constitution provides for:
 Telugu Question: ఆర్టికల్ 338A ఏ సంస్థకు సంబంధించినది?
 (A-Telugu) ఆర్థిక సంఘం
 (B-Telugu) జాతీయ షెడ్యూల్డ్ తెగల కమిషన్
 (C-Telugu) ఎన్నికల సంఘం
 (D-Telugu) జాతీయ వెనుకబడిన తరగతుల కమిషన్
 Telugu Explanation: ఆర్టికల్ 338A జాతీయ షెడ్యూల్డ్ తెగల కమిషన్ (NCST) ఏర్పాటుకు సంబంధించినది. ఇది STల రక్షణలను పర్యవేక్షిస్తుంది, ఫిర్యాదులను విచారిస్తుంది, అభివృద్ధి ప్రణాళికలకు సలహా ఇస్తుంది. ఆర్టికల్ 338 SC కమిషన్‌కు సంబంధించినది.
-English Question: Article 338A of the Constitution provides for:
 Answer: B
 Explanation: Article 338A provides for the National Commission for Scheduled Tribes (NCST). The Commission monitors safeguards, inquires into complaints, participates in and advises on socio-economic development planning, and reports to the President. Do not confuse Article 338A (NCST) with Article 338 (National Commission for Scheduled Castes).
 Tags: Constitution, Article 338A, NCST, Practice
@@ -323,13 +323,13 @@ Q21. Scheduled Areas in Telangana are governed constitutionally under:
 (B) Sixth Schedule
 (C) Seventh Schedule
 (D) Ninth Schedule
+English Question: Scheduled Areas in Telangana are governed constitutionally under:
 Telugu Question: తెలంగాణలోని షెడ్యూల్డ్ ప్రాంతాలు ఏ రాజ్యాంగ షెడ్యూల్ కింద పరిపాలించబడతాయి?
 (A-Telugu) ఐదవ షెడ్యూల్
 (B-Telugu) ఆరవ షెడ్యూల్
 (C-Telugu) ఏడవ షెడ్యూల్
 (D-Telugu) తొమ్మిదవ షెడ్యూల్
 Telugu Explanation: తెలంగాణలోని షెడ్యూల్డ్ ప్రాంతాలు ఆర్టికల్ 244(1)తో కలిపి ఐదవ షెడ్యూల్ కింద పరిపాలించబడతాయి. ఆరవ షెడ్యూల్ నిర్దిష్ట ఈశాన్య రాష్ట్రాల్లో స్వయంప్రతిపత్తి మండళ్లకు సంబంధించినది.
-English Question: Scheduled Areas in Telangana are governed constitutionally under:
 Answer: A
 Explanation: Telangana's notified Scheduled Areas are administered under the Fifth Schedule read with Article 244(1). The Sixth Schedule provides autonomous district and regional councils in specified northeastern states. Telangana is not a Sixth Schedule state.
 Tags: Fifth Schedule, Article 244, Constitution, Practice
@@ -339,13 +339,13 @@ Q22. Article 46 of the Constitution directs the State to:
 (B) Promote educational and economic interests of weaker sections, particularly SCs and STs
 (C) Specify Scheduled Tribes
 (D) Create autonomous district councils in all tribal areas
+English Question: Article 46 of the Constitution directs the State to:
 Telugu Question: రాజ్యాంగంలోని ఆర్టికల్ 46 రాష్ట్రానికి ఏ ఆదేశం ఇస్తుంది?
 (A-Telugu) ఎన్నికల సంఘాన్ని ఏర్పాటు చేయడం
 (B-Telugu) బలహీన వర్గాల, ముఖ్యంగా SC/STల విద్యా, ఆర్థిక ప్రయోజనాలను ప్రోత్సహించడం
 (C-Telugu) షెడ్యూల్డ్ తెగలను ప్రకటించడం
 (D-Telugu) అన్ని గిరిజన ప్రాంతాల్లో స్వయంప్రతిపత్తి మండళ్ల ఏర్పాటు
 Telugu Explanation: ఆర్టికల్ 46 ఆదేశిక సూత్రం. బలహీన వర్గాల, ముఖ్యంగా SCలు, STల విద్యా, ఆర్థిక ప్రయోజనాలను ప్రోత్సహించి, సామాజిక అన్యాయం మరియు దోపిడీ నుంచి రక్షించాలని రాష్ట్రాన్ని ఆదేశిస్తుంది.
-English Question: Article 46 of the Constitution directs the State to:
 Answer: B
 Explanation: Article 46 is a Directive Principle of State Policy. It directs the State to promote the educational and economic interests of weaker sections, especially Scheduled Castes and Scheduled Tribes, and protect them from social injustice and exploitation. It is not itself the article that specifies ST communities.
 Tags: Article 46, DPSP, Tribal Welfare, Practice
@@ -355,13 +355,13 @@ Q23. Which constitutional Article provides for grants-in-aid from the Union to s
 (B) Article 324
 (C) Article 280
 (D) Article 356
+English Question: Which constitutional Article provides for grants-in-aid from the Union to states for promoting the welfare of Scheduled Tribes and raising the level of administration of Scheduled Areas?
 Telugu Question: షెడ్యూల్డ్ తెగల సంక్షేమం, షెడ్యూల్డ్ ప్రాంతాల పరిపాలన స్థాయిని పెంచేందుకు కేంద్రం రాష్ట్రాలకు గ్రాంట్లు ఇచ్చే నిబంధన ఏది?
 (A-Telugu) ఆర్టికల్ 275(1)
 (B-Telugu) ఆర్టికల్ 324
 (C-Telugu) ఆర్టికల్ 280
 (D-Telugu) ఆర్టికల్ 356
 Telugu Explanation: ఆర్టికల్ 275(1) కేంద్రం రాష్ట్రాలకు గ్రాంట్-ఇన్-ఎయిడ్ ఇవ్వడానికి సంబంధించినది. STల సంక్షేమం, షెడ్యూల్డ్ ప్రాంతాల పరిపాలన స్థాయిని పెంచే గ్రాంట్లు ఇందులో ఉంటాయి. మిగతా ఆర్టికల్స్ ఆర్థిక సంఘం, ఎన్నికల సంఘం, రాష్ట్రపతి పాలనకు సంబంధించినవి.
-English Question: Which constitutional Article provides for grants-in-aid from the Union to states for promoting the welfare of Scheduled Tribes and raising the level of administration of Scheduled Areas?
 Answer: A
 Explanation: Article 275(1) provides for grants-in-aid from the Union to states, including grants for promoting the welfare of Scheduled Tribes and raising the level of administration of Scheduled Areas. Article 280 concerns the Finance Commission, Article 324 the Election Commission, and Article 356 President's Rule.
 Tags: Article 275, Tribal Welfare, Constitution, Practice
@@ -371,13 +371,13 @@ Q24. PESA stands for:
 (B) Panchayats (Extension to Scheduled Areas) Act
 (C) Panchayat Elections and Scheduled Areas Act
 (D) Public Employment in Scheduled Areas Act
+English Question: PESA stands for:
 Telugu Question: PESA యొక్క పూర్తి రూపం ఏమిటి?
 (A-Telugu) షెడ్యూల్డ్ ప్రాంతాల్లో పర్యావరణ పరిరక్షణ చట్టం
 (B-Telugu) పంచాయతీలను షెడ్యూల్డ్ ప్రాంతాలకు విస్తరించే చట్టం
 (C-Telugu) పంచాయతీ ఎన్నికలు మరియు షెడ్యూల్డ్ ప్రాంతాల చట్టం
 (D-Telugu) షెడ్యూల్డ్ ప్రాంతాల్లో ప్రభుత్వ ఉద్యోగ చట్టం
 Telugu Explanation: PESA అంటే Panchayats (Extension to Scheduled Areas) Act, 1996. ఇది షెడ్యూల్డ్ ప్రాంతాలకు పంచాయతీరాజ్ వ్యవస్థను ప్రత్యేక నిబంధనలతో విస్తరించి, గ్రామసభ అధికారాలు, సంప్రదాయ పద్ధతులు, సామూహిక వనరులకు ప్రాధాన్యం ఇస్తుంది.
-English Question: PESA stands for:
 Answer: B
 Explanation: PESA is the Panchayats (Extension to Scheduled Areas) Act, 1996. It extends Part IX of the Constitution relating to Panchayats to Scheduled Areas with special provisions recognising Gram Sabha authority, customary practices and community resources. It is a self-governance law for Scheduled Areas, not a general forest law.
 Tags: PESA, 1996, Gram Sabha, Practice
@@ -387,13 +387,13 @@ Q25. The Forest Rights Act was enacted in:
 (B) 2001
 (C) 2006
 (D) 2010
+English Question: The Forest Rights Act was enacted in:
 Telugu Question: అటవీ హక్కుల చట్టం (Forest Rights Act) ఏ సంవత్సరంలో రూపొందించబడింది?
 (A-Telugu) 1996
 (B-Telugu) 2001
 (C-Telugu) 2006
 (D-Telugu) 2010
 Telugu Explanation: షెడ్యూల్డ్ తెగలు మరియు ఇతర సంప్రదాయ అటవీ నివాసుల అటవీ హక్కుల గుర్తింపు చట్టం 2006లో రూపొందించబడింది. ఇది అర్హులైన వ్యక్తిగత, సామూహిక అటవీ హక్కులను గుర్తిస్తుంది. ఇది PESA 1996కు భిన్నమైన చట్టం.
-English Question: The Forest Rights Act was enacted in:
 Answer: C
 Explanation: The Scheduled Tribes and Other Traditional Forest Dwellers (Recognition of Forest Rights) Act was enacted in 2006. It recognises eligible individual and community forest rights, including rights relating to minor forest produce and community forest resources. It is different from PESA, which concerns Panchayati Raj/self-governance in Scheduled Areas.
 Tags: Forest Rights Act, 2006, FRA, Practice
@@ -403,13 +403,13 @@ Q26. The Tribal Sub-Plan (TSP) came into existence in:
 (B) 1971–72
 (C) 1974–75
 (D) 1980–81
+English Question: The Tribal Sub-Plan (TSP) came into existence in:
 Telugu Question: ట్రైబల్ సబ్-ప్లాన్ (TSP) ప్రారంభమైన సంవత్సరం/కాలం ఏది?
 (A-Telugu) 1969–70
 (B-Telugu) 1971–72
 (C-Telugu) 1974–75
 (D-Telugu) 1980–81
 Telugu Explanation: ఐదవ పంచవర్ష ప్రణాళిక కాలంలో 1974–75 నుంచి ట్రైబల్ సబ్-ప్లాన్ వ్యూహం ప్రారంభమైంది. గిరిజన ప్రాంతాలు, జనాభాకు అభివృద్ధి వనరులను సమన్వయంగా కేటాయించడం దీని లక్ష్యం.
-English Question: The Tribal Sub-Plan (TSP) came into existence in:
 Answer: C
 Explanation: The Tribal Sub-Plan strategy was introduced during the Fifth Five-Year Plan period, beginning in 1974–75. It aimed to channel development resources to tribal areas and populations in a coordinated manner. The date is explicitly tested in the TSPSC/TGPSC Group I Preliminary 2023 paper in a multi-statement question.
 Tags: Tribal Sub Plan, 1974-75, PYQ-oriented practice
@@ -419,13 +419,13 @@ Q27. The Tribal Sub-Plan question in the TSPSC Group I Preliminary 2023 paper te
 (B) Introduction, renaming and monitoring/allocation of tribal development funds
 (C) Establishment of the NCST
 (D) Sixth Schedule autonomous councils
+English Question: The Tribal Sub-Plan question in the TSPSC Group I Preliminary 2023 paper tested which central theme?
 Telugu Question: TSPSC Group I Preliminary 2023లో TSP ప్రశ్న ప్రధానంగా ఏ అంశాన్ని పరీక్షించింది?
 (A-Telugu) గిరిజన భాషల వర్గీకరణ
 (B-Telugu) ప్రారంభం, పేరు మార్పు, గిరిజన అభివృద్ధి నిధుల కేటాయింపు/పర్యవేక్షణ
 (C-Telugu) NCST ఏర్పాటు
 (D-Telugu) ఆరవ షెడ్యూల్ స్వయంప్రతిపత్తి మండళ్లు
 Telugu Explanation: 2023 Group I ప్రశ్నలో TSP గురించి ప్రారంభం, ST Component పేరును తరువాత ఉపయోగించడం, జనాభా నిష్పత్తి ప్రకారం కేటాయింపు, పర్యవేక్షణ వ్యవస్థ వంటి ప్రకటనలు ఉన్నాయి. ఇది నిధుల ప్రణాళిక, పాలన అంశాన్ని పరీక్షించింది.
-English Question: The Tribal Sub-Plan question in the TSPSC Group I Preliminary 2023 paper tested which central theme?
 Answer: B
 Explanation: Question 123 in the 2023 Group I Preliminary paper presented four statements about TSP: its origin in 1974–75, the later use of the Scheduled Tribe Component (STC) terminology, population-proportionate earmarking and monitoring arrangements. The question is therefore a fund-planning and governance question, not a question about tribal culture. The original paper should be used to verify the complete option key.
 Tags: PYQ, TSPSC Group 1, 2023, TSP, STC
@@ -435,13 +435,13 @@ Q28. The Supreme Court's Samatha judgment (1997) is particularly important in di
 (B) Reservation in educational institutions
 (C) Tribal language preservation
 (D) Appointment of the Governor
+English Question: The Supreme Court's Samatha judgment (1997) is particularly important in discussions of:
 Telugu Question: సమతా తీర్పు (1997) ముఖ్యంగా ఏ అంశానికి సంబంధించినది?
 (A-Telugu) షెడ్యూల్డ్ ప్రాంతాల్లో గిరిజన భూమి, గనుల హక్కులు
 (B-Telugu) విద్యాసంస్థల రిజర్వేషన్
 (C-Telugu) గిరిజన భాషల పరిరక్షణ
 (D-Telugu) గవర్నర్ నియామకం
 Telugu Explanation: Samatha v. State of Andhra Pradesh (1997) షెడ్యూల్డ్ ప్రాంతాల్లో భూమి బదిలీలు, గనుల లీజులకు సంబంధించిన ప్రముఖ తీర్పు. ఇది గిరిజన భూముల రక్షణ, గనుల లీజులపై పరిమితులకు సంబంధించినది.
-English Question: The Supreme Court's Samatha judgment (1997) is particularly important in discussions of:
 Answer: A
 Explanation: Samatha v. State of Andhra Pradesh (1997) is a landmark judgment concerning land transfers and mining in Scheduled Areas. It interpreted protections under the Andhra Pradesh Scheduled Areas Land Transfer Regulation and addressed the restrictions on transfer of tribal land and mining leases in Scheduled Areas. The decision is important for tribal land protection.
 Tags: Samatha Judgment, 1997, Tribal Land, Practice
@@ -451,13 +451,13 @@ Q29. Regulation 1 of 1970 is commonly associated with:
 (B) Restrictions on transfer of land in Scheduled Areas
 (C) Creation of the NCST
 (D) Establishment of PESA Gram Sabhas
+English Question: Regulation 1 of 1970 is commonly associated with:
 Telugu Question: 1970 Regulation 1 సాధారణంగా ఏ అంశంతో సంబంధం కలిగి ఉంది?
 (A-Telugu) గిరిజన భాషల గుర్తింపు
 (B-Telugu) షెడ్యూల్డ్ ప్రాంతాల్లో భూమి బదిలీలపై పరిమితులు
 (C-Telugu) NCST ఏర్పాటు
 (D-Telugu) PESA గ్రామసభల ఏర్పాటు
 Telugu Explanation: 1970 Regulation 1 షెడ్యూల్డ్ ప్రాంతాల్లో భూమి బదిలీలపై, ముఖ్యంగా గిరిజనేతరులకు బదిలీలపై పరిమితులను బలోపేతం చేసింది. ఇది గిరిజన భూముల అన్యాక్రాంత నివారణకు కీలక చట్ట రక్షణ.
-English Question: Regulation 1 of 1970 is commonly associated with:
 Answer: B
 Explanation: Regulation 1 of 1970 amended the Andhra Pradesh Scheduled Areas Land Transfer Regulation, 1959 and strengthened restrictions on transfers of land in Scheduled Areas, including transfers to non-tribals. It is studied as a major legal safeguard against tribal land alienation. Students should distinguish this regulation from PESA 1996 and the Forest Rights Act 2006.
 Tags: Regulation 1 of 1970, Tribal Land, Scheduled Areas, Practice
@@ -467,13 +467,13 @@ Q30. The Indravelli incident in Telangana tribal movement history took place on:
 (B) 20 April 1981
 (C) 15 August 1947
 (D) 2 June 2014
+English Question: The Indravelli incident in Telangana tribal movement history took place on:
 Telugu Question: తెలంగాణ గిరిజన ఉద్యమ చరిత్రలో ఇంద్రవెల్లి ఘటన జరిగిన తేదీ ఏది?
 (A-Telugu) 8 అక్టోబర్ 1940
 (B-Telugu) 20 ఏప్రిల్ 1981
 (C-Telugu) 15 ఆగస్టు 1947
 (D-Telugu) 2 జూన్ 2014
 Telugu Explanation: ఇంద్రవెల్లి ఘటన 20 ఏప్రిల్ 1981న జరిగింది. ఇది ఆదిలాబాద్ ప్రాంత గిరిజన నిరసనలు, ఉద్యమాలకు సంబంధించినది. భూమి, అటవీ హక్కులు, గిరిజన రాజకీయ చైతన్య చరిత్రలో దీనికి ప్రాముఖ్యత ఉంది.
-English Question: The Indravelli incident in Telangana tribal movement history took place on:
 Answer: B
 Explanation: The Indravelli incident is dated 20 April 1981 and is associated with tribal mobilisation and protest in the Adilabad region. It is important in accounts of land rights, forest rights and tribal political mobilisation in Telangana. Do not confuse it with Komaram Bheem's death at Jodeghat in 1940.
 Tags: Indravelli, 1981, Tribal Movement, Practice
@@ -483,13 +483,13 @@ Q31. Which project links places including Mulugu, Laknavaram, Medaram, Tadvai, D
 (B) Tribal Tourism Circuit Project
 (C) Backward Area Development Project
 (D) Rural Employment Circuit
+English Question: Which project links places including Mulugu, Laknavaram, Medaram, Tadvai, Damaravai, Mallur and Bogatha Waterfalls?
 Telugu Question: ములుగు, లక్నవరం, మేడారం, తాడ్వాయి, దామరవాయి, మల్లూరు, బొగత జలపాతం వంటి ప్రదేశాలను కలిపే ప్రాజెక్ట్ ఏది?
 (A-Telugu) గిరిజన అభివృద్ధి ప్రాజెక్ట్
 (B-Telugu) గిరిజన పర్యాటక సర్క్యూట్ ప్రాజెక్ట్
 (C-Telugu) వెనుకబడిన ప్రాంతాల అభివృద్ధి ప్రాజెక్ట్
 (D-Telugu) గ్రామీణ ఉపాధి సర్క్యూట్
 Telugu Explanation: TSPSC Group II 2016 Paper IIలో ఈ ప్రదేశాలను కలిపే ప్రాజెక్ట్ పేరును అడిగారు. అందుబాటులో ఉన్న ప్రశ్నపత్రంలో Tribal Tourism Circuit Project సమాధానంగా ఉంది. ఇది ములుగు ప్రాంతంలోని ప్రకృతి, సాంస్కృతిక ప్రదేశాలను పర్యాటకంతో అనుసంధానిస్తుంది.
-English Question: Which project links places including Mulugu, Laknavaram, Medaram, Tadvai, Damaravai, Mallur and Bogatha Waterfalls?
 Answer: B
 Explanation: The TSPSC Group II 2016 Paper II asked the name of the project connecting Mulugu, Laknavaram, Medaram, Tadvai, Damaravai, Mallur and Bogatha waterfalls. The marked answer in the available paper copy is Tribal Tourism Circuit Project. This question links tribal-region tourism with geography and cultural sites.
 Tags: PYQ, TSPSC Group 2, 2016, Tribal Tourism Circuit, Telangana Geography
@@ -499,13 +499,13 @@ Q32. Which of the following is the correct location association for ITDA Utnoor?
 (B) Nallamala region
 (C) Medaram
 (D) Keslapur
+English Question: Which of the following is the correct location association for ITDA Utnoor?
 Telugu Question: ITDA ఉట్నూర్ ఏ ప్రాంతంతో సంబంధం కలిగి ఉంది?
 (A-Telugu) ఆదిలాబాద్ ప్రాంతం
 (B-Telugu) నల్లమల ప్రాంతం
 (C-Telugu) మేడారం
 (D-Telugu) కేస్లాపూర్
 Telugu Explanation: ఉట్నూర్ ఆదిలాబాద్ గిరిజన ప్రాంతానికి సంబంధించిన ముఖ్యమైన ITDA కేంద్రం. ITDAలు విద్య, ఆరోగ్యం, జీవనోపాధి, మౌలిక వసతుల కార్యక్రమాలను సమన్వయం చేస్తాయి. ఏటూరునాగారం, భద్రాచలం, మన్ననూరు కూడా ప్రసిద్ధ కేంద్రాలు.
-English Question: Which of the following is the correct location association for ITDA Utnoor?
 Answer: A
 Explanation: Utnoor is an important Integrated Tribal Development Agency (ITDA) centre associated with the Adilabad tribal region. ITDAs coordinate development programmes such as education, health, livelihoods and infrastructure in tribal areas. Other well-known Telangana ITDA centres include Eturnagaram, Bhadrachalam and Mannanur.
 Tags: ITDA, Utnoor, Tribal Administration, Practice
@@ -515,13 +515,13 @@ Q33. Which of the following is NOT one of the four commonly listed ITDA centres 
 (B) Eturnagaram
 (C) Bhadrachalam
 (D) Warangal
+English Question: Which of the following is NOT one of the four commonly listed ITDA centres in Telangana tribal welfare study material?
 Telugu Question: తెలంగాణలో సాధారణంగా పేర్కొనే నాలుగు ITDA కేంద్రాల్లో లేనిది ఏది?
 (A-Telugu) ఉట్నూర్
 (B-Telugu) ఏటూరునాగారం
 (C-Telugu) భద్రాచలం
 (D-Telugu) వరంగల్
 Telugu Explanation: సాధారణంగా ఉట్నూర్, ఏటూరునాగారం, భద్రాచలం, మన్ననూరు నాలుగు ప్రధాన ITDA కేంద్రాలుగా పేర్కొంటారు. వరంగల్ ఈ సాధారణ నాలుగు కేంద్రాల జాబితాలో లేదు. పరిపాలనా పరిధులు మారవచ్చు; ప్రశ్నలోని సంవత్సరం/మూలాన్ని గమనించండి.
-English Question: Which of the following is NOT one of the four commonly listed ITDA centres in Telangana tribal welfare study material?
 Answer: D
 Explanation: Telangana tribal welfare study material commonly identifies Utnoor, Eturnagaram, Bhadrachalam and Mannanur as four major ITDA centres. Warangal is not one of this commonly cited four-centre list. ITDA names and administrative coverage may change, so exam candidates should follow the source and year specified in the question.
 Tags: ITDA, Telangana, Practice
@@ -531,13 +531,13 @@ Q34. Which is the correct match?
 (B) Chenchu – Tanda
 (C) Lambada – Nagoba
 (D) Koya – Keslapur
+English Question: Which is the correct match?
 Telugu Question: క్రింది జతల్లో సరైనది ఏది?
 (A-Telugu) గోండ్ – గుస్సాడి
 (B-Telugu) చెంచు – తండా
 (C-Telugu) లంబాడా – నాగోబా
 (D-Telugu) కోయ – కేస్లాపూర్
 Telugu Explanation: గోండ్ సమాజం గుస్సాడి నృత్యంతో సంబంధం కలిగి ఉంది. తండా లంబాడా నివాసం; కేస్లాపూర్‌లో మెస్రం గోండుల నాగోబా జాతర; కోయ సంప్రదాయాలు మేడారంతో బలమైన సంబంధం కలిగి ఉంటాయి.
-English Question: Which is the correct match?
 Answer: A
 Explanation: Gond communities are associated with Gussadi dance. The other matches are deliberately mismatched: Tanda is associated with Lambada settlements, Nagoba Jatara with the Mesram Gonds at Keslapur, and Koya traditions are strongly associated with Medaram. This is a standard tribe–culture–place matching test.
 Tags: Matching, Gond, Lambada, Koya, Practice
@@ -547,13 +547,13 @@ Q35. The Scheduled Tribe list for Telangana is specified in which constitutional
 (B) The Sixth Schedule alone
 (C) The Representation of the People Act, 1951
 (D) The Panchayats Act, 1996
+English Question: The Scheduled Tribe list for Telangana is specified in which constitutional framework?
 Telugu Question: తెలంగాణ షెడ్యూల్డ్ తెగల జాబితా ఏ రాజ్యాంగ చట్టపరమైన వ్యవస్థలో పేర్కొనబడింది?
 (A-Telugu) తెలంగాణకు వర్తించే సవరణలతో కూడిన Constitution (Scheduled Tribes) Order, 1950
 (B-Telugu) ఆరవ షెడ్యూల్ మాత్రమే
 (C-Telugu) ప్రజాప్రాతినిధ్య చట్టం, 1951
 (D-Telugu) పంచాయతీల విస్తరణ చట్టం, 1996
 Telugu Explanation: రాష్ట్రానికి గుర్తించిన ST సమూహాలు Constitution (Scheduled Tribes) Order, 1950లో తదుపరి సవరణలతో పేర్కొనబడ్డాయి. ఆర్టికల్ 342 దీనికి రాజ్యాంగ ఆధారం. ఒక రాష్ట్రంలో ST గుర్తింపు ఉన్న సమూహానికి మరొక రాష్ట్రంలో అదే హోదా ఆటోమేటిక్‌గా ఉండదు.
-English Question: The Scheduled Tribe list for Telangana is specified in which constitutional framework?
 Answer: A
 Explanation: The state's notified ST communities are listed under the Constitution (Scheduled Tribes) Order, 1950, as amended by subsequent legislation and applicable state-specific entries. Article 342 provides the constitutional basis. A community's ST recognition is state-specific; inclusion in one state's list does not automatically confer ST status in every state.
 Tags: ST List, Article 342, Constitution, Practice
@@ -563,13 +563,13 @@ Q36. According to the Ministry of Tribal Affairs state-wise ST list, how many nu
 (B) 30
 (C) 32
 (D) 34
+English Question: According to the Ministry of Tribal Affairs state-wise ST list, how many numbered community entries are listed under Telangana?
 Telugu Question: గిరిజన వ్యవహారాల మంత్రిత్వ శాఖ రాష్ట్రాల వారీ ST జాబితా ప్రకారం తెలంగాణకు ఎన్ని సంఖ్యాక ఎంట్రీలు ఉన్నాయి?
 (A-Telugu) 28
 (B-Telugu) 30
 (C-Telugu) 32
 (D-Telugu) 34
 Telugu Explanation: గిరిజన వ్యవహారాల మంత్రిత్వ శాఖ రాష్ట్రాల వారీ జాబితాలో తెలంగాణకు 32 సంఖ్యాక ఎంట్రీలు ఉన్నాయి. కొన్ని ఎంట్రీల్లో ఉపసమూహాలు లేదా ప్రత్యామ్నాయ పేర్లు కలిపి ఉంటాయి; అందువల్ల పేర్ల సంఖ్య, సంఖ్యాక ఎంట్రీల సంఖ్య వేరుగా ఉండవచ్చు.
-English Question: According to the Ministry of Tribal Affairs state-wise ST list, how many numbered community entries are listed under Telangana?
 Answer: C
 Explanation: The Ministry of Tribal Affairs state-wise list sets out 32 numbered entries for Telangana. Some entries combine a principal tribe with named subgroups or synonyms, so the number of named subgroups is not identical to the number of numbered entries. This distinction matters when a question asks for the official list count.
 Tags: Ministry of Tribal Affairs, Telangana ST List, 32, Practice
@@ -579,13 +579,13 @@ Q37. Which community is explicitly listed in Telangana with the alternative name
 (B) Sugalis, Lambadis, Banjara
 (C) Yerukula
 (D) Pardhan
+English Question: Which community is explicitly listed in Telangana with the alternative names Sugalis, Lambadis and Banjara?
 Telugu Question: తెలంగాణ ST జాబితాలో Sugalis, Lambadis, Banjara అనే ప్రత్యామ్నాయ పేర్లతో ఏ సమూహం పేర్కొనబడింది?
 (A-Telugu) కోయ
 (B-Telugu) సుగాలీలు, లంబాడీలు, బంజారా
 (C-Telugu) యెరుకుల
 (D-Telugu) ప్రధాన్
 Telugu Explanation: అధికారిక తెలంగాణ జాబితాలో “Sugalis, Lambadis, Banjara” అనే పేర్లు ఒక ST ఎంట్రీగా పేర్కొనబడ్డాయి. చట్టపరమైన గుర్తింపుకు అధికారిక జాబితా ముఖ్యం.
-English Question: Which community is explicitly listed in Telangana with the alternative names Sugalis, Lambadis and Banjara?
 Answer: B
 Explanation: The Telangana section of the Ministry of Tribal Affairs list contains the entry “Sugalis, Lambadis, Banjara.” These names are grouped in the notified ST entry. The official list is the correct reference for legal classification, while cultural descriptions should not replace the statutory wording.
 Tags: Official ST List, Lambada, Banjara, Sugali, Practice
@@ -595,13 +595,13 @@ Q38. According to the MCRHRDI Telangana Tribal Welfare training material (2020),
 (B) Gond/Naikpodu
 (C) Yerukula
 (D) Kolam
+English Question: According to the MCRHRDI Telangana Tribal Welfare training material (2020), which community ranks second in the table of major ST populations?
 Telugu Question: MCRHRDI తెలంగాణ గిరిజన సంక్షేమ శిక్షణ పత్రం (2020) ప్రకారం ప్రధాన ST జనాభా పట్టికలో రెండవ స్థానంలో ఉన్న తెగ ఏది?
 (A-Telugu) కోయ
 (B-Telugu) గోండ్/నాయక్‌పోడు
 (C-Telugu) యెరుకుల
 (D-Telugu) కొలం
 Telugu Explanation: 2020 శిక్షణ పత్రంలోని 2011 జనగణన ఆధారిత పట్టికలో లంబాడీలు మొదటి స్థానంలో, కోయలు రెండవ స్థానంలో, గోండ్/నాయక్‌పోడు మూడవ స్థానంలో, యెరుకుల నాలుగవ స్థానంలో ఉన్నాయి. కోయల సంఖ్య 3,81,354 (12.00%)గా చూపబడింది. ఇది మూలాధారానికి సంబంధించిన గణాంకం.
-English Question: According to the MCRHRDI Telangana Tribal Welfare training material (2020), which community ranks second in the table of major ST populations?
 Answer: A
 Explanation: The 2020 MCRHRDI training material reproduces a Census 2011-based table showing Lambadis first, Koya second, Gond/Naikpodu third and Yerukula fourth among the listed major communities. The Koya figure in that table is 381,354 (12.00% of ST population). This is a source-specific table and should not be conflated with alternative tabulations of subgroups.
 Tags: Census 2011, Koya, Population Ranking, Practice
@@ -611,13 +611,13 @@ Q39. Which tribe is listed in the Ministry of Tribal Affairs ST schedule for Tel
 (B) Konda Reddi
 (C) Chenchu
 (D) Thoti
+English Question: Which tribe is listed in the Ministry of Tribal Affairs ST schedule for Telangana with the entry “Kolam, Kolawar”?
 Telugu Question: తెలంగాణ ST జాబితాలో “Kolam, Kolawar” అనే ఎంట్రీ ఏ తెగకు సంబంధించినది?
 (A-Telugu) కొలం
 (B-Telugu) కొండరెడ్డి
 (C-Telugu) చెంచు
 (D-Telugu) తోటి
 Telugu Explanation: తెలంగాణ అధికారిక జాబితాలో “Kolam, Kolawar” ఒక సంఖ్యాక ఎంట్రీగా ఉంది. కొలం తెలంగాణలోని నాలుగు PVTGలలో ఒకటి. ఇది అధికారిక పేరు, ప్రత్యామ్నాయ పేరును పరీక్షిస్తుంది.
-English Question: Which tribe is listed in the Ministry of Tribal Affairs ST schedule for Telangana with the entry “Kolam, Kolawar”?
 Answer: A
 Explanation: The Telangana section of the Ministry of Tribal Affairs' state-wise list includes “Kolam, Kolawar” as one numbered entry. Kolam is also one of Telangana's four PVTGs. This question tests the statutory name and its paired listed synonym.
 Tags: Official ST List, Kolam, PVTG, Practice
@@ -627,13 +627,13 @@ Q40. The Telangana Tribal Welfare Department's principal responsibilities includ
 (B) Constitutional safeguards, tribal education, health, livelihoods and infrastructure development
 (C) Conducting all state competitive examinations
 (D) Administering the Sixth Schedule councils
+English Question: The Telangana Tribal Welfare Department's principal responsibilities include:
 Telugu Question: తెలంగాణ గిరిజన సంక్షేమ శాఖ ప్రధాన బాధ్యతల్లో ఏవి ఉన్నాయి?
 (A-Telugu) కేవలం కుల ధృవీకరణ పత్రాల జారీ
 (B-Telugu) రాజ్యాంగ రక్షణలు, గిరిజన విద్య, ఆరోగ్యం, జీవనోపాధి, మౌలిక వసతుల అభివృద్ధి
 (C-Telugu) రాష్ట్రంలోని అన్ని పోటీ పరీక్షల నిర్వహణ
 (D-Telugu) ఆరవ షెడ్యూల్ మండళ్ల నిర్వహణ
 Telugu Explanation: గిరిజన సంక్షేమ శాఖ రిజర్వేషన్ రక్షణలు, షెడ్యూల్డ్ ప్రాంతాల ప్రత్యేక రక్షణలు, విద్య, ఆరోగ్యం, జీవనోపాధి, రహదారులు, విద్యాసంస్థలు, గిరిజన భవనాలు వంటి మౌలిక వసతులపై పనిచేస్తుంది. B సమగ్ర సమాధానం.
-English Question: The Telangana Tribal Welfare Department's principal responsibilities include:
 Answer: B
 Explanation: The Telangana government department profile describes work on reservation safeguards, special safeguards in Scheduled Areas, education, health, livelihoods and infrastructure such as roads, educational facilities, Girijan Bhavans, ration depots and wellness centres. This makes option B the comprehensive description; the other options are too narrow or constitutionally incorrect.
 Tags: Telangana Tribal Welfare Department, Schemes, Administration, Practice
@@ -643,13 +643,13 @@ Q41. Which statement correctly describes the Sixth Schedule in relation to Telan
 (B) Telangana's Scheduled Areas fall under the Fifth Schedule, not the Sixth Schedule
 (C) All Indian tribal areas are governed by the Sixth Schedule
 (D) The Sixth Schedule concerns only forest produce
+English Question: Which statement correctly describes the Sixth Schedule in relation to Telangana?
 Telugu Question: తెలంగాణకు సంబంధించి ఆరవ షెడ్యూల్ గురించి సరైన ప్రకటన ఏది?
 (A-Telugu) తెలంగాణ ఆరవ షెడ్యూల్ కింద పరిపాలించబడుతుంది
 (B-Telugu) తెలంగాణ షెడ్యూల్డ్ ప్రాంతాలు ఐదవ షెడ్యూల్ కింద ఉంటాయి; ఆరవ షెడ్యూల్ కాదు
 (C-Telugu) భారతదేశంలోని అన్ని గిరిజన ప్రాంతాలు ఆరవ షెడ్యూల్ కింద ఉంటాయి
 (D-Telugu) ఆరవ షెడ్యూల్ అటవీ ఉత్పత్తులకే సంబంధించినది
 Telugu Explanation: తెలంగాణ షెడ్యూల్డ్ ప్రాంతాలు ఆర్టికల్ 244(1)తో కలిపి ఐదవ షెడ్యూల్ కింద ఉంటాయి. ఆరవ షెడ్యూల్ నిర్దిష్ట ఈశాన్య రాష్ట్రాల్లో స్వయంప్రతిపత్తి మండళ్లకు సంబంధించినది.
-English Question: Which statement correctly describes the Sixth Schedule in relation to Telangana?
 Answer: B
 Explanation: Telangana's Scheduled Areas are covered by the Fifth Schedule read with Article 244(1). The Sixth Schedule provides autonomous district and regional council arrangements in specified northeastern states. The TSPSC Group II 2016 paper also tested the states covered by the Sixth Schedule, making the distinction important.
 Tags: Fifth Schedule, Sixth Schedule, Constitution, Practice
@@ -659,13 +659,13 @@ Q42. Which of the following is the correct association for the Thoti community?
 (B) It is the largest ST community in Telangana
 (C) It is associated with Medaram Jatara
 (D) It is the community of Komaram Bheem
+English Question: Which of the following is the correct association for the Thoti community?
 Telugu Question: తోటి తెగకు సంబంధించి సరైన ప్రకటన ఏది?
 (A-Telugu) ఇది తెలంగాణలోని నాలుగు PVTGలలో ఒకటి
 (B-Telugu) ఇది తెలంగాణలో అతిపెద్ద ST సమూహం
 (C-Telugu) ఇది మేడారం జాతరతో సంబంధం కలిగి ఉంది
 (D-Telugu) ఇది కొమరం భీమ్ తెగ
 Telugu Explanation: తోటి తెలంగాణలో గుర్తించిన నాలుగు PVTGలలో ఒకటి. ఇది అతిపెద్ద ST సమూహం కాదు; మేడారం లేదా కొమరం భీమ్‌కు ప్రధాన తెగ అనుబంధం కూడా కాదు.
-English Question: Which of the following is the correct association for the Thoti community?
 Answer: A
 Explanation: Thoti is one of the four PVTGs identified for Telangana. The Ministry of Tribal Affairs schedule includes a Thoti entry with district applicability wording in the list. It is not the largest ST community, is not the central community association for Medaram, and Komaram Bheem was a Gond leader.
 Tags: Thoti, PVTG, Practice
@@ -675,13 +675,13 @@ Q43. Which festival is associated with the Lambada/Banjara community?
 (B) Nagoba Jatara
 (C) Sammakka–Saralamma Jatara
 (D) Bonalu
+English Question: Which festival is associated with the Lambada/Banjara community?
 Telugu Question: లంబాడా/బంజారా సమాజంతో సంబంధం ఉన్న పండుగ ఏది?
 (A-Telugu) తీజ్
 (B-Telugu) నాగోబా జాతర
 (C-Telugu) సమ్మక్క–సారలమ్మ జాతర
 (D-Telugu) బోనాలు
 Telugu Explanation: తీజ్ అనేక లంబాడా/బంజారా సమాజాల్లో ముఖ్యమైన పండుగ. నాగోబా జాతర మెస్రం గోండులకు; సమ్మక్క–సారలమ్మ జాతర మేడారం, కోయ సంప్రదాయాలకు సంబంధించినది. బోనాలు తెలంగాణలో విస్తృతంగా జరుపుకునే పండుగ.
-English Question: Which festival is associated with the Lambada/Banjara community?
 Answer: A
 Explanation: Teej is an important festival observed by many Lambada/Banjara communities and is associated with community celebration and traditional customs. Nagoba Jatara is associated with the Mesram Gonds, while Sammakka–Saralamma Jatara is associated with Medaram and Koya traditions. Bonalu is a broader Telangana religious festival.
 Tags: Lambada, Teej, Culture, Practice
@@ -691,13 +691,13 @@ Q44. Which of the following is the correct chronological pairing?
 (B) PESA – 1996; FRA – 2006
 (C) PESA – 1974; FRA – 1997
 (D) PESA – 1950; FRA – 1970
+English Question: Which of the following is the correct chronological pairing?
 Telugu Question: క్రింది కాలక్రమ జత సరైనది ఏది?
 (A-Telugu) PESA – 2006; FRA – 1996
 (B-Telugu) PESA – 1996; FRA – 2006
 (C-Telugu) PESA – 1974; FRA – 1997
 (D-Telugu) PESA – 1950; FRA – 1970
 Telugu Explanation: PESA చట్టం 1996లో, అటవీ హక్కుల చట్టం FRA 2006లో వచ్చింది. PESA గ్రామసభ స్వపరిపాలనపై దృష్టి పెడుతుంది; FRA అర్హులైన వ్యక్తిగత, సామూహిక అటవీ హక్కులను గుర్తిస్తుంది.
-English Question: Which of the following is the correct chronological pairing?
 Answer: B
 Explanation: The Panchayats (Extension to Scheduled Areas) Act was enacted in 1996, while the Forest Rights Act was enacted in 2006. PESA focuses on self-governance and Gram Sabha authority in Scheduled Areas. FRA recognises eligible individual and community forest rights.
 Tags: PESA, FRA, Chronology, Practice
@@ -707,13 +707,13 @@ Q45. Which article deals with administration of Scheduled Areas and Scheduled Tr
 (B) Article 342
 (C) Article 338A
 (D) Article 19
+English Question: Which article deals with administration of Scheduled Areas and Scheduled Tribes under the Fifth Schedule?
 Telugu Question: ఐదవ షెడ్యూల్ కింద షెడ్యూల్డ్ ప్రాంతాలు, షెడ్యూల్డ్ తెగల పరిపాలనకు సంబంధించిన రాజ్యాంగ ఆర్టికల్ ఏది?
 (A-Telugu) ఆర్టికల్ 244(1)
 (B-Telugu) ఆర్టికల్ 342
 (C-Telugu) ఆర్టికల్ 338A
 (D-Telugu) ఆర్టికల్ 19
 Telugu Explanation: ఆర్టికల్ 244(1) ఐదవ షెడ్యూల్ కింద షెడ్యూల్డ్ ప్రాంతాలు, షెడ్యూల్డ్ తెగల పరిపాలన మరియు నియంత్రణకు సంబంధించినది. ఆర్టికల్ 342 ST గుర్తింపుకు, 338A NCST ఏర్పాటుకు సంబంధించినవి.
-English Question: Which article deals with administration of Scheduled Areas and Scheduled Tribes under the Fifth Schedule?
 Answer: A
 Explanation: Article 244(1) provides that the Fifth Schedule applies to the administration and control of Scheduled Areas and Scheduled Tribes in states other than the northeastern areas covered by the Sixth Schedule. Article 342 concerns specification of STs, and Article 338A establishes the NCST.
 Tags: Article 244, Fifth Schedule, Constitution, Practice
@@ -723,13 +723,13 @@ Q46. Which constitutional body is established under Article 338A?
 (B) Finance Commission
 (C) National Commission for Women
 (D) Election Commission
+English Question: Which constitutional body is established under Article 338A?
 Telugu Question: ఆర్టికల్ 338A కింద ఏర్పడిన రాజ్యాంగ సంస్థ ఏది?
 (A-Telugu) జాతీయ షెడ్యూల్డ్ తెగల కమిషన్
 (B-Telugu) ఆర్థిక సంఘం
 (C-Telugu) జాతీయ మహిళా కమిషన్
 (D-Telugu) ఎన్నికల సంఘం
 Telugu Explanation: ఆర్టికల్ 338A జాతీయ షెడ్యూల్డ్ తెగల కమిషన్‌ను ఏర్పాటు చేస్తుంది. ఇది STల రక్షణలను పరిశీలిస్తుంది, ఫిర్యాదులను విచారిస్తుంది, అభివృద్ధి ప్రణాళికల్లో పాల్గొంటుంది, రాష్ట్రపతికి నివేదికలు అందిస్తుంది.
-English Question: Which constitutional body is established under Article 338A?
 Answer: A
 Explanation: Article 338A provides for the National Commission for Scheduled Tribes. The Commission examines safeguards for STs, investigates complaints, participates in development planning and reports to the President. Article 338 separately provides for the National Commission for Scheduled Castes.
 Tags: Article 338A, NCST, Constitution, Practice
@@ -739,13 +739,13 @@ Q47. Which pair is correctly matched?
 (B) Article 338A – Finance Commission
 (C) Article 46 – Election Commission
 (D) Article 275(1) – Fundamental Duties
+English Question: Which pair is correctly matched?
 Telugu Question: క్రింది జతల్లో సరైనది ఏది?
 (A-Telugu) ఆర్టికల్ 342 – షెడ్యూల్డ్ తెగల గుర్తింపు
 (B-Telugu) ఆర్టికల్ 338A – ఆర్థిక సంఘం
 (C-Telugu) ఆర్టికల్ 46 – ఎన్నికల సంఘం
 (D-Telugu) ఆర్టికల్ 275(1) – ప్రాథమిక విధులు
 Telugu Explanation: ఆర్టికల్ 342 STలను ప్రకటించడానికి సంబంధించినది. ఆర్టికల్ 338A NCSTకు, ఆర్టికల్ 46 బలహీన వర్గాల విద్యా/ఆర్థిక ప్రయోజనాలపై ఆదేశిక సూత్రానికి, ఆర్టికల్ 275(1) గ్రాంట్లకు సంబంధించినది.
-English Question: Which pair is correctly matched?
 Answer: A
 Explanation: Article 342 concerns specification of Scheduled Tribes. Article 338A establishes the NCST, Article 46 is a Directive Principle on educational and economic interests of weaker sections, and Article 275(1) provides grants-in-aid including for tribal welfare and Scheduled Area administration. The question tests confusion among constitutional provisions.
 Tags: Constitution, Articles, Practice
@@ -755,13 +755,13 @@ Q48. Which 2016 TSPSC Group II Paper II question concerns a project connecting M
 (B) National Waterway Project
 (C) Green Telangana Mission
 (D) Godavari Irrigation Project
+English Question: Which 2016 TSPSC Group II Paper II question concerns a project connecting Mulugu, Laknavaram, Medaram, Tadvai, Damaravai, Mallur and Bogatha Waterfalls?
 Telugu Question: ములుగు, లక్నవరం, మేడారం, తాడ్వాయి, దామరవాయి, మల్లూరు, బొగత జలపాతం వంటి ప్రదేశాలను కలిపే ప్రాజెక్ట్ గురించి 2016 TSPSC Group II Paper IIలో ఏ సమాధానం సూచించబడింది?
 (A-Telugu) గిరిజన పర్యాటక సర్క్యూట్ ప్రాజెక్ట్
 (B-Telugu) జాతీయ జలమార్గ ప్రాజెక్ట్
 (C-Telugu) హరిత తెలంగాణ మిషన్
 (D-Telugu) గోదావరి సాగునీటి ప్రాజెక్ట్
 Telugu Explanation: ఈ ప్రశ్న 2016 TSPSC Group II Paper IIలో ఉంది. అందుబాటులో ఉన్న ప్రశ్నపత్రంలో Tribal Tourism Circuit Project సమాధానంగా గుర్తించబడింది. ఈ ప్రదేశాలు ములుగు ప్రాంతంలోని ప్రకృతి, సాంస్కృతిక ప్రాధాన్య ప్రదేశాలను కలుపుతాయి.
-English Question: Which 2016 TSPSC Group II Paper II question concerns a project connecting Mulugu, Laknavaram, Medaram, Tadvai, Damaravai, Mallur and Bogatha Waterfalls?
 Answer: A
 Explanation: The question appears in the 2016 TSPSC Group II Paper II. The marked answer in the available paper copy is Tribal Tourism Circuit Project. These locations are in the forested and culturally significant Mulugu region, linking natural attractions with tribal-area tourism.
 Tags: PYQ, TSPSC Group 2, 2016, Tourism, Mulugu
@@ -771,13 +771,13 @@ Q49. Which is the correct sequence of associations?
 (B) Chenchu–Medaram; Gond–Nallamala; Koya–Tanda; Lambada–Keslapur
 (C) Chenchu–Keslapur; Gond–Medaram; Koya–Nallamala; Lambada–Jodeghat
 (D) Chenchu–Tanda; Gond–Godavari valley; Koya–Adilabad; Lambada–Nallamala
+English Question: Which is the correct sequence of associations?
 Telugu Question: క్రింది అనుబంధాల క్రమంలో సరైనది ఏది?
 (A-Telugu) చెంచు–నల్లమల; గోండ్–ఆదిలాబాద్; కోయ–గోదావరి లోయ; లంబాడా–తండా
 (B-Telugu) చెంచు–మేడారం; గోండ్–నల్లమల; కోయ–తండా; లంబాడా–కేస్లాపూర్
 (C-Telugu) చెంచు–కేస్లాపూర్; గోండ్–మేడారం; కోయ–నల్లమల; లంబాడా–జోడేఘాట్
 (D-Telugu) చెంచు–తండా; గోండ్–గోదావరి లోయ; కోయ–ఆదిలాబాద్; లంబాడా–నల్లమల
 Telugu Explanation: సాధారణ అనుబంధాలు: చెంచు–నల్లమల, గోండ్–ఉత్తర తెలంగాణ/ఆదిలాబాద్, కోయ–గోదావరి లోయ, లంబాడా–తండా నివాసాలు. ఇవి ప్రధాన అనుబంధాలు మాత్రమే; నివాస సరిహద్దులు పూర్తిగా ప్రత్యేకమైనవి కావు.
-English Question: Which is the correct sequence of associations?
 Answer: A
 Explanation: The correct regional-cultural associations are Chenchu–Nallamala, Gond–northern Telangana/Adilabad, Koya–Godavari valley and Lambada–Tanda settlements. This is a broad matching question that combines distribution and settlement patterns. Treat these as predominant associations, not exclusive residential boundaries.
 Tags: Tribe Distribution, Telangana Geography, Matching, Practice
@@ -787,13 +787,13 @@ Q50. Which of the following best describes why a community's Scheduled Tribe sta
 (B) Every community is automatically ST throughout India
 (C) A district collector alone can add a community to the national list
 (D) Gram Sabha can amend the national ST list
+English Question: Which of the following best describes why a community's Scheduled Tribe status is state-specific?
 Telugu Question: ఒక సమూహానికి షెడ్యూల్డ్ తెగ హోదా రాష్ట్రానికే ప్రత్యేకంగా ఎందుకు ఉంటుంది?
 (A-Telugu) ఆర్టికల్ 342 ప్రకటనలు మరియు ST ఆర్డర్ నిర్దిష్ట రాష్ట్రం/కేంద్రపాలిత ప్రాంతానికి సంబంధించి తెగలను పేర్కొంటాయి
 (B-Telugu) ప్రతి తెగకు భారతదేశమంతటా ఆటోమేటిక్‌గా ST హోదా ఉంటుంది
 (C-Telugu) జిల్లా కలెక్టర్ మాత్రమే జాతీయ ST జాబితాలో చేర్చగలరు
 (D-Telugu) గ్రామసభ జాతీయ ST జాబితాను సవరించగలదు
 Telugu Explanation: ఆర్టికల్ 342 ప్రకారం ST గుర్తింపు రాష్ట్రం లేదా కేంద్రపాలిత ప్రాంతానికి సంబంధించి ఉంటుంది. రాజ్యాంగ ప్రక్రియ ప్రకారం పార్లమెంట్ చట్టం ద్వారా జాబితాలో చేర్పులు లేదా తొలగింపులు చేస్తుంది. ఒక రాష్ట్రంలో గుర్తింపు ఉన్న సమూహానికి మరొక రాష్ట్రంలో అదే హోదా ఆటోమేటిక్‌గా లభించదు.
-English Question: Which of the following best describes why a community's Scheduled Tribe status is state-specific?
 Answer: A
 Explanation: Article 342 provides for ST specification in relation to a State or Union Territory. Inclusion or exclusion from the constitutional ST list is a matter for Parliament by law, following the constitutional process. A community's recognition in one state does not automatically establish ST status in every other state.
 Tags: Article 342, ST Recognition, Constitution, Practice
