@@ -1,4 +1,4 @@
-const CACHE_NAME = 'truerevise-games-offline-v1';
+const CACHE_NAME = 'truerevise-games-offline-v2';
 const CORE = ['/games/', '/games/index.html', '/favicon.svg'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE)).then(() => self.skipWaiting()));
