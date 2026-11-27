@@ -16,15 +16,57 @@ header{position:sticky;top:0;z-index:10;background:#070b14eF;border-bottom:1px s
 .sudoku{display:grid;grid-template-columns:repeat(9,minmax(28px,42px));justify-content:center;margin:16px auto;max-width:380px;border:2px solid #7896c5}.sudokucell{aspect-ratio:1;min-width:0;width:100%;border:1px solid #344963;background:#0b1422;color:#eaf2ff;text-align:center;font-size:16px;padding:0;border-radius:0}.sudokucell:nth-child(3n){border-right:2px solid #7896c5}.sudokucell:nth-child(n+19):nth-child(-n+27),.sudokucell:nth-child(n+46):nth-child(-n+54){border-bottom:2px solid #7896c5}.sudokucell:focus{background:#203b61;outline:1px solid #83b4ff}.sudokucell.fixed{background:#17263b;color:#90b7ff;font-weight:900}.tttboard{display:grid;grid-template-columns:repeat(3,90px);gap:7px;justify-content:center;margin:16px auto}.tttcell{width:90px;height:90px;border:1px solid #3a5275;border-radius:12px;background:#142238;color:#e8f1ff;font-size:36px;font-weight:900;cursor:pointer}.tttcell:hover{background:#203758}@media(max-width:420px){.tttboard{grid-template-columns:repeat(3, min(25vw,80px))}.tttcell{width:min(25vw,80px);height:min(25vw,80px)}.sudokucell{font-size:13px}}.memorygrid{display:grid;grid-template-columns:repeat(4,minmax(55px,78px));gap:8px;justify-content:center;margin:18px auto}.memorytile{aspect-ratio:1;border-radius:12px;border:1px solid #355077;background:#192943;color:white;font-size:24px;cursor:pointer}.memorytile.revealed{background:#243c61}.memorytile.matched{background:#123b31;border-color:#2eaa83}
 footer{border-top:1px solid var(--line);padding:20px 0;color:#7f90aa;font-size:10px;margin-top:35px}
 @media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:540px){.wrap{width:calc(100% - 22px)}.hero{padding-top:27px}.grid{grid-template-columns:1fr}.game{min-height:165px}.playarea{padding:15px}.playhead h2{font-size:16px}}
+/* Creative, interactive game-card polish */
+:root{--glow-blue:#4d8cff;--glow-violet:#9b72ff;--glow-teal:#48e3c2}
+body{background-image:radial-gradient(ellipse at 12% 8%,#1f4b8a40,transparent 36%),radial-gradient(ellipse at 88% 18%,#713cb840,transparent 32%),radial-gradient(ellipse at 50% 70%,#0e647b12,transparent 40%),var(--bg);background-attachment:fixed}
+.hero .eyebrow{animation:badgePulse 3.4s ease-in-out infinite}
+.hero h1 span{background-size:200% 100%;animation:gradientFlow 5s ease infinite}
+.game{position:relative;isolation:isolate;overflow:hidden;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;background:linear-gradient(145deg,#14243a,#0a1321 75%);box-shadow:0 8px 24px #0002}
+.game:before{content:"";position:absolute;inset:-1px;border-radius:inherit;background:linear-gradient(125deg,#5795ff20,#b17bff12,#4ce6cb12);opacity:0;transition:opacity .3s;z-index:-1}
+.game:after{content:"";position:absolute;width:170px;height:170px;right:-100px;top:-100px;border-radius:50%;background:radial-gradient(circle,#568aff22,transparent 70%);transition:transform .4s;z-index:-1}
+.game:hover{transform:translateY(-6px) scale(1.015);border-color:#6598ff99;box-shadow:0 15px 35px #0005,0 0 24px #3978f620}
+.game:hover:before{opacity:1}.game:hover:after{transform:scale(1.8)}
+.emoji{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(145deg,#3978f630,#8b5cf626);border:1px solid #719dff24;box-shadow:inset 0 0 14px #4d8cff10;transition:transform .3s,box-shadow .3s}
+.emoji svg{width:31px;height:31px;stroke:currentColor;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.math-icon{color:#72b2ff}.sudoku-icon{color:#61e5bd}.ttt-icon{color:#bd9bff}
+.game:hover .emoji{transform:rotate(-8deg) scale(1.1);box-shadow:0 0 20px #5795ff28}
+.game:nth-child(1) .emoji{animation:iconFloat 3.2s ease-in-out infinite}
+.game:nth-child(2) .emoji{animation:iconFloat 3.6s ease-in-out infinite .3s}
+.game:nth-child(3) .emoji{animation:iconFloat 3.3s ease-in-out infinite .6s}
+.tag{transition:background .25s,color .25s;letter-spacing:.4px}
+.game:hover .tag{background:#4d8cff20;color:#d6e5ff}
+.play button{position:relative;overflow:hidden;transition:transform .18s,filter .2s,box-shadow .2s;background:linear-gradient(110deg,#2563eb,#6547dc,#7750e8);background-size:180% 100%;animation:buttonGradient 6s linear infinite;box-shadow:0 5px 15px #3b5ef433}
+.play button:before{content:"";position:absolute;top:-40%;left:-35%;width:25%;height:180%;background:#ffffff30;transform:rotate(25deg);transition:left .5s}
+.play button:hover{transform:translateY(-2px);filter:brightness(1.12);box-shadow:0 7px 20px #6753e844}
+.play button:hover:before{left:120%}
+.play button:active{transform:scale(.97)}
+.playarea{animation:panelIn .35s cubic-bezier(.2,.8,.2,1);box-shadow:0 20px 55px #0004}
+.big{animation:popIn .28s ease}
+.message{transition:all .2s}
+.sudokucell{transition:background .15s,color .15s}
+.tttcell{transition:transform .16s,background .18s,border-color .18s;box-shadow:inset 0 0 18px #4c86ff08}
+.tttcell:hover{transform:scale(1.04);border-color:#7ba8ff}
+.tttcell:not(:empty){animation:markPop .2s ease}
+.choice{transition:transform .16s,background .2s,border-color .2s;box-shadow:0 4px 14px #0002}
+.choice:hover{transform:translateY(-2px);border-color:#6999ff;background:#223c61}
+.choice:active{transform:scale(.97)}
+@keyframes iconFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 #3978f600}50%{box-shadow:0 0 0 5px #3978f610}}
+@keyframes gradientFlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes buttonGradient{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes panelIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@keyframes markPop{from{transform:scale(.75);opacity:.3}to{transform:scale(1);opacity:1}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style></head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="index.html">True<b>Revise</b></a><a href="dashboard.html">← Dashboard</a></div></header>
 <main class="wrap">
 <section class="hero"><span class="eyebrow">🎮 PLAY • THINK • RELAX</span><h1>A little break.<br><span>A sharper mind.</span></h1><p>Choose a quick brain break: challenge your arithmetic, solve Sudoku, or play Tic Tac Toe. No downloads or account required.</p></section>
 <section class="grid" id="gameGrid">
-<article class="game" data-kind="mind"><div class="top"><span class="emoji">➕</span><span class="tag">MIND GAME</span></div><h2>Quick Maths</h2><p>Solve as many arithmetic questions as you can in 45 seconds.</p><div class="play"><button data-game="math">Play now →</button></div></article>
-<article class="game" data-kind="mind"><div class="top"><span class="emoji">🔢</span><span class="tag">MIND GAME</span></div><h2>Sudoku</h2><p>Fill the 9×9 grid so each row, column and 3×3 box contains 1–9.</p><div class="play"><button data-game="sudoku">Play now →</button></div></article>
-<article class="game" data-kind="quick"><div class="top"><span class="emoji">❎</span><span class="tag">QUICK GAME</span></div><h2>Tic Tac Toe</h2><p>Challenge the computer in this classic 3×3 game.</p><div class="play"><button data-game="ttt">Play now →</button></div></article>
+<article class="game" data-kind="mind"><div class="top"><span class="emoji math-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="19" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M24 13v22M13 24h22" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M8 8l5 2-2 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></span><span class="tag">MIND GAME</span></div><h2>Quick Maths</h2><p>Solve as many arithmetic questions as you can in 45 seconds.</p><div class="play"><button data-game="math">Play now →</button></div></article>
+<article class="game" data-kind="mind"><div class="top"><span class="emoji sudoku-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="7" width="34" height="34" rx="7" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M18 7v34M30 7v34M7 18h34M7 30h34" stroke="currentColor" stroke-width="1.5" opacity=".6"/><path d="M13 14h4m-4 11h4m12-11h4m-4 22h4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span><span class="tag">MIND GAME</span></div><h2>Sudoku</h2><p>Fill the 9×9 grid so each row, column and 3×3 box contains 1–9.</p><div class="play"><button data-game="sudoku">Play now →</button></div></article>
+<article class="game" data-kind="quick"><div class="top"><span class="emoji ttt-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="7" width="34" height="34" rx="8" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M18 7v34M30 7v34M7 18h34M7 30h34" stroke="currentColor" stroke-width="1.5" opacity=".6"/><path d="M12 12l8 8m0-8l-8 8" stroke="#69a5ff" stroke-width="3.5" stroke-linecap="round"/><circle cx="35" cy="24" r="4" fill="none" stroke="#c4a4ff" stroke-width="3"/></svg></span><span class="tag">QUICK GAME</span></div><h2>Tic Tac Toe</h2><p>Challenge the computer in this classic 3×3 game.</p><div class="play"><button data-game="ttt">Play now →</button></div></article>
 </section><section class="playarea" id="playArea" hidden aria-live="polite"><div class="playhead"><h2 id="gameTitle">Choose a game</h2><button class="btn close" id="closeGame">Close ✕</button></div><div id="gameBody" class="center"><p class="muted">Choose any game above to begin.</p></div></section>
 </main>
 <footer><div class="wrap">© TrueRevise • Study smart. Take healthy breaks. Play responsibly.</div></footer>
