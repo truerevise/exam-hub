@@ -31,6 +31,21 @@ img,video,canvas,svg,iframe{max-width:100%}
 *,*::before,*::after{box-sizing:border-box}html{width:100%;max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%}body{width:100%;max-width:100%;min-width:0;overflow-x:hidden}img,video,canvas,svg,iframe{max-width:100%;height:auto}input,select,textarea{max-width:100%;min-width:0;font-size:16px!important}button,[role=button],a.button,.btn{touch-action:manipulation;min-height:42px;max-width:100%}table{width:100%;max-width:100%}pre,code{max-width:100%;overflow-wrap:anywhere;white-space:pre-wrap}.table-wrap,.table-container,.overflow-auto{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}main,header,footer,section,article,nav,aside,.container,.content,.wrap,.wrapper,.page,.main,.panel,.card{min-width:0;max-width:100%}
 @media(max-width:768px){body{padding-left:max(8px,env(safe-area-inset-left));padding-right:max(8px,env(safe-area-inset-right))}.container,.content,.wrap,.wrapper,.page,.main{width:100%!important;max-width:100%!important}.row,.flex,[class*=flex]{flex-wrap:wrap}.grid,[class*=grid]{grid-template-columns:minmax(0,1fr)!important}.cards,.card-grid,.exam-grid,.question-grid{grid-template-columns:minmax(0,1fr)!important}.panel,.card,.box,.modal,.dialog{max-width:100%;padding:clamp(10px,3vw,16px)}.nav,.navbar,.header,.toolbar{gap:8px;flex-wrap:wrap}.nav-links,.links{gap:4px;flex-wrap:wrap}.question,.question-card,.test-question{width:100%;max-width:100%;overflow-wrap:anywhere}.options,.answers,.choices{grid-template-columns:minmax(0,1fr)!important}.actions,.button-group{display:flex;flex-wrap:wrap;gap:8px}.actions>* ,.button-group>*{flex:1 1 140px}.fixed,.sticky{max-width:100vw}table{display:block;overflow-x:auto;white-space:nowrap} .modal,.dialog{width:calc(100vw - 20px)!important;max-width:calc(100vw - 20px)!important}}
 @media(max-width:480px){h1{font-size:clamp(1.4rem,7vw,2rem);line-height:1.15}h2{font-size:clamp(1.15rem,5.5vw,1.6rem)}p{overflow-wrap:anywhere}.small-text,.muted{line-height:1.45}.button,button,.btn{padding-inline:10px}.panel,.card{border-radius:14px}}
+</style><style id="truerevise-mobile-only-layout">
+/* MOBILE-ONLY SITE LAYOUT: phone width on all screens */
+:root{--tr-mobile-width:480px}
+html,body{width:100%;max-width:100%;min-width:0;margin:0;overflow-x:hidden}
+body{width:min(100%,var(--tr-mobile-width))!important;max-width:var(--tr-mobile-width)!important;margin-left:auto!important;margin-right:auto!important;min-height:100vh;overflow-x:hidden!important}
+html{background:#050811}
+*,*::before,*::after{box-sizing:border-box}
+img,video,canvas,svg,iframe{max-width:100%;height:auto}
+input,select,textarea{width:auto;max-width:100%;min-width:0;font-size:16px!important}
+button,[role=button],a.button,.btn{max-width:100%;min-height:44px;touch-action:manipulation}
+table{width:100%;max-width:100%;display:block;overflow-x:auto}
+pre,code{max-width:100%;overflow-wrap:anywhere;white-space:pre-wrap}
+.row,.flex,[class*=flex]{flex-wrap:wrap}
+.grid,[class*=grid]{min-width:0}
+@media(max-width:480px){body{width:100%!important;max-width:100%!important;margin:0!important;padding-left:max(0px,env(safe-area-inset-left));padding-right:max(0px,env(safe-area-inset-right))} .container,.content,.wrap,.wrapper,.page,.main{width:100%!important;max-width:100%!important;min-width:0!important} .modal,.dialog{width:calc(100vw - 16px)!important;max-width:calc(100vw - 16px)!important} }
 </style></head>
 <body><nav class="tr-admin-nav" aria-label="Admin shortcuts"><a href="admin-dashboard.html">🏠 Dashboard</a><a href="admin-control-center.html">⚙️ Control Center</a><a href="daily-live-admin.html">⚡ Live Tests</a><a href="admin-live-access.html">🔐 Access</a><a href="question-bank.html">📚 Questions</a><a href="admin-bulk-import.html">⬆️ Import</a><a href="admin-exam-manager.html">🗂 Exams</a><a href="admin-analytics.html">📊 Analytics</a></nav><main class="wrap">
 <a class="back" href="admin-dashboard.html">← Admin Dashboard</a><div class="title">📥 Bulk Import Questions</div><div class="muted">Import hundreds of MCQs from a CSV or paste them from a spreadsheet. Preview and validate everything before saving.</div>
