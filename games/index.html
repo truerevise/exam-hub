@@ -62,4 +62,12 @@ function coin(){body.innerHTML='<p class="muted">Call it before the flip.</p><di
 function dice(){body.innerHTML='<p class="muted">Choose how many dice to roll.</p><div class="big" id="diceFace">🎲</div><div class="choices"><button class="choice" id="oneDie">Roll 1 die</button><button class="choice" id="twoDice">Roll 2 dice</button></div><div class="message" id="message">Ready to roll?</div>';function roll(n){const vals=Array.from({length:n},()=>1+Math.floor(Math.random()*6));$('diceFace').textContent=vals.map(v=>['⚀','⚁','⚂','⚃','⚄','⚅'][v-1]).join('  ');msg('Result: '+vals.join(' + ')+(n===2?' = '+vals.reduce((a,b)=>a+b,0):''))}$('oneDie').onclick=()=>roll(1);$('twoDice').onclick=()=>roll(2)}
 function rps(){body.innerHTML='<p class="muted">Choose your move.</p><div class="choices"><button class="choice" data-move="Rock">✊ Rock</button><button class="choice" data-move="Paper">✋ Paper</button><button class="choice" data-move="Scissors">✌️ Scissors</button></div><div class="message" id="message">Let’s play!</div>';document.querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>{const you=b.dataset.move,pc=['Rock','Paper','Scissors'][Math.floor(Math.random()*3)];const result=you===pc?'It’s a draw!':(you==='Rock'&&pc==='Scissors'||you==='Paper'&&pc==='Rock'||you==='Scissors'&&pc==='Paper')?'You win! 🎉':'Computer wins!';msg('You: '+you+' · Computer: '+pc+' — '+result)})}
 function color(){const colors=[['Red','#e74c3c'],['Blue','#3478f6'],['Green','#16a36a'],['Yellow','#c99a14']];state.target=colors[Math.floor(Math.random()*4)];state.word=colors[Math.floor(Math.random()*4)][0];body.innerHTML='<p class="muted">Tap the button matching the instruction color — ignore the displayed word.</p><div class="big">'+state.word+'</div><p class="muted">Find: <strong>'+state.target[0]+'</strong></p><div class="choices">'+colors.map(c=>'<button class="choice" data-color="'+c[0]+'">'+c[0]+'</button>').join('')+'</div><div class="message" id="message"></div><button class="choice" id="colorNext">Next challenge</button>';document.querySelectorAll('[data-color]').forEach(b=>b.onclick=()=>msg(b.dataset.color===state.target[0]?'✅ Correct!':'Not that one — try again.'));$('colorNext').onclick=color}
+
+// Offline support: cache this self-contained games page for repeat visits.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/games/sw.js', { scope: '/games/' })
+      .catch(err => console.log('Offline cache setup unavailable:', err));
+  });
+}
 </script></body></html>
