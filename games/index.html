@@ -20,21 +20,12 @@ footer{border-top:1px solid var(--line);padding:20px 0;color:#7f90aa;font-size:1
 <body>
 <header><div class="wrap nav"><a class="brand" href="index.html">True<b>Revise</b></a><a href="dashboard.html">← Dashboard</a></div></header>
 <main class="wrap">
-<section class="hero"><span class="eyebrow">🎮 PLAY • THINK • RELAX</span><h1>A little break.<br><span>A sharper mind.</span></h1><p>Take a quick brain break between study sessions. Play simple, free games right in your browser — no downloads and no account required.</p></section>
-<div class="filters" aria-label="Filter games"><button class="filter active" data-filter="all">All games</button><button class="filter" data-filter="mind">🧠 Mind games</button><button class="filter" data-filter="quick">⚡ Quick time-pass</button></div>
+<section class="hero"><span class="eyebrow">🎮 PLAY • THINK • RELAX</span><h1>A little break.<br><span>A sharper mind.</span></h1><p>Choose a quick brain break: challenge your arithmetic, solve Sudoku, or play Tic Tac Toe. No downloads or account required.</p></section>
 <section class="grid" id="gameGrid">
-<article class="game" data-kind="mind"><div class="top"><span class="emoji">🧠</span><span class="tag">MIND GAME</span></div><h2>Number Guess</h2><p>Find the secret number from 1 to 100 using the fewest guesses.</p><div class="play"><button data-game="guess">Play now →</button></div></article>
-<article class="game" data-kind="mind"><div class="top"><span class="emoji">🧩</span><span class="tag">MIND GAME</span></div><h2>Memory Match</h2><p>Flip the cards and match all pairs. Test your memory.</p><div class="play"><button data-game="memory">Play now →</button></div></article>
 <article class="game" data-kind="mind"><div class="top"><span class="emoji">➕</span><span class="tag">MIND GAME</span></div><h2>Quick Maths</h2><p>Solve as many arithmetic questions as you can in 45 seconds.</p><div class="play"><button data-game="math">Play now →</button></div></article>
-<article class="game" data-kind="mind"><div class="top"><span class="emoji">🔤</span><span class="tag">MIND GAME</span></div><h2>Word Scramble</h2><p>Unscramble the letters and find the hidden word.</p><div class="play"><button data-game="word">Play now →</button></div></article>
-<article class="game" data-kind="quick"><div class="top"><span class="emoji">⚡</span><span class="tag">QUICK GAME</span></div><h2>Reaction Test</h2><p>Wait for the screen to turn green, then tap as quickly as possible.</p><div class="play"><button data-game="reaction">Play now →</button></div></article>
-<article class="game" data-kind="quick"><div class="top"><span class="emoji">🪙</span><span class="tag">QUICK TIME-PASS</span></div><h2>Coin Toss</h2><p>Heads or tails? Flip a virtual coin and see what comes up.</p><div class="play"><button data-game="coin">Play now →</button></div></article>
-<article class="game" data-kind="quick"><div class="top"><span class="emoji">🎲</span><span class="tag">QUICK TIME-PASS</span></div><h2>Dice Roller</h2><p>Roll one or two dice whenever you need a random number.</p><div class="play"><button data-game="dice">Play now →</button></div></article>
-<article class="game" data-kind="quick"><div class="top"><div class="emoji">✊</div><span class="tag">QUICK TIME-PASS</span></div><h2>Rock Paper Scissors</h2><p>Play a quick round against the computer.</p><div class="play"><button data-game="rps">Play now →</button></div></article>
-<article class="game" data-kind="quick"><div class="top"><span class="emoji">🌈</span><span class="tag">JUST FOR FUN</span></div><h2>Color Tap</h2><p>Read the instruction carefully and tap the matching color.</p><div class="play"><button data-game="color">Play now →</button></div></article>
 <article class="game" data-kind="mind"><div class="top"><span class="emoji">🔢</span><span class="tag">MIND GAME</span></div><h2>Sudoku</h2><p>Fill the 9×9 grid so each row, column and 3×3 box contains 1–9.</p><div class="play"><button data-game="sudoku">Play now →</button></div></article>
-<article class="game" data-kind="quick"><div class="top"><span class="emoji">❎</span><span class="tag">QUICK GAME</span></div><h2>Tic Tac Toe</h2><p>Challenge the computer in this classic 3×3 game.</p><div class="play"><button data-game="ttt">Play now →</button></div></article></section>
-<section class="playarea" id="playArea" hidden aria-live="polite"><div class="playhead"><h2 id="gameTitle">Choose a game</h2><button class="btn close" id="closeGame">Close ✕</button></div><div id="gameBody" class="center"><p class="muted">Choose any game above to begin.</p></div></section>
+<article class="game" data-kind="quick"><div class="top"><span class="emoji">❎</span><span class="tag">QUICK GAME</span></div><h2>Tic Tac Toe</h2><p>Challenge the computer in this classic 3×3 game.</p><div class="play"><button data-game="ttt">Play now →</button></div></article>
+</section><section class="playarea" id="playArea" hidden aria-live="polite"><div class="playhead"><h2 id="gameTitle">Choose a game</h2><button class="btn close" id="closeGame">Close ✕</button></div><div id="gameBody" class="center"><p class="muted">Choose any game above to begin.</p></div></section>
 </main>
 <footer><div class="wrap">© TrueRevise • Study smart. Take healthy breaks. Play responsibly.</div></footer>
 <script>
@@ -46,8 +37,8 @@ $('closeGame').onclick=()=>{clearTimers();area.hidden=true;};
 document.querySelectorAll('.filter').forEach(b=>b.onclick=()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.game').forEach(c=>c.hidden=b.dataset.filter!=='all'&&c.dataset.kind!==b.dataset.filter)});
 document.querySelectorAll('[data-game]').forEach(b=>b.onclick=()=>start(b.dataset.game));
 function start(id){
-const names={guess:'Number Guess',memory:'Memory Match',math:'Quick Maths',word:'Word Scramble',reaction:'Reaction Test',coin:'Coin Toss',dice:'Dice Roller',rps:'Rock Paper Scissors',color:'Color Tap'};open(id,names[id]);
-if(id==='guess')guess();if(id==='sudoku')sudoku();if(id==='ttt')ttt();if(id==='memory')memory();if(id==='math')math();if(id==='word')word();if(id==='reaction')reaction();if(id==='coin')coin();if(id==='dice')dice();if(id==='rps')rps();if(id==='color')color();
+const names={math:'Quick Maths',sudoku:'Sudoku',ttt:'Tic Tac Toe'};open(id,names[id]);
+if(id==='sudoku')sudoku();if(id==='ttt')ttt();if(id==='math')math();
 }
 function msg(s){const e=$('message');if(e)e.textContent=s}
 
