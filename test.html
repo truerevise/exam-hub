@@ -31,7 +31,9 @@ pre,code{max-width:100%;overflow-wrap:anywhere;white-space:pre-wrap}
 .row,.flex,[class*=flex]{flex-wrap:wrap}
 .grid,[class*=grid]{min-width:0}
 @media(max-width:480px){body{width:100%!important;max-width:100%!important;margin:0!important;padding-left:max(0px,env(safe-area-inset-left));padding-right:max(0px,env(safe-area-inset-right))} .container,.content,.wrap,.wrapper,.page,.main{width:100%!important;max-width:100%!important;min-width:0!important} .modal,.dialog{width:calc(100vw - 16px)!important;max-width:calc(100vw - 16px)!important} }
-</style></head>
+</style><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/mobile-only.css">
+</head>
 <body>
 <header class="header"><div class="head-left"><div id="questionNo" class="question-no">Loading...</div><div class="timer">⏱ <span id="timer">60:00</span></div></div><div style="display:flex;align-items:center;gap:6px"><button id="languageBtn" class="lang-btn" type="button" aria-label="Show Telugu translation">🌐 తెలుగు</button><button id="menuBtn" class="menu-btn" aria-label="Question navigation">☰</button></div></header>
 <div class="container"><div id="translateStatus" class="translate-status">🌐 Use the language button to translate into Telugu.</div><div id="testArea" class="card"><div class="loading-state"><div class="spinner"></div><b>Loading questions…</b><div style="font-size:12px;color:#9ba7b8;margin-top:6px">Preparing your test</div></div></div></div>
