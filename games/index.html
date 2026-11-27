@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Play Quick Maths and Sudoku brain breaks on True Revise.">
+<meta name="description" content="Play Quick Maths, Sudoku and Tic Tac Toe brain breaks on True Revise.">
 <meta name="theme-color" content="#070b14"><title>Games & Brain Breaks | True Revise</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <style>
@@ -28,10 +28,10 @@ body{background-image:radial-gradient(ellipse at 12% 8%,#1f4b8a40,transparent 36
 .game:hover:before{opacity:1}.game:hover:after{transform:scale(1.8)}
 .emoji{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(145deg,#3978f630,#8b5cf626);border:1px solid #719dff24;box-shadow:inset 0 0 14px #4d8cff10;transition:transform .3s,box-shadow .3s}
 .emoji svg{width:31px;height:31px;stroke:currentColor;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.math-icon{color:#72b2ff}.sudoku-icon{color:#61e5bd}
+.math-icon{color:#72b2ff}.sudoku-icon{color:#61e5bd}.ttt-icon{color:#bd9bff}
 .game:hover .emoji{transform:rotate(-8deg) scale(1.1);box-shadow:0 0 20px #5795ff28}
 .game:nth-child(1) .emoji{animation:iconFloat 3.2s ease-in-out infinite}
-.game:nth-child(2) .emoji{animation:iconFloat 3.6s ease-in-out infinite .3s}
+.game:nth-child(2) .emoji{animation:iconFloat 3.6s ease-in-out infinite .3s}.game:nth-child(3) .emoji{animation:iconFloat 3.3s ease-in-out infinite .6s}
 
 .tag{transition:background .25s,color .25s;letter-spacing:.4px}
 .game:hover .tag{background:#4d8cff20;color:#d6e5ff}
@@ -44,14 +44,15 @@ body{background-image:radial-gradient(ellipse at 12% 8%,#1f4b8a40,transparent 36
 .big{animation:popIn .28s ease}
 .message{transition:all .2s}
 .sudokucell{transition:background .15s,color .15s}
-.game-status{font-size:14px;font-weight:850;color:#dce9ff;padding:10px}@media(max-width:420px){.sudokucell{font-size:clamp(12px,3.7vw,16px)}.tttboard{gap:6px}}@media(min-width:768px){body::before{gap:12px}}.sudokucell{touch-action:manipulation}</style></head>
+.tttboard{display:grid;grid-template-columns:repeat(3,min(25vw,86px));gap:7px;justify-content:center;margin:16px auto}.tttcell{width:min(25vw,86px);height:min(25vw,86px);border:1px solid #3a5275;border-radius:12px;background:#142238;color:#e8f1ff;font-size:36px;font-weight:900;cursor:pointer}.tttcell.markX{color:#79b1ff;text-shadow:0 0 14px #4b91ff55}.tttcell.markO{color:#c6a5ff;text-shadow:0 0 14px #a57aff55}.tttcell.winner{background:#134338;border-color:#43d7a6;box-shadow:0 0 18px #43d7a633}.game-status{font-size:14px;font-weight:850;color:#dce9ff;padding:10px}@media(max-width:420px){.sudokucell{font-size:clamp(12px,3.7vw,16px)}.tttboard{gap:6px}}@media(min-width:768px){body::before{gap:12px}}.sudokucell{touch-action:manipulation}</style></head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="index.html">True<b>Revise</b></a><a href="dashboard.html">← Dashboard</a></div></header>
 <main class="wrap">
-<section class="hero"><span class="eyebrow">🎮 PLAY • THINK • RELAX</span><h1>A little break.<br><span>A sharper mind.</span></h1><p>Choose a quick brain break: challenge your arithmetic or solve Sudoku. No downloads or account required.</p></section>
+<section class="hero"><span class="eyebrow">🎮 PLAY • THINK • RELAX</span><h1>A little break.<br><span>A sharper mind.</span></h1><p>Choose a quick brain break: challenge your arithmetic, solve Sudoku, or play Tic Tac Toe. No downloads or account required.</p></section>
 <section class="grid" id="gameGrid">
 <article class="game" data-kind="mind"><div class="top"><span class="emoji math-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="19" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M24 13v22M13 24h22" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M8 8l5 2-2 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></span><span class="tag">ARCADE • SKILL</span></div><h2>Quick Maths</h2><p>Mixed operations, streak scoring and escalating difficulty.</p><div class="play"><button data-game="math">Play now →</button></div></article>
 <article class="game" data-kind="mind"><div class="top"><span class="emoji sudoku-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="7" width="34" height="34" rx="7" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M18 7v34M30 7v34M7 18h34M7 30h34" stroke="currentColor" stroke-width="1.5" opacity=".6"/><path d="M13 14h4m-4 11h4m12-11h4m-4 22h4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span><span class="tag">LOGIC • PUZZLE</span></div><h2>Sudoku</h2><p>Choose a difficulty, use logic, track time and request limited hints.</p><div class="play"><button data-game="sudoku">Play now →</button></div></article>
+<article class="game" data-kind="quick"><div class="top"><span class="emoji ttt-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="7" width="34" height="34" rx="8" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M18 7v34M30 7v34M7 18h34M7 30h34" stroke="currentColor" stroke-width="1.5" opacity=".6"/><path d="M12 12l8 8m0-8l-8 8" stroke="#69a5ff" stroke-width="3.5" stroke-linecap="round"/><circle cx="35" cy="24" r="4" fill="none" stroke="#c4a4ff" stroke-width="3"/></svg></span><span class="tag">STRATEGY • AI</span></div><h2>Tic Tac Toe</h2><p>Play against a tactical AI with selectable difficulty.</p><div class="play"><button data-game="ttt">Play now →</button></div></article>
 </section><section class="playarea" id="playArea" hidden aria-live="polite"><div class="playhead"><h2 id="gameTitle">Choose a game</h2><button class="btn close" id="closeGame">Close ✕</button></div><div id="gameBody" class="center"><p class="muted">Choose any game above to begin.</p></div></section>
 </main>
 <footer><div class="wrap">© TrueRevise • Study smart. Take healthy breaks. Play responsibly.</div></footer>
@@ -64,8 +65,8 @@ $('closeGame').onclick=()=>{clearTimers();area.hidden=true;};
 
 document.querySelectorAll('[data-game]').forEach(b=>b.onclick=()=>start(b.dataset.game));
 function start(id){
-const names={math:'Quick Maths',sudoku:'Sudoku'};open(id,names[id]);
-if(id==='sudoku')sudoku();if(id==='math')math();
+const names={math:'Quick Maths',sudoku:'Sudoku',ttt:'Tic Tac Toe'};open(id,names[id]);
+if(id==='sudoku')sudoku();if(id==='math')math();if(id==='ttt')ttt();
 }
 function msg(s){const e=$('message');if(e)e.textContent=s}
 
@@ -79,6 +80,18 @@ function sudoku(){
  $('sudNew').onclick=newPuzzle;$('sudokuReset').onclick=()=>{puzzle=original.slice();done=false;draw();msg('Puzzle reset.')};
  $('sudokuCheck').onclick=()=>{let bad=conflicts();g.querySelectorAll('input').forEach((x,i)=>x.classList.toggle('error',bad.has(i)));if(bad.size){msg('Conflicts found. Highlighted cells need review.');return}if(puzzle.every((v,i)=>v===solution.flat()[i])){done=true;draw();msg('🏆 Solved! Time: '+$('sudTimer').textContent.slice(5))}else msg('No conflicts. Keep solving!')};
  $('sudokuHint').onclick=()=>{if(!hints||done){msg('No hints left.');return}let blank=puzzle.map((v,i)=>v?null:i).filter(i=>i!==null);if(!blank.length)return;let i=blank[Math.floor(Math.random()*blank.length)];puzzle[i]=solution.flat()[i];hints--;draw();$('sudHints').textContent='Hints '+hints;msg('Hint revealed one cell.')};newPuzzle();state.interval=setInterval(()=>{if(!done){elapsed++;$('sudTimer').textContent='Time '+String(Math.floor(elapsed/60)).padStart(2,'0')+':'+String(elapsed%60).padStart(2,'0')}},1000)
+}
+function ttt(){
+ state.board=Array(9).fill('');state.finished=false;state.wins=0;state.losses=0;state.draws=0;
+ body.innerHTML='<p class="muted">You play X. Hard is tactical; Expert uses optimal play.</p><div class="game-controls"><label>AI level</label><select id="tttLevel"><option value="easy">Easy · Random</option><option value="hard" selected>Hard · Tactical</option><option value="expert">Expert · Unbeatable</option></select></div><div class="stats"><span class="stat-pill" id="tttScore">Wins 0 · Draws 0 · Losses 0</span></div><div class="tttboard" id="tttBoard"></div><div class="game-status" id="message">Your turn — X.</div><button class="choice" id="tttRestart">New round</button>';
+ const lines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]],board=$('tttBoard');
+ function winner(b){for(let l of lines)if(b[l[0]]&&b[l[0]]===b[l[1]]&&b[l[1]]===b[l[2]])return b[l[0]];return b.every(Boolean)?'draw':null}
+ function minimax(b,p){let w=winner(b);if(w==='O')return {score:10};if(w==='X')return {score:-10};if(w==='draw')return {score:0};let opts=[];for(let i=0;i<9;i++)if(!b[i]){b[i]=p;let r=minimax(b,p==='O'?'X':'O');opts.push({i,score:r.score});b[i]=''}return p==='O'?opts.reduce((a,x)=>x.score>a.score?x:a):opts.reduce((a,x)=>x.score<a.score?x:a}
+ function ai(){let e=state.board.map((v,i)=>v?null:i).filter(i=>i!==null),level=$('tttLevel').value;if(level==='easy')return e[Math.floor(Math.random()*e.length)];if(level==='hard'){for(let i of e){state.board[i]='O';let w=winner(state.board);state.board[i]='';if(w==='O')return i}for(let i of e){state.board[i]='X';let w=winner(state.board);state.board[i]='';if(w==='X')return i}return e[Math.floor(Math.random()*e.length)]}return minimax(state.board,'O').i}
+ function draw(win=[]){board.innerHTML=state.board.map((v,i)=>'<button class="tttcell '+(v==='X'?'markX':'markO')+' '+(win.includes(i)?'winner':'')+'" data-cell="'+i+'">'+(v==='X'?'×':v==='O'?'○':'')+'</button>').join('');board.querySelectorAll('button').forEach(b=>b.onclick=()=>move(+b.dataset.cell))}
+ function finish(w){state.finished=true;if(w==='X')state.wins++;else if(w==='O')state.losses++;else state.draws++;$('tttScore').textContent='Wins '+state.wins+' · Draws '+state.draws+' · Losses '+state.losses;msg(w==='draw'?'Draw — well played.':w==='X'?'🏆 You win!':'AI wins. Try again.');draw(w==='draw'?[]:lines.find(l=>state.board[l[0]]===w&&state.board[l[1]]===w&&state.board[l[2]]===w)||[])}
+ function move(i){if(state.finished||state.board[i])return;state.board[i]='X';let w=winner(state.board);if(w){finish(w);return}state.board[ai()]='O';w=winner(state.board);draw();if(w)finish(w);else msg('Your turn — X.')}
+ $('tttRestart').onclick=()=>{state.board=Array(9).fill('');state.finished=false;draw();msg('New round. Your move.')};draw()
 }
 function math(){
  body.innerHTML='<p class="muted">Mixed operators, time pressure and streak bonuses. Accuracy matters as much as speed.</p><div class="game-controls"><label>Difficulty</label><select id="mathLevel"><option value="starter">Starter · 60 sec</option><option value="advanced" selected>Advanced · 45 sec</option><option value="expert">Expert · 30 sec</option></select><button class="choice" id="mathStart">Start</button></div><div class="stats"><span class="stat-pill" id="clock">Time --</span><span class="stat-pill" id="score">Score 0</span><span class="stat-pill" id="streak">Streak 0</span><span class="stat-pill" id="accuracy">Accuracy 0%</span></div><div class="big" id="sum">Ready?</div><form id="mathForm"><input class="gameinput" id="answer" type="number" inputmode="numeric" autocomplete="off" required placeholder="Your answer"><button class="btn" style="margin-top:10px;max-width:300px" id="mathSubmit">Submit</button></form><div class="message" id="message">Tap Start challenge.</div><div class="choices"><button class="choice" id="mathSkip">Skip</button></div>';
