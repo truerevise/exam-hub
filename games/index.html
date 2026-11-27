@@ -58,6 +58,20 @@ body{background-image:radial-gradient(ellipse at 12% 8%,#1f4b8a40,transparent 36
 @keyframes popIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
 @keyframes markPop{from{transform:scale(.75);opacity:.3}to{transform:scale(1);opacity:1}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Mobile-only layout: keep the mini-games optimized for phone dimensions */
+@media(min-width:768px){
+ body::before{content:"📱 TrueRevise Games are designed for mobile\A Please open this page on your phone for the best experience.";white-space:pre-line;position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;background:radial-gradient(circle at 20% 15%,#203d7044,transparent 40%),radial-gradient(circle at 80% 10%,#542d8840,transparent 40%),#070b14;color:#eaf2ff;font-size:clamp(20px,3vw,30px);font-weight:850;line-height:1.6}
+ body::after{content:"";position:fixed;z-index:10000;top:calc(50% - 100px);left:calc(50% - 30px);width:60px;height:60px;border-radius:18px;border:1px solid #527cbd;background:linear-gradient(135deg,#152844,#0a1321);box-shadow:0 0 40px #4e8bff30;pointer-events:none}
+ header,main,footer{display:none!important}
+}
+@media(max-width:767px){
+ .wrap{width:min(100% - 18px,480px);margin-inline:auto}
+ .grid{grid-template-columns:1fr;gap:11px}
+ .game{min-height:154px}
+ .hero h1{font-size:clamp(32px,10vw,44px)}
+ .playarea{padding:12px}
+}
 </style></head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="index.html">True<b>Revise</b></a><a href="dashboard.html">← Dashboard</a></div></header>
